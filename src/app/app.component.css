@@ -9,10 +9,17 @@
   height: 100%;
   align-items: center;
   justify-content: center;
+  background-color: #F3F3F3;
 }
 
 .example-sidenav {
   padding: 20px;
   min-width: 15%;
   box-sizing: unset;
+}
+
+.toggle-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }

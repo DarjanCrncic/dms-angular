@@ -59,9 +59,4 @@ export class FolderTreeComponent implements OnInit {
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-
-  getFolderName(path: string) {
-    const paths = path.split("/");
-    return "/" + paths.pop();
-  }
 }
