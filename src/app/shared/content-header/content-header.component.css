@@ -1,0 +1,14 @@
+.title-card {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+h1 {
+  display: inline;
+}
+
+.toggle-button {
+  margin-right: 5px;
+  margin-left: auto;
+  display: block;
+}

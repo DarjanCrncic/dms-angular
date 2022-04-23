@@ -297,14 +297,12 @@
 <app-header></app-header>
 
 <mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened">
     <app-folder-tree></app-folder-tree>
   </mat-drawer>
-
   <div class="example-sidenav-content">
+    <app-content-header (toggleSidebarEmitter)="onToggleEvent()"></app-content-header>
     <router-outlet></router-outlet>
-    <button type="button" mat-button (click)="drawer.toggle()" class="toggle-button">
-      Toggle sidenav
-    </button>
+    <app-document-list></app-document-list>
   </div>
 </mat-drawer-container>

@@ -16,9 +16,22 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { FolderTreeItemComponent } from './folder-tree/folder-tree-item/folder-tree-item.component';
+import { DocumentListComponent } from './document-list/document-list.component';
+import { MatCardModule } from '@angular/material/card';
+import { ContentHeaderComponent } from './shared/content-header/content-header.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FolderTreeComponent, FolderTreeItemComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FolderTreeComponent,
+    FolderTreeItemComponent,
+    DocumentListComponent,
+    ContentHeaderComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,6 +45,10 @@ import { FolderTreeItemComponent } from './folder-tree/folder-tree-item/folder-t
     MatSidenavModule,
     MatButtonModule,
     MatDividerModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [
     {
