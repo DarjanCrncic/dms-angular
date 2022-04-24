@@ -45,6 +45,8 @@ export class DocumentListComponent implements OnInit {
   ngOnInit(): void {
     this.getDocuments();
   }
+
+ 
   
   getDocuments() {
     const pageData: PageData = {
@@ -53,7 +55,8 @@ export class DocumentListComponent implements OnInit {
     }
     this.isLoadingResults = true;
     this.documentService.getDocuments(pageData).subscribe(response => {
-      this.data = response;
+      this.data = response.content;
+      this.resultsLength = response.total_elements;
       this.isLoadingResults = false;
     });
   }
