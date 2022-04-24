@@ -1,3 +1,4 @@
+import { PageData } from './../shared/page-data.interface';
 import { ApiPaths } from './../api-paths';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -8,7 +9,12 @@ import { Document } from './document.model';
 export class DocumentService {
   constructor(private httpClient: HttpClient) { }
   
-  getDocuments() {
-    return this.httpClient.get<Document[]>(environment.baseUrl + ApiPaths.Document);
+  getDocuments(page: PageData) {
+    return this.httpClient.get<Document[]>(environment.baseUrl + ApiPaths.Document, {
+      params: {
+        pageIndex: page.pageIndex,
+        pageSize: page.pageSize,
+      }
+    });
   }
 }
