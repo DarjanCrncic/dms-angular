@@ -21,7 +21,9 @@ import { DocumentListComponent } from './document-list/document-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCardModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatPaginatorModule,
+    MatSortModule,
+    DragDropModule,
+    MatCheckboxModule
   ],
   providers: [
     {

@@ -1,72 +1,109 @@
-import { PageData } from './../shared/page-data.interface';
+import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { Document } from './document.model';
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
 
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
-  styleUrls: ['./document-list.component.css']
+  styleUrls: ['./document-list.component.css'],
 })
 export class DocumentListComponent implements OnInit {
-
-  private data: Document[] = [];
-  displayedColumns: string[] = ['id', 'object_name', 'creation_date', 'modify_date', 'parent_folder'];
+  displayedColumns: string[] = [
+    'select',
+    'id',
+    'object_name',
+    'creation_date',
+    'modify_date',
+    'parent_folder',
+  ];
   isLoadingResults = false;
-  
-  constructor(private documentService: DocumentService) { }
-  
-  // pagination
-  resultsLength = 100;
-  pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  private dataSource = new MatTableDataSource<DocumentDTO>([]);
+  private selection = new SelectionModel<DocumentDTO>(true, []);
 
-  pageEvent: PageEvent = new PageEvent;
+  constructor(private documentService: DocumentService) {}
 
-  setPageSizeOptions(setPageSizeOptionsInput: string) {
-    if (setPageSizeOptionsInput) {
-      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
-    }
-  }
-
-  onPageEvent(event:PageEvent):PageEvent {
-    console.log(event);
-    
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    
-    this.getDocuments();
-    return event;
-  }
-
-  
   ngOnInit(): void {
-    this.getDocuments();
-  }
-
- 
-  
-  getDocuments() {
-    const pageData: PageData = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-    }
-    this.isLoadingResults = true;
-    this.documentService.getDocuments(pageData).subscribe(response => {
-      this.data = response.content;
-      this.resultsLength = response.total_elements;
-      this.isLoadingResults = false;
+    this.getDocuments({
+      active: 'creation_date',
+      direction: 'desc',
     });
   }
 
-  getData() {
-    return this.data;
+  getDocuments(sort: Sort) {
+    this.isLoadingResults = true;
+    this.documentService
+    .getDocuments(sort)
+    .subscribe((response: DocumentDTO[]) => {
+        this.selection.clear();
+        this.isLoadingResults = false;
+        this.dataSource.data = response;
+      });
   }
- 
-  ngAfterViewInit() {
+
+  getData() {
+    return this.dataSource;
+  }
+
+  getSelection() {
+    return this.selection;
+  }
+
+  // sorting
+  sortData(event: Sort) {
+    console.log(event);
+    this.getDocuments(event);
+  }
+
+  // moveable columns
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(
+      this.displayedColumns,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: DocumentDTO): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row`;
+  }
+
+  onGroupDelete() {
+    console.log(this.selection);
+    if (this.selection.selected.length === 0) {
+      return;
+    }
+    this.documentService
+      .deleteDocuments(this.selection.selected.map((doc) => doc.id))
+      .subscribe((response) => {
+        this.getDocuments({
+          active: 'creation_date',
+          direction: 'desc',
+        });
+      });
   }
 }
-
-

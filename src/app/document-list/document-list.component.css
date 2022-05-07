@@ -14,8 +14,8 @@ button {
 
 .example-table-container {
   position: relative;
-  min-height: 200px;
-  max-height: 400px;
+  min-height: 500px;
+  max-height: 500px;
   overflow: auto;
 }
 
@@ -25,15 +25,17 @@ table {
 
 .example-loading-shade {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  bottom: 56px;
+  top: 56px;
   right: 0;
   background: rgba(0, 0, 0, 0.15);
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 444px;
+  max-height: 444px;
 }
 
 .example-rate-limit-reached {

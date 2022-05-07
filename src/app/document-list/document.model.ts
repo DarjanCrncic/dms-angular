@@ -10,4 +10,15 @@ export class Document {
     this.creation_date = creation_date;
     this.modify_date = modify_date;
   }
+
+  public getId(): string {
+    return this.id;
+  }
+}
+
+export interface DocumentDTO {
+  id: string;
+  object_name: string;
+  creation_date: Date;
+  modify_date: Date;
 }

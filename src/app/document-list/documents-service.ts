@@ -1,21 +1,30 @@
-import { PageData } from './../shared/page-data.interface';
+import { Observable } from 'rxjs';
+import { Sort } from '@angular/material/sort';
 import { ApiPaths } from './../api-paths';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Document } from './document.model';
-import { PageResponse } from '../shared/page-response.interface';
+import { DocumentDTO } from './document.model';
 
 @Injectable({providedIn: 'root'})
 export class DocumentService {
   constructor(private httpClient: HttpClient) { }
   
-  getDocuments(page: PageData) {
-    return this.httpClient.get<PageResponse>(environment.baseUrl + ApiPaths.Document, {
+  getDocuments(sort: Sort): Observable<DocumentDTO[]> {
+    return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
       params: {
-        pageIndex: page.pageIndex,
-        pageSize: page.pageSize,
+        active: sort.active,
+        direction: sort.direction
       }
     });
+  }
+
+  deleteDocuments(documents: string[]) {
+    console.log(documents.flat())
+    return this.httpClient.delete(environment.baseUrl + ApiPaths.Document, {
+      params: {
+        ids: documents.flat()
+      }
+    })
   }
 }
