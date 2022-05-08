@@ -4,13 +4,17 @@ import { ApiPaths } from './../api-paths';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DocumentService } from '../document-list/documents-service';
+import { Subject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class FolderService {
-  constructor(private httpClient: HttpClient) { }
+  currentFolderChanged = new Subject<string>();
 
-  getFolders(): Folder[] {
-    this.httpClient.get(environment.baseUrl + ApiPaths.Folder).subscribe(response => {
+  constructor(private httpClient: HttpClient, private documentService: DocumentService) { }
+
+  getFolders() {
+    this.httpClient.get<Folder[]>(environment.baseUrl + ApiPaths.Folder).subscribe(response => {
       console.log(response);
       return response;
     });
@@ -23,5 +27,9 @@ export class FolderService {
         path: path
       }
     });
+  }
+
+  setCurrentFolder(path: string) {
+    this.currentFolderChanged.next(path);
   }
 }

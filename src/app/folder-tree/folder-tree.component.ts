@@ -1,4 +1,3 @@
-import { Folder } from './folder.model';
 import { FolderNode } from './folder-node.model';
 import { FolderService } from './folder-service';
 import { FlatTreeControl } from '@angular/cdk/tree';
@@ -13,6 +12,7 @@ interface ExampleFlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  empty: boolean;
 }
 
 /**
@@ -24,26 +24,25 @@ interface ExampleFlatNode {
   styleUrls: ['folder-tree.component.css'],
 })
 export class FolderTreeComponent implements OnInit {
-  private tree: FolderNode[] = [];
-
   private _transformer = (node: FolderNode, level: number) => {
     return {
       expandable: !!node.subfolders && node.subfolders.length > 0,
       name: node.path,
       level: level,
+      empty: node.subfolders.length === 0 && node.num_of_documents === 0
     };
   };
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
     (node) => node.level,
-    (node) => node.expandable
+    (node) => node.expandable,
   );
 
   treeFlattener = new MatTreeFlattener(
     this._transformer,
     (node) => node.level,
     (node) => node.expandable,
-    (node) => node.subfolders
+    (node) => node.subfolders,
   );
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);

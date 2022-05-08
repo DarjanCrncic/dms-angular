@@ -1,8 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { FolderService } from './../folder-tree/folder-service';
 import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
 
@@ -11,7 +13,7 @@ import { DocumentService } from './documents-service';
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
 })
-export class DocumentListComponent implements OnInit {
+export class DocumentListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'select',
     'id',
@@ -23,20 +25,25 @@ export class DocumentListComponent implements OnInit {
   isLoadingResults = false;
   private dataSource = new MatTableDataSource<DocumentDTO>([]);
   private selection = new SelectionModel<DocumentDTO>(true, []);
+  private folderChangedSub: Subscription = new Subscription();
 
-  constructor(private documentService: DocumentService) {}
+  constructor(private documentService: DocumentService, private folderService: FolderService) {}
 
   ngOnInit(): void {
-    this.getDocuments({
-      active: 'creation_date',
-      direction: 'desc',
-    });
+    this.getDocuments(undefined, "/");
+
+    this.folderChangedSub = this.folderService.currentFolderChanged.subscribe(path => {
+      this.getDocuments(undefined, path);
+    })  
+  }
+  ngOnDestroy(): void {
+    this.folderChangedSub.unsubscribe();
   }
 
-  getDocuments(sort: Sort) {
+  getDocuments(sort?: Sort, path?: string) {
     this.isLoadingResults = true;
     this.documentService
-    .getDocuments(sort)
+    .getDocuments(sort, path)
     .subscribe((response: DocumentDTO[]) => {
         this.selection.clear();
         this.isLoadingResults = false;
@@ -100,10 +107,7 @@ export class DocumentListComponent implements OnInit {
     this.documentService
       .deleteDocuments(this.selection.selected.map((doc) => doc.id))
       .subscribe((response) => {
-        this.getDocuments({
-          active: 'creation_date',
-          direction: 'desc',
-        });
+        this.getDocuments();
       });
   }
 }

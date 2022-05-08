@@ -1,9 +1,5 @@
-export class FolderNode {
+export interface FolderNode {
   path: string;
   subfolders: FolderNode[];
-  
-  constructor(path: string, subfolders: FolderNode[]) {
-    this.path = path;
-    this.subfolders = subfolders;
-  }
+  num_of_documents: number;
 }

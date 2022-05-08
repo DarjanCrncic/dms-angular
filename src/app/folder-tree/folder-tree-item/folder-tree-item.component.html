@@ -1,7 +1,7 @@
-<span>
+<span (click)="handleFolderClick()" [ngStyle]="{'cursor': 'pointer'}">
 
-  <mat-icon *ngIf="expanded">folder_open</mat-icon>
-  <mat-icon *ngIf="!expanded">folder</mat-icon>
+  <mat-icon *ngIf="!empty">folder_open</mat-icon>
+  <mat-icon *ngIf="empty">folder</mat-icon>
   <h3>
     {{getFolderName(path)}}
   </h3>

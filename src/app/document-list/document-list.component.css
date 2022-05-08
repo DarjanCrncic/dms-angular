@@ -52,3 +52,9 @@ table {
 .mat-column-created {
   max-width: 124px;
 }
+
+.mat-row-custom {
+  height: 444px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.07);
+}

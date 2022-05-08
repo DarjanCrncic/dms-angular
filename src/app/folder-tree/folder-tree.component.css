@@ -1,3 +1,7 @@
 .example-tree-progress-bar {
   margin-left: 30px;
 }
+
+.mat-tree-node-custom {
+  min-height: 40px;
+}

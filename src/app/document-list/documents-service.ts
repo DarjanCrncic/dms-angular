@@ -10,12 +10,20 @@ import { DocumentDTO } from './document.model';
 export class DocumentService {
   constructor(private httpClient: HttpClient) { }
   
-  getDocuments(sort: Sort): Observable<DocumentDTO[]> {
-    return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
-      params: {
-        active: sort.active,
-        direction: sort.direction
+  getDocuments(sort?: Sort, path?: string): Observable<DocumentDTO[]> {
+    if (!sort) {
+      sort = {
+        active: 'creation_date',
+        direction: 'desc',
       }
+    }
+    const params = {
+      active: sort.active,
+      direction: sort.direction,
+    }
+
+    return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
+      params: path ? {...params, search: "parentFolder:" + path} : params
     });
   }
 

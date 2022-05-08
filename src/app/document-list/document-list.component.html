@@ -14,6 +14,14 @@
       matSort (matSortChange)="sortData($event)"
       cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
 
+      <ng-container>
+        <tr class="mat-row-custom" *matNoDataRow>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+            No documents in this folder.
+          </td>
+        </tr>
+      </ng-container>
+      
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
