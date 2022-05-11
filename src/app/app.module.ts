@@ -24,6 +24,9 @@ import { MatTableModule } from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { FileUploadComponent } from './shared/file-upload/file-upload.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     FolderTreeItemComponent,
     DocumentListComponent,
     ContentHeaderComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatTableModule,
     MatSortModule,
     DragDropModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatTooltipModule
   ],
   providers: [
     {

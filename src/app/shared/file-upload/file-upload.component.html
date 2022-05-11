@@ -1,0 +1,11 @@
+<div class="file-upload-div">
+  <label *ngIf="!loading">
+    <mat-icon class="pointer-icon" matTooltip="Upload file">backup</mat-icon>
+    <input type="file" (change)="onChange($event)" style="display: none;">
+  </label>
+  <mat-spinner *ngIf="loading" color="accent" [diameter]="25"></mat-spinner>
+  <a *ngIf="linkToFile.length > 0" (click)="onDownload()">
+    <mat-icon class="pointer-icon" style="margin-left: 10px" color="primary" matTooltip="Download file">cloud_download
+    </mat-icon>
+  </a>
+</div>

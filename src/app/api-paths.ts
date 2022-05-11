@@ -3,4 +3,6 @@ export enum ApiPaths {
   Folder = '/folders',
   FolderTree = '/folders/tree',
   Document = '/documents',
+  DocumentUpload = '/documents/upload',
+  DocumentDownload = '/documents/download',
 }

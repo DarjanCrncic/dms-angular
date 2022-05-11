@@ -21,4 +21,9 @@ export interface DocumentDTO {
   object_name: string;
   creation_date: Date;
   modify_date: Date;
+  content: {
+    content_size: number,
+    content_type: string,
+    original_file_name: string
+  }
 }

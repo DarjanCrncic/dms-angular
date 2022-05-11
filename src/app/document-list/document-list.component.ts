@@ -21,6 +21,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     'creation_date',
     'modify_date',
     'parent_folder',
+    'actions'
   ];
   isLoadingResults = false;
   private dataSource = new MatTableDataSource<DocumentDTO>([]);
