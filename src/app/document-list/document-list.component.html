@@ -1,6 +1,7 @@
 <div>
   <button mat-raised-button (click)="onGroupDelete()">Clear table</button>
   <button mat-raised-button>Add data</button>
+  <app-document-column-select></app-document-column-select>
 </div>
 
 <div class="example-container mat-elevation-z8">
@@ -16,7 +17,7 @@
 
       <ng-container>
         <tr class="mat-row-custom" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length + 1">
             No documents in this folder.
           </td>
         </tr>
@@ -39,30 +40,9 @@
           </mat-checkbox>
         </td>
       </ng-container>
-
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >#</th>
-        <td mat-cell *matCellDef="let row">{{row.id}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="object_name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >Title</th>
-        <td mat-cell *matCellDef="let row">{{row.object_name}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="creation_date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >Creation Date</th>
-        <td mat-cell *matCellDef="let row">{{row.creation_date}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="modify_date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >Modify Date</th>
-        <td mat-cell *matCellDef="let row">{{row.modify_date}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="parent_folder">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >Parent Folder</th>
-        <td mat-cell *matCellDef="let row">{{row.parent_folder}}</td>
+      <ng-container matColumnDef={{column.identifier}} *ngFor="let column of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >{{column.title}}</th>
+        <td mat-cell *matCellDef="let row">{{row[column.identifier]}}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -72,8 +52,8 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="getIdentifiers()"></tr>
+      <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
     </table>
   </div>
 </div>

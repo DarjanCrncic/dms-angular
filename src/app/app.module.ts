@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { ContentHeaderComponent } from './shared/content-header/content-header.component';
 import { FolderTreeComponent } from './folder-tree/folder-tree.component';
 import { AuthInterceptor } from './security/basic-auth.interceptor';
+import { DocumentColumnSelectComponent, DocumentColumnDialog } from './document-list/document-column-select/document-column-select.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +28,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import {MatListModule} from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,12 +41,15 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DocumentListComponent,
     ContentHeaderComponent,
     FileUploadComponent,
+    DocumentColumnSelectComponent,
+    DocumentColumnDialog,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
 
     MatToolbarModule,
     MatIconModule,
@@ -58,7 +65,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DragDropModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatListModule
   ],
   providers: [
     {

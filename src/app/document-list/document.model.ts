@@ -21,6 +21,8 @@ export interface DocumentDTO {
   object_name: string;
   creation_date: Date;
   modify_date: Date;
+  description: string;
+  parent_folder: string;
   content: {
     content_size: number,
     content_type: string,

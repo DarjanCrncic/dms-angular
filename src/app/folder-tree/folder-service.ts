@@ -11,7 +11,7 @@ import { Subject } from 'rxjs';
 export class FolderService {
   currentFolderChanged = new Subject<string>();
 
-  constructor(private httpClient: HttpClient, private documentService: DocumentService) { }
+  constructor(private httpClient: HttpClient) { }
 
   getFolders() {
     this.httpClient.get<Folder[]>(environment.baseUrl + ApiPaths.Folder).subscribe(response => {

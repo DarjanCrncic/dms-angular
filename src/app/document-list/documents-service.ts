@@ -28,10 +28,9 @@ export class DocumentService {
   }
 
   deleteDocuments(documents: string[]) {
-    console.log(documents.flat())
     return this.httpClient.delete(environment.baseUrl + ApiPaths.Document, {
       params: {
-        ids: documents.flat()
+        ids: [...documents]
       }
     })
   }
