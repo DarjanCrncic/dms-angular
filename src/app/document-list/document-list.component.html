@@ -6,7 +6,7 @@
 
 <div class="example-container mat-elevation-z8">
   <div class="example-loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <mat-spinner *ngIf="isLoadingResults" class="mat-spinner"></mat-spinner>
   </div>
 
   <div class="example-table-container">
@@ -17,7 +17,7 @@
 
       <ng-container>
         <tr class="mat-row-custom" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length + 1">
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length + 2">
             No documents in this folder.
           </td>
         </tr>

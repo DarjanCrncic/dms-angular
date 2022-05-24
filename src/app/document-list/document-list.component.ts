@@ -82,8 +82,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   // sorting
   sortData(event: Sort) {
-    console.log(event);
-    this.getDocuments(event);
+    this.getDocuments(event, this.currentPath);
   }
 
   // moveable columns
