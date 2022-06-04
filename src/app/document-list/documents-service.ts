@@ -1,13 +1,15 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Sort } from '@angular/material/sort';
 import { ApiPaths } from './../api-paths';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DocumentDTO } from './document.model';
+import { DocumentDTO, ModifyDocumentDTO, NewDocumentDTO } from './document.model';
 
 @Injectable({providedIn: 'root'})
 export class DocumentService {
+  refreshDocuments = new Subject();
+
   constructor(private httpClient: HttpClient) { }
   
   getDocuments(sort?: Sort, path?: string): Observable<DocumentDTO[]> {
@@ -33,5 +35,13 @@ export class DocumentService {
         ids: [...documents]
       }
     })
+  }
+
+  patchDocument(data: ModifyDocumentDTO, id: string) {
+    return this.httpClient.patch<DocumentDTO>(environment.baseUrl + ApiPaths.Document + "/" + id, data);
+  }
+
+  saveNewDocument(data: NewDocumentDTO) {
+    return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.Document, data);
   }
 }

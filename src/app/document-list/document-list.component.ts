@@ -1,3 +1,5 @@
+import { DocumentFormDialog } from './document-form-dialog/document-form-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -18,16 +20,18 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   displayedColumns: ColumnOption[] = [];
 
   isLoadingResults = false;
-  private currentPath = "/";
+  currentPath = "/";
   private dataSource = new MatTableDataSource<DocumentDTO>([]);
   private selection = new SelectionModel<DocumentDTO>(true, []);
   private folderChangedSub: Subscription = new Subscription();
   private displayedColumnsChangedSub: Subscription = new Subscription();
+  private refreshData: Subscription = new Subscription();
 
   constructor(
     private documentService: DocumentService,
     private folderService: FolderService,
-    private colService: DocumentColumnService
+    private colService: DocumentColumnService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +45,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         this.getDocuments(undefined, path);
       }
     );
+
+    this.refreshData = this.documentService.refreshDocuments.subscribe(() => 
+      this.getDocuments(undefined, this.currentPath)
+    )
 
     this.displayedColumnsChangedSub =
       this.colService.displayedColumnsChanged.subscribe(
@@ -129,5 +137,14 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.getDocuments(undefined, this.currentPath);
       });
+  }
+
+  onEdit(row: DocumentDTO) {
+    const dialogRef = this.dialog.open(DocumentFormDialog, {
+      width: '800px',
+      minHeight: '500px',
+      data: row
+    });
+
   }
 }

@@ -21,11 +21,29 @@ export interface DocumentDTO {
   object_name: string;
   creation_date: Date;
   modify_date: Date;
+  keywords: string[];
   description: string;
   parent_folder: string;
+  type: string;
   content: {
     content_size: number,
     content_type: string,
     original_file_name: string
   }
+}
+
+export interface ModifyDocumentDTO {
+  id: string;
+  object_name: string;
+  keywords: string[];
+  description: string;
+  type: string;
+}
+
+export interface NewDocumentDTO {
+  object_name: string;
+  keywords: string[];
+  description: string;
+  type: string;
+	parent_folder: string;
 }

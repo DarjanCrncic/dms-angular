@@ -62,3 +62,8 @@ table {
 .mat-spinner {
   background: transparent;
 }
+
+::ng-deep mat-icon {
+  margin-right: 10px;
+  cursor: pointer;
+}

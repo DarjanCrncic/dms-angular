@@ -1,6 +1,6 @@
 <div>
   <button mat-raised-button (click)="onGroupDelete()">Clear table</button>
-  <button mat-raised-button>Add data</button>
+  <app-document-add [folder]="currentPath"></app-document-add>
   <app-document-column-select></app-document-column-select>
 </div>
 
@@ -11,8 +11,7 @@
 
   <div class="example-table-container">
 
-    <table mat-table [dataSource]="getData()" class="example-table" 
-      matSort (matSortChange)="sortData($event)"
+    <table mat-table [dataSource]="getData()" class="example-table" matSort (matSortChange)="sortData($event)"
       cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
 
       <ng-container>
@@ -22,33 +21,31 @@
           </td>
         </tr>
       </ng-container>
-      
+
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
           <mat-checkbox (change)="$event ? masterToggle() : null"
-                        [checked]="getSelection().hasValue() && isAllSelected()"
-                        [indeterminate]="getSelection().hasValue() && !isAllSelected()"
-                        [aria-label]="checkboxLabel()">
+            [checked]="getSelection().hasValue() && isAllSelected()"
+            [indeterminate]="getSelection().hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()"
-                        (change)="$event ? getSelection().toggle(row) : null"
-                        [checked]="getSelection().isSelected(row)"
-                        [aria-label]="checkboxLabel(row)">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? getSelection().toggle(row) : null"
+            [checked]="getSelection().isSelected(row)" [aria-label]="checkboxLabel(row)">
           </mat-checkbox>
         </td>
       </ng-container>
       <ng-container matColumnDef={{column.identifier}} *ngFor="let column of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag >{{column.title}}</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{column.title}}</th>
         <td mat-cell *matCellDef="let row">{{row[column.identifier]}}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell  *matHeaderCellDef > Actions </th>
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let row">
-             <app-file-upload [docDTO]="row"></app-file-upload>
+          <mat-icon matTooltip="Edit" (click)="onEdit(row)">edit</mat-icon>
+          <app-file-upload [docDTO]="row"></app-file-upload>
         </td>
       </ng-container>
 

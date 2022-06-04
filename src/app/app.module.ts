@@ -1,3 +1,4 @@
+import { DocumentFormDialog } from './document-list/document-form-dialog/document-form-dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -6,7 +7,10 @@ import { HeaderComponent } from './header/header.component';
 import { ContentHeaderComponent } from './shared/content-header/content-header.component';
 import { FolderTreeComponent } from './folder-tree/folder-tree.component';
 import { AuthInterceptor } from './security/basic-auth.interceptor';
-import { DocumentColumnSelectComponent, DocumentColumnDialog } from './document-list/document-column-select/document-column-select.component';
+import {
+  DocumentColumnSelectComponent,
+  DocumentColumnDialog,
+} from './document-list/document-column-select/document-column-select.component';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,16 +26,19 @@ import { DocumentListComponent } from './document-list/document-list.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import {MatSortModule} from '@angular/material/sort';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FileUploadComponent } from './shared/file-upload/file-upload.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import { MatFormFieldModule} from '@angular/material/form-field';
-import {MatListModule} from '@angular/material/list';
-import { FormsModule } from '@angular/forms';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatListModule } from '@angular/material/list';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DocumentAddComponent } from './document-list/document-add/document-add.component';
+import { MatInputModule } from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +50,8 @@ import { FormsModule } from '@angular/forms';
     FileUploadComponent,
     DocumentColumnSelectComponent,
     DocumentColumnDialog,
+    DocumentAddComponent,
+    DocumentFormDialog,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +59,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
 
     MatToolbarModule,
     MatIconModule,
@@ -67,7 +78,9 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatListModule
+    MatListModule,
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
     {
