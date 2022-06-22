@@ -5,3 +5,24 @@
 .mat-tree-node-custom {
   min-height: 40px;
 }
+
+.mat-divider{
+  border-top-width: 3px;
+}
+
+h4 {
+  margin-top: 10px;
+  margin-bottom: -20px;
+}
+
+h2 {
+  margin-bottom: 5px;
+}
+
+.container {
+  height: 100%;
+}
+
+.tree-container {
+  overflow: auto;
+}
