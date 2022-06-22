@@ -20,7 +20,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   displayedColumns: ColumnOption[] = [];
 
   isLoadingResults = false;
-  currentPath = "/";
   private dataSource = new MatTableDataSource<DocumentDTO>([]);
   private selection = new SelectionModel<DocumentDTO>(true, []);
   private folderChangedSub: Subscription = new Subscription();
@@ -41,13 +40,12 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     console.log(this.displayedColumns);
     this.folderChangedSub = this.folderService.currentFolderChanged.subscribe(
       (path) => {
-        this.currentPath = path;
         this.getDocuments(undefined, path);
       }
     );
 
     this.refreshData = this.documentService.refreshDocuments.subscribe(() => 
-      this.getDocuments(undefined, this.currentPath)
+      this.getDocuments(undefined, this.getCurrentPath())
     )
 
     this.displayedColumnsChangedSub =
@@ -71,6 +69,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         this.selection.clear();
         this.isLoadingResults = false;
         this.dataSource.data = response;
+        this.folderService.refreshFolderTreeSubject.next('');
       });
   }
 
@@ -91,7 +90,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   // sorting
   sortData(event: Sort) {
-    this.getDocuments(event, this.currentPath);
+    this.getDocuments(event, this.getCurrentPath());
   }
 
   // moveable columns
@@ -140,7 +139,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     this.documentService
       .deleteDocuments(this.selection.selected.map((doc) => doc.id))
       .subscribe((response) => {
-        this.getDocuments(undefined, this.currentPath);
+        this.getDocuments(undefined, this.getCurrentPath());
       });
   }
 
@@ -153,6 +152,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   getHeaderTitle() {
-    return this.currentPath;
+    return this.getCurrentPath();
+  }
+
+  getCurrentPath() {
+    return this.folderService.getCurrentPath();
   }
 }

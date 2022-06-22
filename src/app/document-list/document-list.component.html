@@ -1,7 +1,7 @@
 <app-content-header [title]="getHeaderTitle()"></app-content-header>
 <div>
   <button *ngIf="isAnySelected()" mat-raised-button (click)="onGroupDelete()">Delete Documents</button>
-  <app-document-add [folder]="currentPath"></app-document-add>
+  <app-document-add [folder]="getCurrentPath()"></app-document-add>
   <app-document-column-select></app-document-column-select>
 </div>
 

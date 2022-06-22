@@ -1,9 +1,10 @@
+import { Subscription } from 'rxjs';
 import { Errors, validFolderName } from './../shared/validator-messages';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FolderNode } from './folder-node.model';
 import { FolderService } from './folder-service';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
@@ -26,9 +27,10 @@ interface FlatTreeNode {
   templateUrl: 'folder-tree.component.html',
   styleUrls: ['folder-tree.component.css'],
 })
-export class FolderTreeComponent implements OnInit {
+export class FolderTreeComponent implements OnInit, OnDestroy {
   newFolderForm: FormGroup = new FormGroup({});
   expandedNodes: FlatTreeNode[] = [];
+  folderRefreshSubscription: Subscription = new Subscription();
 
   private _transformer = (node: FolderNode, level: number) => {
     return {
@@ -57,8 +59,15 @@ export class FolderTreeComponent implements OnInit {
   constructor(private folderService: FolderService) {
     this.dataSource.data = [];
   }
+  ngOnDestroy(): void {
+    this.folderRefreshSubscription.unsubscribe();
+  }
   ngOnInit(): void {
-    this.getFolderTree('/');
+    this.folderRefreshSubscription =
+      this.folderService.refreshFolderTreeSubject.subscribe(() =>
+        this.getFolderTree('/', false)
+      );
+    this.getFolderTree('/', false);
     this.newFolderForm = new FormGroup({
       path: new FormControl('', [
         Validators.required,
@@ -67,12 +76,12 @@ export class FolderTreeComponent implements OnInit {
     });
   }
 
-  getFolderTree(currentFolder: string) {
+  getFolderTree(currentFolder: string, triggerFolderChange: boolean) {
     this.saveExpandedNodes();
     this.folderService.getFolderTree('/').subscribe((res) => {
       this.dataSource.data = [res];
       this.restoreExpandedNodes();
-      this.folderService.setCurrentFolder(currentFolder);
+      if (triggerFolderChange) this.folderService.setCurrentFolder(currentFolder);
     });
   }
 
@@ -111,7 +120,7 @@ export class FolderTreeComponent implements OnInit {
     const formVal = this.newFolderForm.value;
     if (!this.newFolderForm.valid) return;
     this.folderService.createNewFolder(formVal.path).subscribe((res) => {
-      this.getFolderTree(this.folderService.getCurrentPath());
+      this.getFolderTree(this.folderService.getCurrentPath(), false);
     });
   }
 
@@ -123,7 +132,7 @@ export class FolderTreeComponent implements OnInit {
     if (!found) return;
 
     this.folderService.deleteById(found.id).subscribe(() => {
-      this.getFolderTree(this.folderService.getParentPath());
+      this.getFolderTree(this.folderService.getParentPath(), true);
     });
   }
 }
