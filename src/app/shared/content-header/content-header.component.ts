@@ -1,18 +1,18 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { SidebarService } from './../../sidebar-service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-content-header',
   templateUrl: './content-header.component.html',
-  styleUrls: ['./content-header.component.css']
+  styleUrls: ['./content-header.component.css'],
 })
 export class ContentHeaderComponent implements OnInit {
-  @Output() toggleSidebarEmitter = new EventEmitter();
-  constructor() { }
+  @Input() title: string = "";
+  constructor(private sidebarService: SidebarService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onToggleClick() {
-    this.toggleSidebarEmitter.emit();
+    this.sidebarService.toggleSidebar.next('toggle');
   }
 }

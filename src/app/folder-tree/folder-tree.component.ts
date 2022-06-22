@@ -54,6 +54,7 @@ export class FolderTreeComponent implements OnInit {
     this.folderService.getFolderTree('/').subscribe((res) => {
       console.log(res);
       this.dataSource.data = [res];
+      this.folderService.setCurrentFolder("/");
     });
   }
 

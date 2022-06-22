@@ -10,10 +10,15 @@ export class FolderTreeItemComponent implements OnInit {
   @Input() expanded = false;
   @Input() path = '';
   @Input() empty = true;
+  public currentlySelected: boolean = false;
 
   constructor(private folderService: FolderService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.folderService.currentFolderChanged.subscribe(newPath => {
+      this.currentlySelected = newPath === this.path;
+    });
+  }
 
   getFolderName(path: string) {
     const paths = path.split('/');
@@ -23,4 +28,5 @@ export class FolderTreeItemComponent implements OnInit {
   handleFolderClick() {
     this.folderService.setCurrentFolder(this.path);
   }
+
 }

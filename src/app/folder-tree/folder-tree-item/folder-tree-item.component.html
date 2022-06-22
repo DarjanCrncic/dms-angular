@@ -2,7 +2,8 @@
 
   <mat-icon *ngIf="!empty">folder_open</mat-icon>
   <mat-icon *ngIf="empty">folder</mat-icon>
-  <h3>
+  <h3
+    [ngStyle]="{'cursor': 'pointer', 'font-weight': currentlySelected ? '500' : 'normal', 'color': currentlySelected ? '#3f51b5' : 'black'}">
     {{getFolderName(path)}}
   </h3>
 </span>

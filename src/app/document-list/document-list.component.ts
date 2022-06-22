@@ -59,6 +59,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.folderChangedSub.unsubscribe();
+    this.refreshData.unsubscribe();
     this.displayedColumnsChangedSub.unsubscribe();
   }
 
@@ -109,6 +110,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     return numSelected === numRows;
   }
 
+  isAnySelected() {
+    return this.selection.selected.length > 0;
+  }
+
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     if (this.isAllSelected()) {
@@ -145,6 +150,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       minHeight: '500px',
       data: row
     });
+  }
 
+  getHeaderTitle() {
+    return this.currentPath;
   }
 }

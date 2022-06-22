@@ -5,6 +5,7 @@
 
 h1 {
   display: inline;
+  margin-bottom: 0;
 }
 
 .toggle-button {

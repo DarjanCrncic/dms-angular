@@ -4,7 +4,6 @@ import { ApiPaths } from './../api-paths';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DocumentService } from '../document-list/documents-service';
 import { Subject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
