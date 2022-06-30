@@ -1,3 +1,4 @@
+import { TestService } from './../shared/services/test-service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private testService: TestService) { }
 
   ngOnInit(): void {
+  }
+
+  onClick() {
+    this.testService.getError().subscribe();
   }
 
 }

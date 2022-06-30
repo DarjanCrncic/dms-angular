@@ -11,3 +11,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 mat-form-field.mat-form-field {
   width: 250px;
 }
+
+.mat-success {
+  color: #fff !important;
+  background-color: rgb(76, 175, 80) !important;
+  text-align: center;
+}
+
+.mat-error {
+  color: #fff !important;
+  background-color: #f44336 !important;
+  text-align: center;
+}
+

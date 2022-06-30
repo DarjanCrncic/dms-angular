@@ -39,6 +39,9 @@ import { DocumentAddComponent } from './document-list/document-add/document-add.
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ErrorInterceptor } from './interceptors/error-interceptor';
+import { MessageSnackbarComponent } from './shared/error-snackbar/message-snackbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +55,7 @@ import { MatSelectModule } from '@angular/material/select';
     DocumentColumnDialog,
     DocumentAddComponent,
     DocumentFormDialog,
+    MessageSnackbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,12 +84,18 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatListModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true,
     },
   ],
