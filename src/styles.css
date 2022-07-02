@@ -12,15 +12,31 @@ mat-form-field.mat-form-field {
   width: 250px;
 }
 
-.mat-success {
+.mat-success-msg {
   color: #fff !important;
   background-color: rgb(76, 175, 80) !important;
   text-align: center;
+  font-size: 1.2rem;
 }
 
-.mat-error {
+.mat-error-msg {
   color: #fff !important;
   background-color: #f44336 !important;
   text-align: center;
+  font-size: 1.2rem;
+}
+
+.mat-info-msg {
+  color: #fff !important;
+  background-color: rgb(93, 128, 224) !important;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+mat-progress-bar .mat-progress-bar-buffer {
+  background: darkgray !important;
+}
+mat-progress-bar .mat-progress-bar-fill::after {
+  background-color: white !important;
 }
 

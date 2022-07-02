@@ -41,7 +41,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
-import { MessageSnackbarComponent } from './shared/error-snackbar/message-snackbar.component';
+import { MessageSnackbarComponent } from './shared/message-snackbar/message-snackbar.component';
 @NgModule({
   declarations: [
     AppComponent,

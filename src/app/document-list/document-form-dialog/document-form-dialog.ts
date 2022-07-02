@@ -1,6 +1,13 @@
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../../shared/message-snackbar/snackbar-service';
 import { DocumentService } from './../documents-service';
 import { DocumentDTO } from './../document.model';
-import { csvPattern, ValidatorMessages } from './../../shared/validator-messages';
+import {
+  csvPattern,
+  ValidatorMessages,
+} from './../../shared/validator-messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +18,7 @@ import { DocumentTypeService } from 'src/app/shared/services/document-type-servi
 @Component({
   selector: 'document-form-dialog',
   templateUrl: 'document-form-dialog.html',
-  styleUrls: ['./document-form-dialog.css']
+  styleUrls: ['./document-form-dialog.css'],
 })
 export class DocumentFormDialog implements OnInit {
   documentForm: FormGroup = new FormGroup({});
@@ -21,7 +28,8 @@ export class DocumentFormDialog implements OnInit {
     public dialogRef: MatDialogRef<DocumentFormDialog>,
     @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
     private typeService: DocumentTypeService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +41,10 @@ export class DocumentFormDialog implements OnInit {
         Validators.minLength(4),
       ]),
       description: new FormControl(isEdit ? this.data.description : null),
-      keywords: new FormControl((isEdit ? this.data.keywords.join(",") : null), Validators.pattern(csvPattern)),
+      keywords: new FormControl(
+        isEdit ? this.data.keywords.join(',') : null,
+        Validators.pattern(csvPattern)
+      ),
       type: new FormControl(isEdit ? this.data.type : 'document'),
     });
 
@@ -52,18 +63,36 @@ export class DocumentFormDialog implements OnInit {
 
     const modifyDoc = {
       ...formVal,
-      keywords: formVal.keywords ? formVal.keywords.split(",") : null
-    }
+      keywords: formVal.keywords ? formVal.keywords.split(',') : null,
+    };
     if (this.data && this.data.id) {
-      this.documentService.patchDocument(modifyDoc, this.data.id).subscribe(response => {
-        this.documentForm.patchValue(response);
-        this.documentService.refreshDocuments.next("");
-      });
+      this.documentService
+        .patchDocument(modifyDoc, this.data.id)
+        .subscribe((response) => {
+          this.documentForm.patchValue({
+            ...response,
+            keywords: response.keywords.toString(),
+          });
+          this.documentService.refreshDocuments.next('');
+          this.snackbarService.openSnackBar(
+            'Document successfully updated.',
+            MessageTypes.SUCCESS
+          );
+        });
     } else {
-      this.documentService.saveNewDocument({...modifyDoc, parent_folder: this.data.parent_folder}).subscribe(response => {
-        this.documentForm.patchValue(response);
-        this.documentService.refreshDocuments.next("");
-      })
+      this.documentService
+        .saveNewDocument({
+          ...modifyDoc,
+          parent_folder: this.data.parent_folder,
+        })
+        .subscribe((response) => {
+          this.documentForm.patchValue(response);
+          this.documentService.refreshDocuments.next('');
+          this.snackbarService.openSnackBar(
+            'Document successfully saved.',
+            MessageTypes.SUCCESS
+          );
+        });
     }
   }
 
@@ -74,6 +103,11 @@ export class DocumentFormDialog implements OnInit {
       : control?.hasError('minlength')
       ? ValidatorMessages.minimum(4)
       : control?.hasError('pattern')
-      ? Errors.csv : null;
+      ? Errors.csv
+      : null;
+  }
+
+  isSaveDisabled() {
+    return !this.documentForm.valid || !this.documentForm.touched;
   }
 }

@@ -1,3 +1,7 @@
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../shared/message-snackbar/snackbar-service';
 import { Subscription } from 'rxjs';
 import { Errors, validFolderName } from './../shared/validator-messages';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -56,7 +60,10 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private folderService: FolderService) {
+  constructor(
+    private folderService: FolderService,
+    private snackbarService: SnackbarService
+  ) {
     this.dataSource.data = [];
   }
   ngOnDestroy(): void {
@@ -81,7 +88,8 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     this.folderService.getFolderTree('/').subscribe((res) => {
       this.dataSource.data = [res];
       this.restoreExpandedNodes();
-      if (triggerFolderChange) this.folderService.setCurrentFolder(currentFolder);
+      if (triggerFolderChange)
+        this.folderService.setCurrentFolder(currentFolder);
     });
   }
 
@@ -90,6 +98,18 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     this.treeControl.dataNodes.forEach((node) => {
       if (node.expandable && this.treeControl.isExpanded(node)) {
         this.expandedNodes.push(node);
+      }
+    });
+  }
+
+  openNode(path: string) {
+    this.treeControl.dataNodes.forEach((node) => {
+      if (
+        node.expandable &&
+        !this.treeControl.isExpanded(node) &&
+        node.name === path
+      ) {
+        this.treeControl.expand(node);
       }
     });
   }
@@ -118,6 +138,7 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
 
   addFolderClick() {
     const formVal = this.newFolderForm.value;
+    this.openNode(this.folderService.getCurrentPath());
     if (!this.newFolderForm.valid) return;
     this.folderService.createNewFolder(formVal.path).subscribe((res) => {
       this.getFolderTree(this.folderService.getCurrentPath(), false);
@@ -125,7 +146,13 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
   }
 
   deleteFolder() {
-    if (this.folderService.getCurrentPath() === '/') return;
+    if (this.folderService.getCurrentPath() === '/') {
+      this.snackbarService.openSnackBar(
+        'Root folder cannot be deleted.',
+        MessageTypes.ERROR
+      );
+      throw new Error('Root folder cannot be deleted.');
+    }
     const found = this.treeControl.dataNodes.find(
       (n) => n.name === this.folderService.getCurrentPath()
     );

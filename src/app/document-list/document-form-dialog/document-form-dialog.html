@@ -30,5 +30,5 @@
 <mat-error *ngIf="!documentForm.valid && documentForm.touched">Please enter valid data.</mat-error>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Close</button>
-  <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="!documentForm.valid">Save</button>
+  <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">Save</button>
 </div>

@@ -35,6 +35,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDocuments(undefined, '/');
+    this.folderService.setCurrentFolder('/');
     this.displayedColumns = this.colService.getActiveColumns();
 
     console.log(this.displayedColumns);

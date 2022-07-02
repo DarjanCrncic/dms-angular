@@ -1,3 +1,4 @@
+import { SnackbarService, MessageTypes } from './../message-snackbar/snackbar-service';
 import { FileUploadResponse } from './file-upload-response.interface';
 import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
@@ -16,7 +17,7 @@ export class FileUploadComponent implements OnInit {
   linkToFile: string = '';
   private file!: File;
 
-  constructor(private fileUploadService: FileUploadService) {}
+  constructor(private fileUploadService: FileUploadService, private snackbarService: SnackbarService) {}
 
   ngOnInit(): void {
     if (this.docDTO.content && this.docDTO.content.content_size > 0) {
@@ -41,7 +42,7 @@ export class FileUploadComponent implements OnInit {
           original_file_name: event.original_file_name,
           content_type: event.content_type,
         };
-
+        this.snackbarService.openSnackBar("Docuement successfully uploaded.", MessageTypes.SUCCESS);
         this.loading = false;
       },
       error: (error) => {

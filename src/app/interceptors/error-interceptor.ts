@@ -1,41 +1,28 @@
-import { MessageSnackbarComponent } from '../shared/error-snackbar/message-snackbar.component';
-import { Injectable } from '@angular/core';
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpErrorResponse,
+  HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private snackBar: MatSnackBar) {}
-
-  openSnackBar(errorMsg: string) {
-    this.snackBar.openFromComponent(MessageSnackbarComponent, {
-      duration: 2000,
-      data: errorMsg,
-      panelClass: ['mat-toolbar', 'mat-error']
-    });
-  }
+  constructor(private snackbarService: SnackbarService) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMsg = '';
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-        }
-        this.openSnackBar(errorMsg);
+      catchError((res: HttpErrorResponse) => {
+        let errorMsg = res.error.message ?? res.message ?? res;
+        // if (error.error instanceof ErrorEvent) {
+        //   errorMsg = `Error: ${error.error.message}`;
+        // } else {
+        //   errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
+        // }
+        this.snackbarService.openSnackBar(errorMsg, MessageTypes.ERROR);
         return throwError(() => new Error(errorMsg));
       })
     );
