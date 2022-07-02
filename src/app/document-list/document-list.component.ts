@@ -141,6 +141,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       .deleteDocuments(this.selection.selected.map((doc) => doc.id))
       .subscribe((response) => {
         this.getDocuments(undefined, this.getCurrentPath());
+        this.documentService.addOrDeleteEvent.next('');
         this.snackbarService.openSnackBar("Documents deleted.", MessageTypes.SUCCESS);
       });
   }

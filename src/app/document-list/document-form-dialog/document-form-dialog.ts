@@ -42,7 +42,7 @@ export class DocumentFormDialog implements OnInit {
       ]),
       description: new FormControl(isEdit ? this.data.description : null),
       keywords: new FormControl(
-        isEdit ? this.data.keywords.join(',') : null,
+        isEdit ? this.data.keywords.join(',') : '',
         Validators.pattern(csvPattern)
       ),
       type: new FormControl(isEdit ? this.data.type : 'document'),
@@ -86,8 +86,12 @@ export class DocumentFormDialog implements OnInit {
           parent_folder: this.data.parent_folder,
         })
         .subscribe((response) => {
-          this.documentForm.patchValue(response);
+          this.documentForm.patchValue({
+            ...response,
+            keywords: response.keywords.toString(),
+          });
           this.documentService.refreshDocuments.next('');
+          this.documentService.addOrDeleteEvent.next('');
           this.snackbarService.openSnackBar(
             'Document successfully saved.',
             MessageTypes.SUCCESS

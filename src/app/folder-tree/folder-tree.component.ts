@@ -1,3 +1,4 @@
+import { DocumentService } from './../document-list/documents-service';
 import {
   SnackbarService,
   MessageTypes,
@@ -34,7 +35,7 @@ interface FlatTreeNode {
 export class FolderTreeComponent implements OnInit, OnDestroy {
   newFolderForm: FormGroup = new FormGroup({});
   expandedNodes: FlatTreeNode[] = [];
-  folderRefreshSubscription: Subscription = new Subscription();
+  refreshSubscription: Subscription = new Subscription();
 
   private _transformer = (node: FolderNode, level: number) => {
     return {
@@ -62,16 +63,17 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
 
   constructor(
     private folderService: FolderService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private documentService: DocumentService
   ) {
     this.dataSource.data = [];
   }
   ngOnDestroy(): void {
-    this.folderRefreshSubscription.unsubscribe();
+    this.refreshSubscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.folderRefreshSubscription =
-      this.folderService.refreshFolderTreeSubject.subscribe(() =>
+    this.refreshSubscription =
+      this.documentService.addOrDeleteEvent.subscribe(() =>
         this.getFolderTree()
       );
     this.getFolderTree();
@@ -84,8 +86,8 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
   }
 
   getFolderTree(newPath?: string) {
-    this.saveExpandedNodes();
     this.folderService.getFolderTree('/').subscribe((res) => {
+      this.saveExpandedNodes();
       this.dataSource.data = [res];
       this.restoreExpandedNodes();
       newPath && this.folderService.setCurrentFolder(newPath);
@@ -95,19 +97,8 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
   saveExpandedNodes() {
     this.expandedNodes = new Array<FlatTreeNode>();
     this.treeControl.dataNodes.forEach((node) => {
-      if (node.expandable && this.treeControl.isExpanded(node)) {
+      if (node.expandable && this.treeControl.isExpanded(node) || node.name === this.folderService.getCurrentPath()) {
         this.expandedNodes.push(node);
-      }
-    });
-  }
-
-  openNode(path: string) {
-    this.treeControl.dataNodes.forEach((node) => {
-      if (
-        node.expandable &&
-        node.name === path
-      ) {
-        this.treeControl.expand(node);
       }
     });
   }
@@ -138,7 +129,6 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     const formVal = this.newFolderForm.value;
     if (!this.newFolderForm.valid) return;
     this.folderService.createNewFolder(formVal.path).subscribe((res) => {
-      this.openNode(this.folderService.getCurrentPath());
       this.getFolderTree();
     });
   }

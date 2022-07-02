@@ -9,6 +9,7 @@ import { DocumentDTO, ModifyDocumentDTO, NewDocumentDTO } from './document.model
 @Injectable({providedIn: 'root'})
 export class DocumentService {
   refreshDocuments = new Subject();
+  addOrDeleteEvent = new Subject();
 
   constructor(private httpClient: HttpClient) { }
   

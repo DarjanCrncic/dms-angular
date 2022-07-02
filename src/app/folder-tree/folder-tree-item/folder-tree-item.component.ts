@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DocumentService } from './../../document-list/documents-service';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FolderService } from '../folder-service';
 
 @Component({
@@ -6,16 +8,21 @@ import { FolderService } from '../folder-service';
   templateUrl: './folder-tree-item.component.html',
   styleUrls: ['./folder-tree-item.component.css'],
 })
-export class FolderTreeItemComponent implements OnInit {
+export class FolderTreeItemComponent implements OnInit, OnDestroy {
   @Input() expanded = false;
   @Input() path = '';
   @Input() empty = true;
   public currentlySelected: boolean = false;
 
-  constructor(private folderService: FolderService) {}
+  private currentFolderChangedSub = new Subscription();
+
+  constructor(
+    private folderService: FolderService,
+  ) {}
 
   ngOnInit(): void {
-    this.folderService.currentFolderChanged.subscribe(newPath => {
+    this.currentlySelected = this.folderService.getCurrentPath() === this.path;
+    this.currentFolderChangedSub = this.folderService.currentFolderChanged.subscribe((newPath) => {
       this.currentlySelected = newPath === this.path;
     });
   }
@@ -29,4 +36,7 @@ export class FolderTreeItemComponent implements OnInit {
     this.folderService.setCurrentFolder(this.path);
   }
 
+  ngOnDestroy() {
+    this.currentFolderChangedSub && this.currentFolderChangedSub.unsubscribe();
+  }
 }
