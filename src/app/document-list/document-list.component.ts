@@ -71,7 +71,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         this.selection.clear();
         this.isLoadingResults = false;
         this.dataSource.data = response;
-        this.folderService.refreshFolderTreeSubject.next('');
       });
   }
 

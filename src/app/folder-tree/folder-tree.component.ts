@@ -72,9 +72,9 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.folderRefreshSubscription =
       this.folderService.refreshFolderTreeSubject.subscribe(() =>
-        this.getFolderTree('/', false)
+        this.getFolderTree()
       );
-    this.getFolderTree('/', false);
+    this.getFolderTree();
     this.newFolderForm = new FormGroup({
       path: new FormControl('', [
         Validators.required,
@@ -83,13 +83,12 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFolderTree(currentFolder: string, triggerFolderChange: boolean) {
+  getFolderTree(newPath?: string) {
     this.saveExpandedNodes();
     this.folderService.getFolderTree('/').subscribe((res) => {
       this.dataSource.data = [res];
       this.restoreExpandedNodes();
-      if (triggerFolderChange)
-        this.folderService.setCurrentFolder(currentFolder);
+      newPath && this.folderService.setCurrentFolder(newPath);
     });
   }
 
@@ -106,7 +105,6 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     this.treeControl.dataNodes.forEach((node) => {
       if (
         node.expandable &&
-        !this.treeControl.isExpanded(node) &&
         node.name === path
       ) {
         this.treeControl.expand(node);
@@ -138,10 +136,10 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
 
   addFolderClick() {
     const formVal = this.newFolderForm.value;
-    this.openNode(this.folderService.getCurrentPath());
     if (!this.newFolderForm.valid) return;
     this.folderService.createNewFolder(formVal.path).subscribe((res) => {
-      this.getFolderTree(this.folderService.getCurrentPath(), false);
+      this.openNode(this.folderService.getCurrentPath());
+      this.getFolderTree();
     });
   }
 
@@ -159,7 +157,8 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     if (!found) return;
 
     this.folderService.deleteById(found.id).subscribe(() => {
-      this.getFolderTree(this.folderService.getParentPath(), true);
+      const parentPath = this.folderService.getParentPath();
+      this.getFolderTree(parentPath);
     });
   }
 }

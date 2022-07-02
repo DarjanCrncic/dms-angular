@@ -18,7 +18,6 @@ export class FolderService {
     this.httpClient
       .get<Folder[]>(environment.baseUrl + ApiPaths.Folder)
       .subscribe((response) => {
-        console.log(response);
         return response;
       });
     return [];
