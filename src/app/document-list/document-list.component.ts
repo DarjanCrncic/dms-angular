@@ -1,3 +1,4 @@
+import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { DocumentFormDialog } from './document-form-dialog/document-form-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -30,7 +31,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     private documentService: DocumentService,
     private folderService: FolderService,
     private colService: DocumentColumnService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     this.folderService.setCurrentFolder('/');
     this.displayedColumns = this.colService.getActiveColumns();
 
-    console.log(this.displayedColumns);
     this.folderChangedSub = this.folderService.currentFolderChanged.subscribe(
       (path) => {
         this.getDocuments(undefined, path);
@@ -141,6 +142,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       .deleteDocuments(this.selection.selected.map((doc) => doc.id))
       .subscribe((response) => {
         this.getDocuments(undefined, this.getCurrentPath());
+        this.snackbarService.openSnackBar("Documents deleted.", MessageTypes.SUCCESS);
       });
   }
 
