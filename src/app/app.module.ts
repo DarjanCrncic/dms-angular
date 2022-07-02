@@ -1,3 +1,4 @@
+import { JwtInterceptor } from './security/jwt-auth-interceptor';
 import { DocumentFormDialog } from './document-list/document-form-dialog/document-form-dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -96,6 +97,11 @@ import { MessageSnackbarComponent } from './shared/message-snackbar/message-snac
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
       multi: true,
     },
   ],

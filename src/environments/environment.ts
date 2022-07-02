@@ -2,9 +2,16 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+export const AuthInterceptors = {
+  JWT: 'JWT',
+  BASIC: 'BASIC',
+};
+
 export const environment = {
   production: false,
-  baseUrl: "http://localhost:8080/api/v1"
+  baseUrl: 'http://localhost:8080/api/v1',
+  host: 'http://localhost:8080',
+  authInterceptor: AuthInterceptors.JWT,
 };
 
 /*

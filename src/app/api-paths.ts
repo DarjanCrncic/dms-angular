@@ -1,5 +1,6 @@
 export enum ApiPaths {
   Auth = '/auth',
+  AuthLogin = '/auth/login',
   Folder = '/folders',
   FolderTree = '/folders/tree',
   Document = '/documents',
