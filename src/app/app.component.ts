@@ -1,36 +1,22 @@
-import { Account, AccountService } from './security/account-service';
 import { Subscription } from 'rxjs';
-import { SidebarService } from './sidebar-service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AccountService } from './security/account-service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  opened = true;
-  sidebarSubscription = new Subscription();
+export class AppComponent {
   loginSubscription = new Subscription();
 
-  constructor(private sidebarService: SidebarService, private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loginSubscription = this.accountService.login().subscribe((response) => {
-      this.accountService.account = response;
-    });
-    this.sidebarSubscription = this.sidebarService.toggleSidebar.subscribe(
-      (event) => {
-        this.onToggleEvent();
-      }
-    );
-  }
-  ngOnDestroy(): void {
-    this.sidebarSubscription && this.sidebarSubscription.unsubscribe();
-    this.loginSubscription && this.loginSubscription.unsubscribe();
-  }
-
-  onToggleEvent() {
-    this.opened = !this.opened;
-  }
+    if (this.accountService.hasLocalData()) {
+      this.accountService.updateAccountWithLocalData(); 
+      this.router.navigate(['dms']);
+    }
+  } 
 }

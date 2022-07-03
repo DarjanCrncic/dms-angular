@@ -1,3 +1,4 @@
+import { CanActivateDms } from './security/can-activate-guard';
 import { JwtInterceptor } from './security/jwt-auth-interceptor';
 import { DocumentFormDialog } from './document-list/document-form-dialog/document-form-dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -43,6 +44,9 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { MessageSnackbarComponent } from './shared/message-snackbar/message-snackbar.component';
+import { DmsWorkPageComponent } from './dms-work-page/dms-work-page.component';
+import { DmsLoginPageComponent } from './dms-login-page/dms-login-page.component';
+import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +61,9 @@ import { MessageSnackbarComponent } from './shared/message-snackbar/message-snac
     DocumentAddComponent,
     DocumentFormDialog,
     MessageSnackbarComponent,
+    DmsWorkPageComponent,
+    DmsLoginPageComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  height: calc(100% - 64px);
+  background-color: #e7e7e799;
+}
+.card {
+  width: 300px;
+  margin: auto;
+}
+
+.card-form {
+  height: 250px;
+}
