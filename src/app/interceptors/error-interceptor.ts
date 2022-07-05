@@ -17,12 +17,19 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((res: HttpErrorResponse) => {
         console.log(res)
-        let errorMsg = `${res.status} ${res?.error?.message ?? res?.message ?? res}`;
-        // if (error.error instanceof ErrorEvent) {
-        //   errorMsg = `Error: ${error.error.message}`;
-        // } else {
-        //   errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-        // }
+        let errorMsg = '';
+
+        switch (res.status) {
+          case 500: 
+            errorMsg = '500: Internal server error.';
+            break;
+          case 401: 
+            errorMsg = '401: Unauthorized.';
+            break;
+          default:
+            errorMsg = `${res.status} ${res?.error?.message ?? res?.message ?? res}`;
+        }
+     
         this.snackbarService.openSnackBar(errorMsg, MessageTypes.ERROR);
         return throwError(() => new Error(errorMsg));
       })

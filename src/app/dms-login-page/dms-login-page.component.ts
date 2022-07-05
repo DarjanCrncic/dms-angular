@@ -1,3 +1,7 @@
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
 import { AccountService } from './../security/account-service';
 import { ValidatorMessages } from './../shared/validator-messages';
@@ -13,6 +17,7 @@ import { Component, OnInit } from '@angular/core';
 export class DmsLoginPageComponent implements OnInit {
   constructor(private accountService: AccountService, private router: Router) {}
   loginForm: FormGroup = new FormGroup({});
+  errorMsg: string = '';
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -41,8 +46,14 @@ export class DmsLoginPageComponent implements OnInit {
     const formVal = this.loginForm.value;
     this.accountService
       .login(formVal['username'], formVal['password'])
-      .subscribe((res) => {
-        this.router.navigate(['dms']);
-      });
+      .subscribe(
+        (res) => {
+          this.router.navigate(['dms']);
+          this.errorMsg = '';
+        },
+        (error) => {
+          this.errorMsg = 'Invalid username or password.';
+        }
+      );
   }
 }
