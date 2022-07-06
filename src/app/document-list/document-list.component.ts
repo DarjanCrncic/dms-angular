@@ -58,9 +58,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       );
   }
   ngOnDestroy(): void {
-    this.folderChangedSub.unsubscribe();
-    this.refreshData.unsubscribe();
-    this.displayedColumnsChangedSub.unsubscribe();
+    this.folderChangedSub && this.folderChangedSub.unsubscribe();
+    this.refreshData && this.refreshData.unsubscribe();
+    this.displayedColumnsChangedSub && this.displayedColumnsChangedSub.unsubscribe();
   }
 
   getDocuments(sort?: Sort, path?: string) {

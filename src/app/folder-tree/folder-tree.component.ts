@@ -69,7 +69,7 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     this.dataSource.data = [];
   }
   ngOnDestroy(): void {
-    this.refreshSubscription.unsubscribe();
+    this.refreshSubscription && this.refreshSubscription.unsubscribe();
   }
   ngOnInit(): void {
     this.refreshSubscription =
