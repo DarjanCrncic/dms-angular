@@ -1,3 +1,4 @@
+import { AccountService } from './../security/account-service';
 import {
   SnackbarService,
   MessageTypes,
@@ -13,10 +14,19 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   constructor(
     private testService: TestService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {}
+
+  onLogoutClick() {
+    this.accountService.logout();
+  }
+
+  logoutVissible() {
+    return this.accountService.isLoggedIn();
+  }
 
   onClick() {
     this.testService.getError().subscribe();

@@ -1,9 +1,10 @@
+import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';
 import { AuthInterceptors } from './../../environments/environment';
 import { AuthInterceptor } from './basic-auth.interceptor';
 import { AccountService } from './account-service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
   HttpEvent,
   HttpHandler,
@@ -14,7 +15,7 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -30,6 +31,9 @@ export class JwtInterceptor implements HttpInterceptor {
       request = request.clone({
         setHeaders: { Authorization: `Bearer ${account.token}` },
       });
+    } else if (isApiUrl && !this.accountService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return throwError(() => new Error('Your login timedout.'));
     }
 
     return next.handle(request);

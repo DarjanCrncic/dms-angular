@@ -41,12 +41,13 @@ import { DocumentAddComponent } from './document-list/document-add/document-add.
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorInterceptor } from './interceptors/error-interceptor';
 import { MessageSnackbarComponent } from './shared/message-snackbar/message-snackbar.component';
 import { DmsWorkPageComponent } from './dms-work-page/dms-work-page.component';
 import { DmsLoginPageComponent } from './dms-login-page/dms-login-page.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,7 +94,8 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
     MatListModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule,
   ],
   providers: [
     {

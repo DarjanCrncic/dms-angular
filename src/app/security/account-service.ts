@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -12,7 +13,7 @@ export interface Account {
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  constructor(private htttpClient: HttpClient) {}
+  constructor(private htttpClient: HttpClient, private router: Router) {}
 
   private _account: Account = {
     username: '',
@@ -43,7 +44,10 @@ export class AccountService {
   }
 
   logout() {
+    this._account.token = '';
+    this._account.expires_at = 0;
     localStorage.removeItem('dms_account');
+    this.router.navigate(['/login']);
   }
 
   public isLoggedIn() {

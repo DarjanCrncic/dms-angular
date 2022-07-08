@@ -48,7 +48,7 @@ export class DmsLoginPageComponent implements OnInit {
       .login(formVal['username'], formVal['password'])
       .subscribe(
         (res) => {
-          this.router.navigate(['dms']);
+          this.router.navigate(['/dms']);
           this.errorMsg = '';
         },
         (error) => {

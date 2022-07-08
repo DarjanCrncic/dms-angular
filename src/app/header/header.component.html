@@ -4,10 +4,19 @@
   </button>
   <span>My App</span>
   <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click)="onFavClick()">
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+    (click)="onFavClick()">
     <mat-icon>favorite</mat-icon>
   </button>
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onClick()">
     <mat-icon>share</mat-icon>
   </button>
+  <button mat-icon-button [matMenuTriggerFor]="beforeMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="onLogoutClick()" *ngIf="logoutVissible()">
+      <mat-icon>logout</mat-icon> Logout
+    </button>
+  </mat-menu>
 </mat-toolbar>
