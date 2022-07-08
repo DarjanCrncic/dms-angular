@@ -33,7 +33,7 @@ export class JwtInterceptor implements HttpInterceptor {
       });
     } else if (isApiUrl && !this.accountService.isLoggedIn()) {
       this.router.navigate(['/login']);
-      return throwError(() => new Error('Your login timedout.'));
+      return throwError(() => new Error('401 Unauthorized.'));
     }
 
     return next.handle(request);

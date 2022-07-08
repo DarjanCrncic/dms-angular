@@ -27,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             errorMsg = '401: Unauthorized.';
             break;
           default:
-            errorMsg = `ERROR: ${res?.error?.message ?? res?.message ?? res}`;
+            errorMsg = `${res?.error?.message ?? res?.message ?? res}`;
         }
      
         this.snackbarService.openSnackBar(errorMsg, MessageTypes.ERROR);

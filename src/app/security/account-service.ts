@@ -1,3 +1,7 @@
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +17,12 @@ export interface Account {
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  constructor(private htttpClient: HttpClient, private router: Router) {}
+  constructor(
+    private htttpClient: HttpClient,
+    private router: Router,
+    private snackbarService: SnackbarService
+  ) {}
+  private authTimer: ReturnType<typeof setTimeout> | null = null;
 
   private _account: Account = {
     username: '',
@@ -31,6 +40,7 @@ export class AccountService {
         tap((res) => {
           this.setSession(res);
           this._account = res;
+          this.startAuthenticationTimer(this._account.expires_at - Date.now());
         })
       );
   }
@@ -47,6 +57,10 @@ export class AccountService {
     this._account.token = '';
     this._account.expires_at = 0;
     localStorage.removeItem('dms_account');
+
+    this.authTimer && clearTimeout(this.authTimer);
+    this.authTimer = null;
+
     this.router.navigate(['/login']);
   }
 
@@ -70,6 +84,16 @@ export class AccountService {
     if (!localAccount) return;
 
     this._account = JSON.parse(localAccount);
+    this.startAuthenticationTimer(this._account.expires_at - Date.now());
   }
 
+  startAuthenticationTimer(expiration: number) {
+    this.authTimer = setTimeout(() => {
+      this.logout();
+      this.snackbarService.openSnackBar(
+        'Your login info expired.',
+        MessageTypes.INFO
+      );
+    }, expiration);
+  }
 }
