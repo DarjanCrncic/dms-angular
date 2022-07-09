@@ -1,3 +1,4 @@
+import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
 import {
   SnackbarService,
@@ -15,10 +16,19 @@ export class HeaderComponent implements OnInit {
   constructor(
     private testService: TestService,
     private snackbarService: SnackbarService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  firstName: string = '';
+  lastName: string= '';
+
+  ngOnInit(): void {
+    this.userService.getUserDetails(this.accountService.account.username).subscribe(res => {
+      this.firstName = res.first_name;
+      this.lastName = res.last_name;
+    });
+  }
 
   onLogoutClick() {
     this.accountService.logout();
