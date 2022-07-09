@@ -23,6 +23,7 @@ import { DocumentTypeService } from 'src/app/shared/services/document-type-servi
 export class DocumentFormDialog implements OnInit {
   documentForm: FormGroup = new FormGroup({});
   types: TypeDTO[] = [];
+  isEdit: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DocumentFormDialog>,
@@ -34,18 +35,18 @@ export class DocumentFormDialog implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
-    const isEdit = this.data && this.data.id;
+    this.isEdit = this.data && this.data.id ? true : false;
     this.documentForm = new FormGroup({
-      object_name: new FormControl(isEdit ? this.data.object_name : null, [
+      object_name: new FormControl(this.isEdit ? this.data.object_name : null, [
         Validators.required,
         Validators.minLength(4),
       ]),
-      description: new FormControl(isEdit ? this.data.description : null),
+      description: new FormControl(this.isEdit ? this.data.description : null),
       keywords: new FormControl(
-        isEdit ? this.data.keywords.join(',') : '',
+        this.isEdit ? this.data.keywords.join(',') : '',
         Validators.pattern(csvPattern)
       ),
-      type: new FormControl(isEdit ? this.data.type : 'document'),
+      type: new FormControl(this.isEdit ? this.data.type : 'document'),
     });
 
     this.typeService.getAllDocumentTypes().subscribe((response) => {
@@ -112,6 +113,6 @@ export class DocumentFormDialog implements OnInit {
   }
 
   isSaveDisabled() {
-    return !this.documentForm.valid || !this.documentForm.touched;
+    return !this.documentForm.valid || !this.documentForm.touched && this.isEdit;
   }
 }
