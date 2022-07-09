@@ -1,9 +1,25 @@
-<span (click)="handleFolderClick()" [ngStyle]="{'cursor': 'pointer'}">
-
-  <mat-icon *ngIf="!empty">folder_open</mat-icon>
-  <mat-icon *ngIf="empty">folder</mat-icon>
-  <h3
-    [ngStyle]="{'cursor': 'pointer', 'font-weight': currentlySelected ? '500' : 'normal', 'color': currentlySelected ? '#3f51b5' : 'black'}">
-    {{getFolderName(path)}}
-  </h3>
+<span class="inline-span">
+  <span (click)="handleFolderClick()" [ngStyle]="{'cursor': 'pointer'}" class="inline-span">
+    <mat-icon *ngIf="!empty">folder_open</mat-icon>
+    <mat-icon *ngIf="empty">folder</mat-icon>
+    <h3
+      [ngStyle]="{'cursor': 'pointer', 'font-weight': currentlySelected ? '500' : 'normal', 'color': currentlySelected ? '#3f51b5' : 'black'}">
+      {{getFolderName(path)}}
+    </h3>
+  </span>
+  <div class="placeholder">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Folder actions" *ngIf="showOptions">
+      <mat-icon class="more-icon">more_horiz</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteFolder()">
+        <mat-icon color="warn">delete</mat-icon>
+        <span color="warn">Delete</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>push_pin</mat-icon>
+        <span>Pin</span>
+      </button>
+    </mat-menu>
+  </div>
 </span>

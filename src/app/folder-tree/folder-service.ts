@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class FolderService {
   currentFolderChanged = new Subject<string>();
+  folderDeleted = new Subject<string | null>();
   private currentPath = '';
 
   constructor(private httpClient: HttpClient) {}

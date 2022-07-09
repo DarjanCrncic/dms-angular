@@ -16,5 +16,6 @@
 .example-sidenav {
   padding: 20px;
   min-width: 20%;
+  max-width: 50%;
   box-sizing: unset;
 }

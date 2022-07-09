@@ -3,7 +3,19 @@ h3 {
   display: inline;
 }
 
-span {
+.inline-span {
   display: flex;
   align-items: center;
+}
+mat-icon {
+  margin: auto;  
+}
+
+.more-icon {
+  font-size: 20px;
+}
+
+.placeholder {
+  margin-left: 10px;
+  width: 40px;
 }

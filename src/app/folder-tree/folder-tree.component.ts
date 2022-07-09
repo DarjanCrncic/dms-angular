@@ -1,19 +1,16 @@
-import { DocumentService } from './../document-list/documents-service';
-import {
-  SnackbarService,
-  MessageTypes,
-} from './../shared/message-snackbar/snackbar-service';
-import { Subscription } from 'rxjs';
-import { Errors, validFolderName } from './../shared/validator-messages';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FolderNode } from './folder-node.model';
-import { FolderService } from './folder-service';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
+import { Subscription } from 'rxjs';
+import { DocumentService } from './../document-list/documents-service';
+import { Errors, validFolderName } from './../shared/validator-messages';
+import { FolderNode } from './folder-node.model';
+import { FolderOptionsService } from './folder-options-service';
+import { FolderService } from './folder-service';
 
 /** Flat node with expandable and level information */
 interface FlatTreeNode {
@@ -35,7 +32,8 @@ interface FlatTreeNode {
 export class FolderTreeComponent implements OnInit, OnDestroy {
   newFolderForm: FormGroup = new FormGroup({});
   expandedNodes: FlatTreeNode[] = [];
-  refreshSubscription: Subscription = new Subscription();
+  refreshSubscription: Subscription | null = null;
+  folderDeletedSub: Subscription | null = null;
 
   private _transformer = (node: FolderNode, level: number) => {
     return {
@@ -63,19 +61,19 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
 
   constructor(
     private folderService: FolderService,
-    private snackbarService: SnackbarService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private folderOptionsService: FolderOptionsService
   ) {
     this.dataSource.data = [];
   }
   ngOnDestroy(): void {
     this.refreshSubscription && this.refreshSubscription.unsubscribe();
+    this.folderDeletedSub && this.folderDeletedSub.unsubscribe();
   }
   ngOnInit(): void {
-    this.refreshSubscription =
-      this.documentService.addOrDeleteEvent.subscribe(() =>
-        this.getFolderTree()
-      );
+    this.refreshSubscription = this.documentService.addOrDeleteEvent.subscribe(
+      () => this.getFolderTree()
+    );
     this.getFolderTree();
     this.newFolderForm = new FormGroup({
       path: new FormControl('', [
@@ -83,6 +81,12 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
         Validators.pattern(validFolderName),
       ]),
     });
+
+    this.folderDeletedSub = this.folderService.folderDeleted.subscribe(
+      (path) => {
+        path ? this.getFolderTree(path) : this.getFolderTree();
+      }
+    );
   }
 
   getFolderTree(newPath?: string) {
@@ -97,7 +101,10 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
   saveExpandedNodes() {
     this.expandedNodes = new Array<FlatTreeNode>();
     this.treeControl.dataNodes.forEach((node) => {
-      if (node.expandable && this.treeControl.isExpanded(node) || node.name === this.folderService.getCurrentPath()) {
+      if (
+        (node.expandable && this.treeControl.isExpanded(node)) ||
+        node.name === this.folderService.getCurrentPath()
+      ) {
         this.expandedNodes.push(node);
       }
     });
@@ -133,22 +140,11 @@ export class FolderTreeComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteFolder() {
-    if (this.folderService.getCurrentPath() === '/') {
-      this.snackbarService.openSnackBar(
-        'Root folder cannot be deleted.',
-        MessageTypes.ERROR
-      );
-      throw new Error('Root folder cannot be deleted.');
-    }
-    const found = this.treeControl.dataNodes.find(
-      (n) => n.name === this.folderService.getCurrentPath()
-    );
-    if (!found) return;
+  onHoverIn(node: any) {
+    this.folderOptionsService.node = node;
+  }
 
-    this.folderService.deleteById(found.id).subscribe(() => {
-      const parentPath = this.folderService.getParentPath();
-      this.getFolderTree(parentPath);
-    });
+  onHoverOut() {
+    this.folderOptionsService.hoveredNodeChanged.next(null);
   }
 }

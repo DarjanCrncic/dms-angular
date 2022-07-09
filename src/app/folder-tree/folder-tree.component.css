@@ -6,6 +6,10 @@
   min-height: 40px;
 }
 
+.mat-tree-node-custom:hover {
+  background-color: #e7e7e799;
+}
+
 .mat-divider{
   border-top-width: 3px;
 }
@@ -25,4 +29,6 @@ h2 {
 
 .tree-container {
   overflow: auto;
+  height: 100%;
+  width: 100%;
 }

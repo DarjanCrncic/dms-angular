@@ -5,7 +5,7 @@
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="mat-tree-node-custom" matTreeNodePadding
-        matTreeNodePaddingIndent="20">
+        matTreeNodePaddingIndent="20" (mouseenter)="onHoverIn(node)">
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
         <app-folder-tree-item [path]="node.name" [expanded]="treeControl.isExpanded(node)" [empty]="node.empty">
@@ -13,7 +13,7 @@
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
       <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding class="mat-tree-node-custom"
-        matTreeNodePadding matTreeNodePaddingIndent="20">
+        matTreeNodePadding matTreeNodePaddingIndent="20" #node (mouseenter)="onHoverIn(node)">
         <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
@@ -37,6 +37,5 @@
       </form>
       <mat-error *ngIf="newFolderForm.get('path')?.errors && newFolderForm.get('path')?.touched">{{getErrorMessage("path")}}</mat-error>
     </div>
-    <button mat-raised-button color="warn" (click)="deleteFolder()">Delete Current Folder</button>
   </div>
 </div>

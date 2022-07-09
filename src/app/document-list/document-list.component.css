@@ -64,6 +64,11 @@ table {
 }
 
 ::ng-deep mat-icon {
-  margin-right: 10px;
   cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
 }
