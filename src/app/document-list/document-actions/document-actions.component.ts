@@ -1,11 +1,11 @@
+import { FileUploadResponse } from './../../shared/services/file-upload-service';
 import { MatDialog } from '@angular/material/dialog';
 import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
 import { DocumentFormDialog } from './../document-form-dialog/document-form-dialog';
-import { FileUploadResponse } from './../../shared/file-upload/file-upload-response.interface';
 import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
 import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
-import { FileUploadService } from './../../shared/file-upload/file-upload-service';
+import { FileUploadService } from '../../shared/services/file-upload-service';
 import { DocumentDTO } from './../document.model';
 import { Component, OnInit, Input } from '@angular/core';
 

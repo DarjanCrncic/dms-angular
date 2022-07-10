@@ -1,6 +1,5 @@
 import { Subscription } from 'rxjs';
-import { AccountService } from './../security/account-service';
-import { SidebarService } from './../sidebar-service';
+import { SidebarService } from '../shared/services/sidebar-service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({

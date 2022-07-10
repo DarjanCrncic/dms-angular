@@ -1,10 +1,15 @@
-import { FileUploadResponse } from './file-upload-response.interface';
-import { DocumentDTO } from './../../document-list/document.model';
+import { DocumentDTO } from '../../document-list/document.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiPaths } from 'src/app/api-paths';
 import { environment } from 'src/environments/environment';
 
+export interface FileUploadResponse {
+  url_to_file: string;
+  content_type: string;
+  content_size: number;
+  original_file_name: string;
+}
 @Injectable({ providedIn: 'root' })
 export class FileUploadService {
   constructor(private httpClient: HttpClient) {}

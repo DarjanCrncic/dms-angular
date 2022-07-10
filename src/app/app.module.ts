@@ -1,4 +1,4 @@
-import { JwtInterceptor } from './security/jwt-auth-interceptor';
+import { JwtInterceptor } from './interceptors/jwt-auth-interceptor';
 import { DocumentFormDialog } from './document-list/document-form-dialog/document-form-dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { ContentHeaderComponent } from './shared/content-header/content-header.component';
 import { FolderTreeComponent } from './folder-tree/folder-tree.component';
-import { AuthInterceptor } from './security/basic-auth.interceptor';
+import { AuthInterceptor } from './interceptors/basic-auth.interceptor';
 import {
   DocumentColumnSelectComponent,
   DocumentColumnDialog,

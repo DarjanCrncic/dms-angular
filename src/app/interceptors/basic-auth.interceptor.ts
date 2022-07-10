@@ -1,4 +1,4 @@
-import { AuthInterceptors } from './../../environments/environment';
+import { AuthInterceptors } from '../../environments/environment';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import {

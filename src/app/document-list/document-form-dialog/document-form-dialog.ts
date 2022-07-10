@@ -12,8 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Errors } from 'src/app/shared/validator-messages';
-import { TypeDTO } from 'src/app/shared/type.model';
-import { DocumentTypeService } from 'src/app/shared/services/document-type-service';
+import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
 
 @Component({
   selector: 'document-form-dialog',

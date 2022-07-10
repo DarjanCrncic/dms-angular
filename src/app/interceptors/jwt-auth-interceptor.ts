@@ -1,17 +1,15 @@
-import { Router } from '@angular/router';
-import { ApiPaths } from 'src/app/api-paths';
-import { AuthInterceptors } from './../../environments/environment';
-import { AuthInterceptor } from './basic-auth.interceptor';
-import { AccountService } from './account-service';
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { AccountService } from './../security/account-service';
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest,
+  HttpRequest
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AuthInterceptors } from './../../environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

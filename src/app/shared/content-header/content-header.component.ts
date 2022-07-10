@@ -1,5 +1,5 @@
-import { SidebarService } from './../../sidebar-service';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SidebarService } from './../services/sidebar-service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-content-header',
