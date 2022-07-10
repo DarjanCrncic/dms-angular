@@ -1,0 +1,12 @@
+<div class="container">
+  <mat-icon matTooltip="Edit" (click)="onEdit(docDTO)">edit</mat-icon>
+  <mat-icon matTooltip="Administrate" (click)="onAdministrate(docDTO)">settings</mat-icon>
+  <label *ngIf="!loading" class="upload">
+    <mat-icon matTooltip="Upload file">backup</mat-icon>
+    <input type="file" (change)="onChange($event)" style="display: none;">
+  </label>
+  <mat-spinner *ngIf="loading" color="accent" [diameter]="25"></mat-spinner>
+  <a *ngIf="linkToFile.length > 0" (click)="onDownload()" class="download">
+    <mat-icon color="primary" matTooltip="Download file">cloud_download</mat-icon>
+  </a>
+</div>

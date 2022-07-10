@@ -10,14 +10,9 @@ export class FileUploadService {
   constructor(private httpClient: HttpClient) {}
 
   upload(file: File, document: DocumentDTO) {
-    // Create form data
     const formData = new FormData();
-
-    // Store form name as "file" with file data
     formData.append('file', file, file.name);
 
-    // Make http post request over api
-    // with formData as req
     return this.httpClient.post<FileUploadResponse>(
       environment.baseUrl + ApiPaths.DocumentUpload + '/' + document.id,
       formData

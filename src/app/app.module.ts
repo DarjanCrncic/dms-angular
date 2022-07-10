@@ -1,4 +1,3 @@
-import { CanActivateDms } from './security/can-activate-guard';
 import { JwtInterceptor } from './security/jwt-auth-interceptor';
 import { DocumentFormDialog } from './document-list/document-form-dialog/document-form-dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,7 +30,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FileUploadComponent } from './shared/file-upload/file-upload.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -48,6 +46,8 @@ import { DmsWorkPageComponent } from './dms-work-page/dms-work-page.component';
 import { DmsLoginPageComponent } from './dms-login-page/dms-login-page.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { GrantRightsDialogComponent } from './shared/grant-rights-dialog/grant-rights-dialog.component';
+import { DocumentActionsComponent } from './document-list/document-actions/document-actions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +56,6 @@ import { MatMenuModule } from '@angular/material/menu';
     FolderTreeItemComponent,
     DocumentListComponent,
     ContentHeaderComponent,
-    FileUploadComponent,
     DocumentColumnSelectComponent,
     DocumentColumnDialog,
     DocumentAddComponent,
@@ -65,6 +64,8 @@ import { MatMenuModule } from '@angular/material/menu';
     DmsWorkPageComponent,
     DmsLoginPageComponent,
     PageNotFoundComponent,
+    GrantRightsDialogComponent,
+    DocumentActionsComponent,
   ],
   imports: [
     BrowserModule,

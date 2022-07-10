@@ -52,7 +52,8 @@ export class DmsLoginPageComponent implements OnInit {
           this.errorMsg = '';
         },
         (error) => {
-          this.errorMsg = 'Invalid username or password.';
+          
+          this.errorMsg = error?.error?.status == 400 ? 'Invalid username or password.' : '';
         }
       );
   }

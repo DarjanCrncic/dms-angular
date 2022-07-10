@@ -1,23 +1,26 @@
-import { SnackbarService, MessageTypes } from './../message-snackbar/snackbar-service';
-import { FileUploadResponse } from './file-upload-response.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
+import { DocumentFormDialog } from './../document-form-dialog/document-form-dialog';
+import { FileUploadResponse } from './../../shared/file-upload/file-upload-response.interface';
 import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
-import { Component, Input, OnInit } from '@angular/core';
-import { DocumentDTO } from './../../document-list/document.model';
-import { FileUploadService } from './file-upload-service';
+import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
+import { FileUploadService } from './../../shared/file-upload/file-upload-service';
+import { DocumentDTO } from './../document.model';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.css'],
+  selector: 'app-document-actions',
+  templateUrl: './document-actions.component.html',
+  styleUrls: ['./document-actions.component.css']
 })
-export class FileUploadComponent implements OnInit {
+export class DocumentActionsComponent implements OnInit {
   @Input() docDTO!: DocumentDTO;
   loading: boolean = false;
   linkToFile: string = '';
   private file!: File;
 
-  constructor(private fileUploadService: FileUploadService, private snackbarService: SnackbarService) {}
+  constructor(private fileUploadService: FileUploadService, private snackbarService: SnackbarService,  public dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.docDTO.content && this.docDTO.content.content_size > 0) {
@@ -62,6 +65,22 @@ export class FileUploadComponent implements OnInit {
         URL.revokeObjectURL(objectUrl);
       },
       error: () => {},
+    });
+  }
+
+  onEdit(row: DocumentDTO) {
+    const dialogRef = this.dialog.open(DocumentFormDialog, {
+      width: '800px',
+      minHeight: '500px',
+      data: row,
+    });
+  }
+
+  onAdministrate(row: DocumentDTO) {
+    const dialogRef = this.dialog.open(GrantRightsDialogComponent, {
+      width: '800px',
+      minHeight: '500px',
+      data: row,
     });
   }
 }

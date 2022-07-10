@@ -1,0 +1,14 @@
+.upload, .download {
+  display: flex;
+  margin: auto;
+}
+
+mat-icon {
+  margin: auto;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+}

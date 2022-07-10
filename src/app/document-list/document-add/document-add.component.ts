@@ -4,12 +4,14 @@ import { DocumentFormDialog } from './../document-form-dialog/document-form-dial
 
 @Component({
   selector: 'app-document-add',
-  templateUrl: './document-add.component.html',
-  styleUrls: ['./document-add.component.css']
+  template: `
+    <button mat-raised-button (click)="openDialog()">New Document</button>
+  `,
+  styles: ['button {margin: 0 8px 8px 0;}'],
 })
 export class DocumentAddComponent implements OnInit {
   ngOnInit(): void {}
-  @Input() folder: string = "/";
+  @Input() folder: string = '/';
 
   constructor(public dialog: MatDialog) {}
 
@@ -17,11 +19,7 @@ export class DocumentAddComponent implements OnInit {
     const dialogRef = this.dialog.open(DocumentFormDialog, {
       width: '800px',
       minHeight: '500px',
-      data: {parent_folder: this.folder}
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      data: { parent_folder: this.folder },
     });
   }
 }

@@ -1,4 +1,8 @@
-import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
+import { GrantRightsDialogComponent } from './../shared/grant-rights-dialog/grant-rights-dialog.component';
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../shared/message-snackbar/snackbar-service';
 import { DocumentFormDialog } from './document-form-dialog/document-form-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -31,7 +35,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     private documentService: DocumentService,
     private folderService: FolderService,
     private colService: DocumentColumnService,
-    public dialog: MatDialog,
     private snackbarService: SnackbarService
   ) {}
 
@@ -46,9 +49,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.refreshData = this.documentService.refreshDocuments.subscribe(() => 
+    this.refreshData = this.documentService.refreshDocuments.subscribe(() =>
       this.getDocuments(undefined, this.getCurrentPath())
-    )
+    );
 
     this.displayedColumnsChangedSub =
       this.colService.displayedColumnsChanged.subscribe(
@@ -57,10 +60,12 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         }
       );
   }
+
   ngOnDestroy(): void {
     this.folderChangedSub && this.folderChangedSub.unsubscribe();
     this.refreshData && this.refreshData.unsubscribe();
-    this.displayedColumnsChangedSub && this.displayedColumnsChangedSub.unsubscribe();
+    this.displayedColumnsChangedSub &&
+      this.displayedColumnsChangedSub.unsubscribe();
   }
 
   getDocuments(sort?: Sort, path?: string) {
@@ -75,9 +80,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   getIdentifiers(): string[] {
-    const identifiers = this.displayedColumns.filter(col => col.displayed).map(
-      (colOpt) => colOpt.identifier
-    );
+    const identifiers = this.displayedColumns
+      .filter((col) => col.displayed)
+      .map((colOpt) => colOpt.identifier);
     return ['select', ...identifiers, 'actions'];
   }
 
@@ -142,16 +147,11 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.getDocuments(undefined, this.getCurrentPath());
         this.documentService.addOrDeleteEvent.next('');
-        this.snackbarService.openSnackBar("Documents deleted.", MessageTypes.SUCCESS);
+        this.snackbarService.openSnackBar(
+          'Documents deleted.',
+          MessageTypes.SUCCESS
+        );
       });
-  }
-
-  onEdit(row: DocumentDTO) {
-    const dialogRef = this.dialog.open(DocumentFormDialog, {
-      width: '800px',
-      minHeight: '500px',
-      data: row
-    });
   }
 
   getHeaderTitle() {
