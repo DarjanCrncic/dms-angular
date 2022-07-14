@@ -9,5 +9,9 @@ export enum ApiPaths {
   DocColPref = "/preferences/document-columns",
   DocumentType = "/types",
   User = "/users",
-  UserDetails = "/users/details"
+  UserDetails = "/users/details",
+  Administration = "/administration",
+  AdministrationDocument = "/administration/documents",
+  AdministrationFolder = "/administration/folders",
+  AdministrationGrant = "/administration/grant",
 }

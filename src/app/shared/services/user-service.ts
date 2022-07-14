@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
 
 export interface UserDetails {
   first_name: string,
-  last_name: string
+  last_name: string,
+  username: string,
+  id: string
 }
 
 @Injectable({providedIn: 'root'})
@@ -19,5 +21,9 @@ export class UserService {
         username: username
       }
     });
+  }
+
+  getAvailableUsers() {
+    return this.httpClient.get<UserDetails[]>(environment.baseUrl + ApiPaths.User);
   }
 }

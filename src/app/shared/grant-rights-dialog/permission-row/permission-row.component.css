@@ -1,0 +1,9 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.row > .mat-icon {
+  height: 48px;
+  width: 48px;
+}

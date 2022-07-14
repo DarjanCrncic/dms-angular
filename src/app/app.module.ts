@@ -48,6 +48,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 import { MatMenuModule } from '@angular/material/menu';
 import { GrantRightsDialogComponent } from './shared/grant-rights-dialog/grant-rights-dialog.component';
 import { DocumentActionsComponent } from './document-list/document-actions/document-actions.component';
+import { PermissionRowComponent } from './shared/grant-rights-dialog/permission-row/permission-row.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +67,7 @@ import { DocumentActionsComponent } from './document-list/document-actions/docum
     PageNotFoundComponent,
     GrantRightsDialogComponent,
     DocumentActionsComponent,
+    PermissionRowComponent,
   ],
   imports: [
     BrowserModule,
