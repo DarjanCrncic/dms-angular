@@ -1,10 +1,19 @@
-import { DocumentDTO } from './../../document-list/document.model';
-import { AclClass, AdministrationService, GrantDTO } from './../services/administration-service';
-import { UserService, UserDetails } from './../services/user-service';
-import { Component, OnInit, Inject, Input, OnDestroy } from '@angular/core';
-import { FormArray, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../message-snackbar/snackbar-service';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Subscription } from 'rxjs';
+import { DocumentDTO } from './../../document-list/document.model';
+import { FolderNode } from './../../folder-tree/folder-node.model';
+import {
+  AclClass,
+  AdministrationService,
+  GrantDTO,
+} from './../services/administration-service';
+import { UserDetails, UserService } from './../services/user-service';
 
 export const permissionsAll = [
   'READ',
@@ -26,20 +35,21 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
   errorMsg: string | null = null;
   private valueChangeSub: Subscription | null = null;
 
-  @Input() entityClass: string = 'document';
-
   constructor(
     public dialogRef: MatDialogRef<GrantRightsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { dto: DocumentDTO | FolderNode; type: AclClass },
     private userService: UserService,
-    private administrationService: AdministrationService
+    private administrationService: AdministrationService,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
     this.isLoadingResults = true;
     const userReq = this.userService.getAvailableUsers();
     const existingRightsReq = this.administrationService.getExistingRights(
-      this.data.id, AclClass.DOCUMENT
+      this.data.dto.id,
+      this.data.type
     );
 
     forkJoin([userReq, existingRightsReq]).subscribe((resp) => {
@@ -53,14 +63,16 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
       resp[1].length == 0 && this.populateForm('', []);
     });
 
-    this.valueChangeSub = this.form.valueChanges.subscribe((values: GrantDTO[]) => {
-      const usernameVals = values.map(val => val.username);
-      if (new Set(usernameVals).size !== usernameVals.length) {
-        this.errorMsg = 'Duplicate entries for same user detected.';
-      } else {
-        this.errorMsg = null;
+    this.valueChangeSub = this.form.valueChanges.subscribe(
+      (values: GrantDTO[]) => {
+        const usernameVals = values.map((val) => val.username);
+        if (new Set(usernameVals).size !== usernameVals.length) {
+          this.errorMsg = 'Duplicate entries for same user detected.';
+        } else {
+          this.errorMsg = null;
+        }
       }
-    });
+    );
   }
 
   private populateForm(username: string, permissions: string[]) {
@@ -98,15 +110,21 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
 
     this.isLoadingResults = true;
     this.administrationService
-      .grantRights(this.data.id, this.form.value)
+      .grantRights(this.data.dto.id, this.form.value, this.data.type)
       .subscribe(
         (resp) => {
           this.form.clear();
           resp.forEach((element) => {
             this.populateForm(element.username, element.permissions);
+            this.snackbarService.openSnackBar(
+              'Successfully updated permissions.',
+              MessageTypes.SUCCESS
+            );
           });
         },
-        (error) => {},
+        (error) => {
+          this.isLoadingResults = false;
+        },
         () => {
           this.isLoadingResults = false;
         }
@@ -114,7 +132,7 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
   }
 
   getPermissions() {
-    return this.entityClass == 'document'
+    return this.data.type === AclClass.DOCUMENT
       ? permissionsAll.filter((perm) => perm != 'CREATE')
       : permissionsAll;
   }

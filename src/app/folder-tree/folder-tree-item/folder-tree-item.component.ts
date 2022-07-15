@@ -1,4 +1,11 @@
-import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
+import { FolderNode } from './../folder-node.model';
+import { AclClass } from './../../shared/services/administration-service';
+import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  SnackbarService,
+  MessageTypes,
+} from './../../shared/message-snackbar/snackbar-service';
 import { FolderOptionsService } from './../folder-options-service';
 import { Subscription } from 'rxjs';
 import { DocumentService } from './../../document-list/documents-service';
@@ -14,6 +21,7 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
   @Input() expanded = false;
   @Input() path = '';
   @Input() empty = true;
+  @Input() node: FolderNode | null = null;
   public currentlySelected: boolean = false;
   showOptions = false;
 
@@ -23,17 +31,20 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
   constructor(
     private folderService: FolderService,
     private folderOptionsService: FolderOptionsService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.currentlySelected = this.folderService.getCurrentPath() === this.path;
-    this.currentFolderChangedSub = this.folderService.currentFolderChanged.subscribe((newPath) => {
-      this.currentlySelected = newPath === this.path;
-    });
-    this.folderHoverChangedSub = this.folderOptionsService.hoveredNodeChanged.subscribe(node => {
-      this.showOptions = this.path === node?.name && this.path !== "/";
-    });
+    this.currentFolderChangedSub =
+      this.folderService.currentFolderChanged.subscribe((newPath) => {
+        this.currentlySelected = newPath === this.path;
+      });
+    this.folderHoverChangedSub =
+      this.folderOptionsService.hoveredNodeChanged.subscribe((node) => {
+        this.showOptions = this.path === node?.name && this.path !== '/';
+      });
   }
 
   getFolderName(path: string) {
@@ -64,8 +75,23 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
 
     this.folderService.deleteById(folder.id).subscribe(() => {
       const currentPath = this.folderService.getCurrentPath();
-      const newPath = (folder.name === currentPath || currentPath.startsWith(folder.name)) ? '/' : null;
+      const newPath =
+        folder.name === currentPath || currentPath.startsWith(folder.name)
+          ? '/'
+          : null;
       this.folderService.folderDeleted.next(newPath);
+    });
+  }
+
+  openAdminDialog() {
+    if (this.node === null) return;
+    const dialogRef = this.dialog.open(GrantRightsDialogComponent, {
+      width: '800px',
+      minHeight: '500px',
+      data: {
+        dto: this.node,
+        type: AclClass.FOLDER,
+      },
     });
   }
 }

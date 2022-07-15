@@ -1,6 +1,6 @@
 <div class="container">
   <mat-icon matTooltip="Edit" (click)="onEdit(docDTO)">edit</mat-icon>
-  <mat-icon matTooltip="Administrate" (click)="onAdministrate(docDTO)">settings</mat-icon>
+  <mat-icon matTooltip="Permissions" (click)="onAdministrate(docDTO)">settings</mat-icon>
   <label *ngIf="!loading" class="upload">
     <mat-icon matTooltip="Upload file">backup</mat-icon>
     <input type="file" (change)="onChange($event)" style="display: none;">
