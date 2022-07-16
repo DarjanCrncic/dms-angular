@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
 import {
@@ -5,28 +6,28 @@ import {
   MessageTypes,
 } from './../shared/message-snackbar/snackbar-service';
 import { TestService } from './../shared/services/test-service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private testService: TestService,
     private snackbarService: SnackbarService,
     private accountService: AccountService,
-    private userService: UserService
   ) {}
 
   firstName: string = '';
   lastName: string= '';
+  private newUserSub: Subscription | null = null;
 
   ngOnInit(): void {
-    this.userService.getUserDetails(this.accountService.account.username).subscribe(res => {
-      this.firstName = res.first_name;
-      this.lastName = res.last_name;
+    this.newUserSub = this.accountService.newUserAnnouncment.subscribe(account => {
+      this.firstName = account.first_name;
+      this.lastName = account.last_name;
     });
   }
 
@@ -44,5 +45,9 @@ export class HeaderComponent implements OnInit {
 
   onFavClick() {
     this.snackbarService.openSnackBar('Test info', MessageTypes.INFO);
+  }
+
+  ngOnDestroy() {
+    this.newUserSub && this.newUserSub.unsubscribe();
   }
 }

@@ -7,12 +7,14 @@ import { ApiPaths } from 'src/app/api-paths';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { tap } from 'rxjs';
+import { tap, Subject } from 'rxjs';
 
 export interface Account {
   username: string;
   token: string;
   expires_at: number;
+  first_name: string;
+  last_name: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,11 +25,14 @@ export class AccountService {
     private snackbarService: SnackbarService
   ) {}
   private authTimer: ReturnType<typeof setTimeout> | null = null;
+  newUserAnnouncment: Subject<Account> = new Subject();
 
   private _account: Account = {
     username: '',
     token: '',
     expires_at: 0,
+    first_name: '',
+    last_name: ''
   };
 
   login(username: string, password: string) {
@@ -41,6 +46,7 @@ export class AccountService {
           this.setSession(res);
           this._account = res;
           this.startAuthenticationTimer(this._account.expires_at - Date.now());
+          this.newUserAnnouncment.next(res);
         })
       );
   }
