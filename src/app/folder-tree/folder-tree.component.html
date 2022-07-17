@@ -2,14 +2,13 @@
   <div class="tree-container">
     <h2>Folders:</h2>
     <mat-divider></mat-divider>
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree [dataSource]="getDataSource()" [treeControl]="getTreeControl()">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="mat-tree-node-custom" matTreeNodePadding
         matTreeNodePaddingIndent="20" (mouseenter)="onHoverIn(node)">
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
-        <app-folder-tree-item [path]="node.name" [expanded]="treeControl.isExpanded(node)" [empty]="node.empty"
-          [node]="node">
+        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
         </app-folder-tree-item>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
@@ -17,28 +16,12 @@
         matTreeNodePadding matTreeNodePaddingIndent="20" #node (mouseenter)="onHoverIn(node)">
         <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
           <mat-icon class="mat-icon-rtl-mirror">
-            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            {{getTreeControl().isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        <app-folder-tree-item [path]="node.name" [expanded]="treeControl.isExpanded(node)" [empty]="node.empty"
-          [node]="node">
+        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
         </app-folder-tree-item>
       </mat-tree-node>
     </mat-tree>
-  </div>
-  <div>
-    <h2>Options:</h2>
-    <mat-divider></mat-divider>
-    <div>
-      <h4>Add folder:</h4>
-      <form fxLayout="row" fxLayoutAlign="none center" [formGroup]="newFolderForm">
-        <mat-form-field appearance="standard">
-          <input matInput placeholder="Folder name" formControlName="path">
-        </mat-form-field>
-        <mat-icon *ngIf="newFolderForm.valid" (click)="addFolderClick()">add</mat-icon>
-      </form>
-      <mat-error *ngIf="newFolderForm.get('path')?.errors && newFolderForm.get('path')?.touched">
-        {{getErrorMessage("path")}}</mat-error>
-    </div>
   </div>
 </div>

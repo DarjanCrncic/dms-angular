@@ -1,16 +1,16 @@
-import { FolderNode } from './../folder-node.model';
-import { AclClass } from './../../shared/services/administration-service';
-import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
+import { FlatTreeNode, FolderTreeService } from '../folder-tree-service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  SnackbarService,
-  MessageTypes,
-} from './../../shared/message-snackbar/snackbar-service';
-import { FolderOptionsService } from './../folder-options-service';
 import { Subscription } from 'rxjs';
-import { DocumentService } from './../../document-list/documents-service';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FolderService } from '../folder-service';
+import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
+import {
+  MessageTypes,
+  SnackbarService,
+} from './../../shared/message-snackbar/snackbar-service';
+import { RenameDialogComponent } from './../../shared/rename-dialog/rename-dialog.component';
+import { AclClass } from './../../shared/services/administration-service';
+import { FolderOptionsService } from './../folder-options-service';
 
 @Component({
   selector: 'app-folder-tree-item',
@@ -19,9 +19,15 @@ import { FolderService } from '../folder-service';
 })
 export class FolderTreeItemComponent implements OnInit, OnDestroy {
   @Input() expanded = false;
-  @Input() path = '';
   @Input() empty = true;
-  @Input() node: FolderNode | null = null;
+  @Input() node: FlatTreeNode = {
+    id: '',
+    expandable: false,
+    name: '',
+    level: 0,
+    empty: true,
+    parent_folder_id: ''
+  };
   public currentlySelected: boolean = false;
   showOptions = false;
 
@@ -32,18 +38,23 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
     private folderService: FolderService,
     private folderOptionsService: FolderOptionsService,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog
+    private folderTreeService: FolderTreeService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
-    this.currentlySelected = this.folderService.getCurrentPath() === this.path;
+    this.currentlySelected =
+      this.folderTreeService.getCurrentFolder()?.id === this.node.id;
+
     this.currentFolderChangedSub =
-      this.folderService.currentFolderChanged.subscribe((newPath) => {
-        this.currentlySelected = newPath === this.path;
+      this.folderTreeService.selectedFolderChanged.subscribe((newFolder) => {
+        this.currentlySelected = newFolder.id === this.node.id;
       });
+
     this.folderHoverChangedSub =
-      this.folderOptionsService.hoveredNodeChanged.subscribe((node) => {
-        this.showOptions = this.path === node?.name && this.path !== '/';
+      this.folderOptionsService.hoveredNodeChanged.subscribe((selected) => {
+        this.showOptions =
+          this.node.name === selected?.name && this.node.name !== '/';
       });
   }
 
@@ -53,7 +64,7 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
   }
 
   handleFolderClick() {
-    this.folderService.setCurrentFolder(this.path);
+    this.folderTreeService.setCurrentFolder(this.node.id);
   }
 
   ngOnDestroy() {
@@ -74,12 +85,8 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
     }
 
     this.folderService.deleteById(folder.id).subscribe(() => {
-      const currentPath = this.folderService.getCurrentPath();
-      const newPath =
-        folder.name === currentPath || currentPath.startsWith(folder.name)
-          ? '/'
-          : null;
-      this.folderService.folderDeleted.next(newPath);
+      this.folderTreeService.removeNode(folder.id);
+      this.snackbarService.openSnackBar("Folder successfully deleted.", MessageTypes.SUCCESS);
     });
   }
 
@@ -91,6 +98,28 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
       data: {
         dto: this.node,
         type: AclClass.FOLDER,
+      },
+    });
+  }
+
+  openRenameDialog() {
+    if (this.node === null) return;
+    const dialogRef = this.dialog.open(RenameDialogComponent, {
+      width: '800px',
+      data: {
+        update: true,
+        node: this.node,
+      },
+    });
+  }
+
+  openAddFolderDialog() {
+    if (this.node === null) return;
+    const dialogRef = this.dialog.open(RenameDialogComponent, {
+      width: '800px',
+      data: {
+        update: false,
+        node: this.node,
       },
     });
   }

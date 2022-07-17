@@ -49,6 +49,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { GrantRightsDialogComponent } from './shared/grant-rights-dialog/grant-rights-dialog.component';
 import { DocumentActionsComponent } from './document-list/document-actions/document-actions.component';
 import { PermissionRowComponent } from './shared/grant-rights-dialog/permission-row/permission-row.component';
+import { RenameDialogComponent } from './shared/rename-dialog/rename-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +69,7 @@ import { PermissionRowComponent } from './shared/grant-rights-dialog/permission-
     GrantRightsDialogComponent,
     DocumentActionsComponent,
     PermissionRowComponent,
+    RenameDialogComponent,
   ],
   imports: [
     BrowserModule,

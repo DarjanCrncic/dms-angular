@@ -13,6 +13,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Errors } from 'src/app/shared/validator-messages';
 import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
+import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 
 @Component({
   selector: 'document-form-dialog',
@@ -29,11 +30,11 @@ export class DocumentFormDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
     private typeService: DocumentTypeService,
     private documentService: DocumentService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private folderTreeService: FolderTreeService
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.isEdit = this.data && this.data.id ? true : false;
     this.documentForm = new FormGroup({
       object_name: new FormControl(this.isEdit ? this.data.object_name : null, [
@@ -80,10 +81,12 @@ export class DocumentFormDialog implements OnInit {
           );
         });
     } else {
+      const currentFolder = this.folderTreeService.getCurrentFolder();
+      currentFolder &&
       this.documentService
         .saveNewDocument({
           ...modifyDoc,
-          parent_folder: this.data.parent_folder,
+          parent_folder_id: currentFolder.id,
         })
         .subscribe((response) => {
           this.documentForm.patchValue({
@@ -91,7 +94,6 @@ export class DocumentFormDialog implements OnInit {
             keywords: response.keywords.toString(),
           });
           this.documentService.refreshDocuments.next('');
-          this.documentService.addOrDeleteEvent.next('');
           this.snackbarService.openSnackBar(
             'Document successfully saved.',
             MessageTypes.SUCCESS

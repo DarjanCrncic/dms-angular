@@ -15,6 +15,7 @@ import { FolderService } from './../folder-tree/folder-service';
 import { DocumentColumnService, ColumnOption } from './document-column-service';
 import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
+import { FolderTreeService } from '../folder-tree/folder-tree-service';
 
 @Component({
   selector: 'app-document-list',
@@ -35,23 +36,22 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     private documentService: DocumentService,
     private folderService: FolderService,
     private colService: DocumentColumnService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private folderTreeService: FolderTreeService
   ) {}
 
   ngOnInit(): void {
-    this.getDocuments(undefined, '/');
-    this.folderService.setCurrentFolder('/');
     this.displayedColumns = this.colService.getActiveColumns();
 
-    this.folderChangedSub = this.folderService.currentFolderChanged.subscribe(
-      (path) => {
-        this.getDocuments(undefined, path);
-      }
-    );
+    this.folderChangedSub =
+      this.folderTreeService.selectedFolderChanged.subscribe((folder) => {
+        this.getDocuments(undefined, folder.id);
+      });
 
-    this.refreshData = this.documentService.refreshDocuments.subscribe(() =>
-      this.getDocuments(undefined, this.getCurrentPath())
-    );
+    this.refreshData = this.documentService.refreshDocuments.subscribe(() => {
+      const currentFolder = this.folderTreeService.getCurrentFolder();
+      currentFolder && this.getDocuments(undefined, currentFolder.id);
+    });
 
     this.displayedColumnsChangedSub =
       this.colService.displayedColumnsChanged.subscribe(
@@ -68,10 +68,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       this.displayedColumnsChangedSub.unsubscribe();
   }
 
-  getDocuments(sort?: Sort, path?: string) {
+  getDocuments(sort?: Sort, folderId?: string) {
     this.isLoadingResults = true;
     this.documentService
-      .getDocuments(sort, path)
+      .getDocuments(sort, folderId)
       .subscribe((response: DocumentDTO[]) => {
         this.selection.clear();
         this.isLoadingResults = false;
@@ -96,7 +96,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   // sorting
   sortData(event: Sort) {
-    this.getDocuments(event, this.getCurrentPath());
+    this.getDocuments(event, this.folderTreeService.getCurrentFolder()?.id);
   }
 
   // moveable columns
@@ -138,15 +138,14 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   onGroupDelete() {
-    console.log(this.selection);
-    if (this.selection.selected.length === 0) {
+    const currentFolder = this.folderTreeService.getCurrentFolder();
+    if (this.selection.selected.length === 0 || !currentFolder) {
       return;
     }
     this.documentService
       .deleteDocuments(this.selection.selected.map((doc) => doc.id))
       .subscribe((response) => {
-        this.getDocuments(undefined, this.getCurrentPath());
-        this.documentService.addOrDeleteEvent.next('');
+        this.getDocuments(undefined, currentFolder.id);
         this.snackbarService.openSnackBar(
           'Documents deleted.',
           MessageTypes.SUCCESS
@@ -159,6 +158,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   getCurrentPath() {
-    return this.folderService.getCurrentPath();
+    const currentFolder = this.folderTreeService.getCurrentFolder();
+    return  currentFolder ? currentFolder.name : '';
   }
 }

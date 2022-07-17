@@ -9,11 +9,10 @@ import { DocumentDTO, ModifyDocumentDTO, NewDocumentDTO } from './document.model
 @Injectable({providedIn: 'root'})
 export class DocumentService {
   refreshDocuments = new Subject();
-  addOrDeleteEvent = new Subject();
 
   constructor(private httpClient: HttpClient) { }
   
-  getDocuments(sort?: Sort, path?: string): Observable<DocumentDTO[]> {
+  getDocuments(sort?: Sort, parentFolderId?: string): Observable<DocumentDTO[]> {
     if (!sort) {
       sort = {
         active: 'creation_date',
@@ -26,7 +25,7 @@ export class DocumentService {
     }
 
     return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
-      params: path ? {...params, search: "parentFolder:" + path} : params
+      params: parentFolderId ? {...params, search: "parentFolder:" + parentFolderId} : params
     });
   }
 
