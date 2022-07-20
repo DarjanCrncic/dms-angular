@@ -21,7 +21,7 @@ export class FolderTreeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.folderTreeService.getFolderTree();
+    this.folderTreeService.getFolderTree(this.folderTreeService?.getCurrentFolder()?.id);
   }
 
   getTreeControl() {

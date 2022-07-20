@@ -50,4 +50,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.newUserSub && this.newUserSub.unsubscribe();
   }
+
+  isAdminRole() {
+    return this.accountService.account.roles?.findIndex(role => role === 'ROLE_ADMIN') > -1;
+  }
 }

@@ -2,8 +2,16 @@
   flex: 1 1 auto;
 }
 
+.title {
+  margin-right: 40px;
+}
+
 .name {
   padding: 0px 10px;
   font-size: 1rem;
   font-weight: 400;
+}
+
+a {
+  margin: 0 5px;
 }

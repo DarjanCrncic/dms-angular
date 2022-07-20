@@ -59,6 +59,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
           this.displayedColumns = newDisplayedColumns;
         }
       );
+
+    const currentFolder = this.folderTreeService.getCurrentFolder();
+    currentFolder && this.getDocuments(undefined, currentFolder.id);
   }
 
   ngOnDestroy(): void {
@@ -159,6 +162,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   getCurrentPath() {
     const currentFolder = this.folderTreeService.getCurrentFolder();
-    return  currentFolder ? currentFolder.name : '';
+    return currentFolder ? currentFolder.name : '';
   }
 }

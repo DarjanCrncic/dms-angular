@@ -1,10 +1,10 @@
 .upload, .download {
   display: flex;
-  margin: auto;
+  align-items: flex-start;
 }
 
 mat-icon {
-  margin: auto;
+  margin-right: 10px;
 }
 
 .container {

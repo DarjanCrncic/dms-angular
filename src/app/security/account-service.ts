@@ -15,6 +15,8 @@ export interface Account {
   expires_at: number;
   first_name: string;
   last_name: string;
+  privileges: string[];
+  roles: string[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -32,7 +34,9 @@ export class AccountService {
     token: '',
     expires_at: 0,
     first_name: '',
-    last_name: ''
+    last_name: '',
+    roles: [],
+    privileges: []
   };
 
   login(username: string, password: string) {

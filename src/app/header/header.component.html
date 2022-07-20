@@ -1,8 +1,11 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
+  <span class="title">DMS</span>
+  <a [routerLink]="['/dms']" *ngIf="logoutVissible()">
+    <button mat-flat-button color="primary">Documents</button>
+  </a>
+  <a [routerLink]="['/administration']" *ngIf="logoutVissible() && isAdminRole()">
+    <button mat-flat-button color="primary">Administration</button>
+  </a>
   <span class="example-spacer"></span>
   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
     (click)="onFavClick()">
