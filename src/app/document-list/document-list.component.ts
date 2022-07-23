@@ -1,3 +1,4 @@
+import { CopyService } from './../shared/services/copy-service';
 import { GrantRightsDialogComponent } from './../shared/grant-rights-dialog/grant-rights-dialog.component';
 import {
   SnackbarService,
@@ -26,7 +27,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   displayedColumns: ColumnOption[] = [];
 
   isLoadingResults = false;
-  private dataSource = new MatTableDataSource<DocumentDTO>([]);
+  dataSource = new MatTableDataSource<DocumentDTO>([]);
   private selection = new SelectionModel<DocumentDTO>(true, []);
   private folderChangedSub: Subscription = new Subscription();
   private displayedColumnsChangedSub: Subscription = new Subscription();
@@ -37,7 +38,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     private folderService: FolderService,
     private colService: DocumentColumnService,
     private snackbarService: SnackbarService,
-    private folderTreeService: FolderTreeService
+    private folderTreeService: FolderTreeService,
+    private copyService: CopyService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -82,15 +85,19 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       });
   }
 
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(DocumentFormDialog, {
+      width: '800px',
+      minHeight: '500px',
+      data: { parent_folder: this.folderTreeService.getCurrentFolder()},
+    });
+  }
+
   getIdentifiers(): string[] {
     const identifiers = this.displayedColumns
       .filter((col) => col.displayed)
       .map((colOpt) => colOpt.identifier);
     return ['select', ...identifiers, 'actions'];
-  }
-
-  getData() {
-    return this.dataSource;
   }
 
   getSelection() {
@@ -145,15 +152,39 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     if (this.selection.selected.length === 0 || !currentFolder) {
       return;
     }
-    this.documentService
-      .deleteDocuments(this.selection.selected.map((doc) => doc.id))
-      .subscribe((response) => {
-        this.getDocuments(undefined, currentFolder.id);
-        this.snackbarService.openSnackBar(
-          'Documents deleted.',
-          MessageTypes.SUCCESS
-        );
-      });
+    const toDelete = this.selection.selected.map((doc) => doc.id);
+    this.documentService.deleteDocuments(toDelete).subscribe(() => {
+      this.dataSource.data = this.dataSource.data.filter((doc) =>
+        toDelete.findIndex(id => id === doc.id) === -1
+      );
+      this.selection.clear();
+      this.snackbarService.openSnackBar(
+        'Documents deleted.',
+        MessageTypes.SUCCESS
+      );
+    });
+  }
+
+  onGroupCopy() {
+    const currentFolder = this.folderTreeService.getCurrentFolder();
+    if (this.selection.selected.length === 0 || !currentFolder) {
+      return;
+    }
+    this.copyService.setDocumentsForCopy(this.selection.selected);
+  }
+
+  onGroupPaste() {
+    const currentFolder = this.folderTreeService.getCurrentFolder();
+    if (!currentFolder) {
+      return;
+    }
+    this.copyService.copyDocuments(currentFolder.id).subscribe((res) => {
+      this.dataSource.data = [...this.dataSource.data, ...res];
+      this.snackbarService.openSnackBar(
+        'Documents successfully copied.',
+        MessageTypes.SUCCESS
+      );
+    });
   }
 
   getHeaderTitle() {
@@ -163,5 +194,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   getCurrentPath() {
     const currentFolder = this.folderTreeService.getCurrentFolder();
     return currentFolder ? currentFolder.name : '';
+  }
+
+  isPasteEnabled() {
+    return this.copyService.getDocumentsForCopy().length > 0;
   }
 }

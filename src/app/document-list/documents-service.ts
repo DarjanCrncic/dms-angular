@@ -44,4 +44,11 @@ export class DocumentService {
   saveNewDocument(data: NewDocumentDTO) {
     return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.Document, data);
   }
+
+  copyDocuments(ids: string[], parentFolderId: string) {
+    return this.httpClient.post<DocumentDTO[]>(environment.baseUrl + ApiPaths.DocumentCopy, {
+      documents: ids,
+      folder_id: parentFolderId
+    });
+  }
 }

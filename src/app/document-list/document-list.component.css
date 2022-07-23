@@ -67,3 +67,6 @@ table {
   cursor: pointer;
 }
 
+button {
+  background: white;
+}

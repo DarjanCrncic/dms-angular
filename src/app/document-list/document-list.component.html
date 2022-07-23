@@ -1,8 +1,10 @@
 <app-content-header [title]="getHeaderTitle()"></app-content-header>
 <div>
-  <button *ngIf="isAnySelected()" mat-raised-button (click)="onGroupDelete()">Delete Documents</button>
-  <app-document-add [folder]="getCurrentPath()"></app-document-add>
+  <button mat-stroked-button color="primary" (click)="openAddDialog()">New Document</button>
+  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCopy()">Copy Documents</button>
+  <button *ngIf="isPasteEnabled()" mat-stroked-button color="primary" (click)="onGroupPaste()">Paste Documents</button>
   <app-document-column-select></app-document-column-select>
+  <button *ngIf="isAnySelected()" color="warn" mat-stroked-button (click)="onGroupDelete()">Delete Documents</button>
 </div>
 
 <div class="example-container mat-elevation-z8">
@@ -12,7 +14,7 @@
 
   <div class="example-table-container">
 
-    <table mat-table [dataSource]="getData()" class="example-table" matSort (matSortChange)="sortData($event)"
+    <table mat-table [dataSource]="dataSource" class="example-table" matSort (matSortChange)="sortData($event)"
       cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
 
       <ng-container>

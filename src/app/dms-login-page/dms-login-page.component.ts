@@ -1,13 +1,10 @@
-import {
-  SnackbarService,
-  MessageTypes,
-} from './../shared/message-snackbar/snackbar-service';
+import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Errors } from 'src/app/shared/validator-messages';
 import { AccountService } from './../security/account-service';
 import { ValidatorMessages } from './../shared/validator-messages';
-import { Errors } from 'src/app/shared/validator-messages';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dms-login-page',
@@ -15,7 +12,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dms-login-page.component.css'],
 })
 export class DmsLoginPageComponent implements OnInit {
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private folderTreeService: FolderTreeService
+  ) {}
   loginForm: FormGroup = new FormGroup({});
   errorMsg: string = '';
 
@@ -48,12 +49,13 @@ export class DmsLoginPageComponent implements OnInit {
       .login(formVal['username'], formVal['password'])
       .subscribe(
         (res) => {
+          this.folderTreeService.setCurrentToRoot();
           this.router.navigate(['/dms']);
           this.errorMsg = '';
         },
         (error) => {
-          
-          this.errorMsg = error?.error?.status == 400 ? 'Invalid username or password.' : '';
+          this.errorMsg =
+            error?.error?.status == 400 ? 'Invalid username or password.' : '';
         }
       );
   }

@@ -35,7 +35,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DocumentAddComponent } from './document-list/document-add/document-add.component';
 import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
@@ -61,7 +60,6 @@ import { DmsAdministrationPageComponent } from './dms-administration-page/dms-ad
     ContentHeaderComponent,
     DocumentColumnSelectComponent,
     DocumentColumnDialog,
-    DocumentAddComponent,
     DocumentFormDialog,
     MessageSnackbarComponent,
     DmsWorkPageComponent,
