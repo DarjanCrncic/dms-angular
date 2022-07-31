@@ -24,6 +24,8 @@ export interface DocumentDTO {
   keywords: string[];
   description: string;
   parent_folder: string;
+  version: number;
+  immutable: boolean;
   type: string;
   content: {
     content_size: number,

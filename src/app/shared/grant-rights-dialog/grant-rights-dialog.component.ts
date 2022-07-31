@@ -19,6 +19,7 @@ export const permissionsAll = [
   'READ',
   'WRITE',
   'CREATE',
+  'VERSION',
   'DELETE',
   'ADMINISTRATION',
 ];

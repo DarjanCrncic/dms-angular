@@ -35,7 +35,6 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   constructor(
     private documentService: DocumentService,
-    private folderService: FolderService,
     private colService: DocumentColumnService,
     private snackbarService: SnackbarService,
     private folderTreeService: FolderTreeService,
@@ -154,9 +153,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     }
     const toDelete = this.selection.selected.map((doc) => doc.id);
     this.documentService.deleteDocuments(toDelete).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter((doc) =>
-        toDelete.findIndex(id => id === doc.id) === -1
-      );
+      this.documentService.refreshDocuments.next('');
       this.selection.clear();
       this.snackbarService.openSnackBar(
         'Documents deleted.',

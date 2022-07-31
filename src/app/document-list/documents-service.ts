@@ -25,7 +25,7 @@ export class DocumentService {
     }
 
     return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
-      params: parentFolderId ? {...params, search: "parentFolder:" + parentFolderId} : params
+      params: parentFolderId ? {...params, search: `parentFolder:${parentFolderId},immutable:false`} : params
     });
   }
 
@@ -50,5 +50,9 @@ export class DocumentService {
       documents: ids,
       folder_id: parentFolderId
     });
+  }
+
+  versionDocument(id: string) {
+    return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.DocumentVersion + "/" + id, {});
   }
 }

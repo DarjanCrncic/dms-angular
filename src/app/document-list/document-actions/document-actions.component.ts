@@ -1,3 +1,4 @@
+import { DocumentService } from './../documents-service';
 import { AclClass } from './../../shared/services/administration-service';
 import { FileUploadResponse } from './../../shared/services/file-upload-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +28,8 @@ export class DocumentActionsComponent implements OnInit {
   constructor(
     private fileUploadService: FileUploadService,
     private snackbarService: SnackbarService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private documentService: DocumentService
   ) {}
 
   ngOnInit(): void {
@@ -95,6 +97,13 @@ export class DocumentActionsComponent implements OnInit {
         dto: row,
         type: AclClass.DOCUMENT,
       },
+    });
+  }
+
+  onVersion(row: DocumentDTO) {
+    this.documentService.versionDocument(row.id).subscribe(res => {
+      this.documentService.refreshDocuments.next('');
+      this.snackbarService.openSnackBar("New version successfully created.", MessageTypes.SUCCESS);
     });
   }
 }

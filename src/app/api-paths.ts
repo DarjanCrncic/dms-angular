@@ -7,6 +7,7 @@ export enum ApiPaths {
   DocumentUpload = '/documents/upload',
   DocumentDownload = '/documents/download',
   DocumentCopy = '/documents/copy',
+  DocumentVersion = '/documents/version',
   DocColPref = '/preferences/document-columns',
   DocumentType = '/types',
   User = '/users',
