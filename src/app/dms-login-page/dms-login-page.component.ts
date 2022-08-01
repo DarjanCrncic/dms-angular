@@ -19,6 +19,7 @@ export class DmsLoginPageComponent implements OnInit {
   ) {}
   loginForm: FormGroup = new FormGroup({});
   errorMsg: string = '';
+  buttonDisabled = false;
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -45,6 +46,7 @@ export class DmsLoginPageComponent implements OnInit {
   onLoginClick() {
     if (!this.loginForm.valid) return;
     const formVal = this.loginForm.value;
+    this.buttonDisabled = true;
     this.accountService
       .login(formVal['username'], formVal['password'])
       .subscribe(
@@ -56,6 +58,9 @@ export class DmsLoginPageComponent implements OnInit {
         (error) => {
           this.errorMsg =
             error?.error?.status == 400 ? 'Invalid username or password.' : '';
+        },
+        () => {
+          this.buttonDisabled = false;
         }
       );
   }

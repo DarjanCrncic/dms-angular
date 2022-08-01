@@ -61,6 +61,7 @@ export class FolderTreeService {
     if (!current) return;
     this.selectedFolderId = current.id;
     this.selectedFolderChanged.next(current);
+    this.saveDataToLocal();
   }
 
   getCurrentFolder() {
@@ -70,12 +71,11 @@ export class FolderTreeService {
 
   getFolderTree(newId?: string) {
     this.folderService.getFolderTree().subscribe((res) => {
-      this.saveExpandedNodes();
       this.originalFolderData = res;
       this._dataSource.data = this.transformFlatToTree(res);
-      this.restoreExpandedNodes();
 
       this.setCurrentToRoot();
+      this.restoreFromLocal();
       newId && this.setCurrentFolder(newId);
     });
   }
@@ -172,4 +172,31 @@ export class FolderTreeService {
 
     this.originalFolderData = this.originalFolderData.filter(folder => folder.id !== parentId);
   }
+
+  saveDataToLocal() {
+    this.saveExpandedNodes();
+    localStorage.setItem(LS_FOLDER_TREE, JSON.stringify(this.expandedNodes));
+    localStorage.setItem(LS_CURRENT_FOLDER, this.selectedFolderId);
+  }
+
+  restoreFromLocal() {
+    const localTree = localStorage.getItem(LS_FOLDER_TREE) ?? null;
+    if (localTree) {
+      this.expandedNodes = JSON.parse(localTree);
+      this.restoreExpandedNodes();
+    }
+
+    const currentFolder = localStorage.getItem(LS_CURRENT_FOLDER);
+    if (currentFolder) {
+      this.setCurrentFolder(currentFolder);
+    }
+  }
+
+  clearLocalData() {
+    localStorage.setItem(LS_CURRENT_FOLDER, '');
+    localStorage.setItem(LS_FOLDER_TREE, '');
+  }
 }
+
+export const LS_FOLDER_TREE = 'folderTree';
+export const LS_CURRENT_FOLDER = 'currentFolder';

@@ -20,7 +20,7 @@
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-actions>
-      <button mat-button (click)="onLoginClick()" [disabled]="!loginForm.valid">Login</button>
+      <button mat-button (click)="onLoginClick()" [disabled]="!loginForm.valid || buttonDisabled">Login</button>
     </mat-card-actions>
   </mat-card>
 </div>

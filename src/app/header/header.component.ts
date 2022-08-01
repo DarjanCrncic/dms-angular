@@ -1,4 +1,5 @@
-import { Subscription } from 'rxjs';
+import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
+import { Subscription, filter } from 'rxjs';
 import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
 import {
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private testService: TestService,
     private snackbarService: SnackbarService,
     private accountService: AccountService,
+    private folderTreeService: FolderTreeService
   ) {}
 
   firstName: string = '';
@@ -25,6 +27,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private newUserSub: Subscription | null = null;
 
   ngOnInit(): void {
+    const localAccount = this.accountService.getLocalData();
+    this.firstName = localAccount && localAccount.first_name;
+    this.lastName = localAccount && localAccount.last_name;
+    
     this.newUserSub = this.accountService.newUserAnnouncment.subscribe(account => {
       this.firstName = account.first_name;
       this.lastName = account.last_name;
@@ -33,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onLogoutClick() {
     this.accountService.logout();
+    this.folderTreeService.clearLocalData();
   }
 
   logoutVissible() {

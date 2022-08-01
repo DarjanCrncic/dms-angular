@@ -50,4 +50,8 @@ export class FolderTreeComponent implements OnInit {
   onHoverOut() {
     this.folderOptionsService.hoveredNodeChanged.next(null);
   }
+
+  saveFolderTreeToLocalStorage() {
+    this.folderTreeService.saveDataToLocal();
+  }
 }

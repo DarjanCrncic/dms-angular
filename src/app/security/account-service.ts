@@ -94,7 +94,13 @@ export class AccountService {
     if (!localAccount) return;
 
     this._account = JSON.parse(localAccount);
+    this.newUserAnnouncment.next(this._account);
     this.startAuthenticationTimer(this._account.expires_at - Date.now());
+  }
+
+  getLocalData() {
+    const localAccount = localStorage.getItem('dms_account');
+    return localAccount ? JSON.parse(localAccount) : null;
   }
 
   startAuthenticationTimer(expiration: number) {
