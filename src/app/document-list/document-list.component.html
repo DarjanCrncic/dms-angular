@@ -2,6 +2,7 @@
 <div>
   <button mat-stroked-button color="primary" (click)="openAddDialog()">New Document</button>
   <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCopy()">Copy Documents</button>
+  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCut()">Cut Documents</button>
   <button *ngIf="isPasteEnabled()" mat-stroked-button color="primary" (click)="onGroupPaste()">Paste Documents</button>
   <app-document-column-select></app-document-column-select>
   <button *ngIf="isAnySelected()" color="warn" mat-stroked-button (click)="onGroupDelete()">Delete Documents</button>

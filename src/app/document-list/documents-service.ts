@@ -51,6 +51,13 @@ export class DocumentService {
       folder_id: parentFolderId
     });
   }
+  
+  cutDocuments(ids: string[], parentFolderId: string) {
+    return this.httpClient.post<DocumentDTO[]>(environment.baseUrl + ApiPaths.DocumentCut, {
+      documents: ids,
+      folder_id: parentFolderId
+    });
+  }
 
   versionDocument(id: string) {
     return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.DocumentVersion + "/" + id, {});

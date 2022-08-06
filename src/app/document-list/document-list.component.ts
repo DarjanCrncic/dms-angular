@@ -1,4 +1,4 @@
-import { CopyService } from './../shared/services/copy-service';
+import { CopyService, COPY_ACTION } from './../shared/services/copy-service';
 import { GrantRightsDialogComponent } from './../shared/grant-rights-dialog/grant-rights-dialog.component';
 import {
   SnackbarService,
@@ -88,7 +88,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DocumentFormDialog, {
       width: '800px',
       minHeight: '500px',
-      data: { parent_folder: this.folderTreeService.getCurrentFolder()},
+      data: { parent_folder: this.folderTreeService.getCurrentFolder() },
     });
   }
 
@@ -163,11 +163,19 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   onGroupCopy() {
+    this.setDocumentsForCopyCut(COPY_ACTION.COPY);
+  }
+
+  onGroupCut() {
+    this.setDocumentsForCopyCut(COPY_ACTION.CUT);
+  }
+
+  private setDocumentsForCopyCut(action: COPY_ACTION) {
     const currentFolder = this.folderTreeService.getCurrentFolder();
     if (this.selection.selected.length === 0 || !currentFolder) {
       return;
     }
-    this.copyService.setDocumentsForCopy(this.selection.selected);
+    this.copyService.setDocumentsForCopy(this.selection.selected, action);
   }
 
   onGroupPaste() {
