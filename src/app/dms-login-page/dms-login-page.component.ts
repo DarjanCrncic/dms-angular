@@ -49,19 +49,20 @@ export class DmsLoginPageComponent implements OnInit {
     this.buttonDisabled = true;
     this.accountService
       .login(formVal['username'], formVal['password'])
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.folderTreeService.setCurrentToRoot();
           this.router.navigate(['/dms']);
           this.errorMsg = '';
         },
-        (error) => {
+        error: (error) => {
           this.errorMsg =
             error?.error?.status == 400 ? 'Invalid username or password.' : '';
-        },
-        () => {
           this.buttonDisabled = false;
-        }
-      );
+        },
+        complete: () => {
+          this.buttonDisabled = false;
+        },
+      });
   }
 }

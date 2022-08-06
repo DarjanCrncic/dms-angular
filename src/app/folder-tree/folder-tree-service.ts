@@ -193,8 +193,8 @@ export class FolderTreeService {
   }
 
   clearLocalData() {
-    localStorage.setItem(LS_CURRENT_FOLDER, '');
-    localStorage.setItem(LS_FOLDER_TREE, '');
+    localStorage.removeItem(LS_CURRENT_FOLDER);
+    localStorage.removeItem(LS_FOLDER_TREE);
   }
 }
 

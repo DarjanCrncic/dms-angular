@@ -114,6 +114,6 @@ export class DocumentFormDialog implements OnInit {
   }
 
   isSaveDisabled() {
-    return !this.documentForm.valid || !this.documentForm.touched && this.isEdit;
+    return !this.documentForm.valid || !this.documentForm.dirty && this.isEdit;
   }
 }
