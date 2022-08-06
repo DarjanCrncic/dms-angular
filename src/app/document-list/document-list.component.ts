@@ -184,7 +184,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       return;
     }
     this.copyService.copyDocuments(currentFolder.id).subscribe((res) => {
-      this.dataSource.data = [...this.dataSource.data, ...res];
+      this.copyService.clearDocuments();
+      this.documentService.refreshDocuments.next(null);
       this.snackbarService.openSnackBar(
         'Documents successfully copied.',
         MessageTypes.SUCCESS

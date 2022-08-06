@@ -33,4 +33,8 @@ export class CopyService {
     }
     return EMPTY;
   }
+
+  public clearDocuments() {
+    this._documents = [];
+  }
 }
