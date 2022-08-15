@@ -3,7 +3,7 @@
   align-items: flex-start;
 }
 
-mat-icon {
+mat-icon, mat-spinner{
   margin-right: 10px;
 }
 

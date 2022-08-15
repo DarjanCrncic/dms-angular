@@ -1,0 +1,85 @@
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  min-height: 50vh;
+  max-height: 70vh;
+}
+
+.version-box {
+  border-radius: 5px;
+  border: 2px solid #3f51b5;
+  font-weight: 400;
+  position: relative;
+}
+
+.version-number {
+  font-weight: 400;
+  padding: 5px;
+}
+
+.tree {
+  min-height: 360px;
+  padding: 20px;
+  min-width: 300px;
+  max-width: 90vh;
+  overflow: auto;
+  flex-grow: 1;
+}
+
+.tree-node-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 80px;
+  flex-grow: 0;
+}
+
+.selected-box {
+  padding: 10px;
+}
+
+.prop-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.vertical-connection {
+  position: absolute;
+  top: -32px;
+  background-color: black;
+  height: 30px;
+  width: 2px;
+}
+.horizontal-connection {
+  position: absolute;
+  background-color: black;
+  height: 2px;
+}
+
+.prop {
+  font-weight: 500;
+}
+
+.version-title {
+  border-bottom: 1px solid gray;
+}
+
+.selected {
+  border-color: #ff4081;
+}
+
+p {
+  margin-bottom: 6px;
+}
+
+td {
+  padding: 15px 10px;
+  width: 80px;
+}
+
+tr {
+  height: 34px;
+}

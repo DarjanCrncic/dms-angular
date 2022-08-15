@@ -62,4 +62,12 @@ export class DocumentService {
   versionDocument(id: string) {
     return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.DocumentVersion + "/" + id, {});
   }
+  
+  branchDocument(id: string) {
+    return this.httpClient.post<DocumentDTO>(environment.baseUrl + ApiPaths.DocumentBranch + "/" + id, {});
+  }
+
+  getVersions(rootId: string) {
+    return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.DocumentVersions + "/" + rootId);
+  }
 }

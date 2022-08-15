@@ -50,6 +50,7 @@ import { DocumentActionsComponent } from './document-list/document-actions/docum
 import { PermissionRowComponent } from './shared/grant-rights-dialog/permission-row/permission-row.component';
 import { RenameDialogComponent } from './shared/rename-dialog/rename-dialog.component';
 import { DmsAdministrationPageComponent } from './dms-administration-page/dms-administration-page.component';
+import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version-tree-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,7 @@ import { DmsAdministrationPageComponent } from './dms-administration-page/dms-ad
     PermissionRowComponent,
     RenameDialogComponent,
     DmsAdministrationPageComponent,
+    VersionTreeDialogComponent,
   ],
   imports: [
     BrowserModule,

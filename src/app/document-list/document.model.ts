@@ -4,7 +4,12 @@ export class Document {
   private creation_date: Date;
   private modify_date: Date;
 
-  constructor(id: string, object_name: string, creation_date: Date, modify_date: Date) {
+  constructor(
+    id: string,
+    object_name: string,
+    creation_date: Date,
+    modify_date: Date
+  ) {
     this.id = id;
     this.object_name = object_name;
     this.creation_date = creation_date;
@@ -24,14 +29,18 @@ export interface DocumentDTO {
   keywords: string[];
   description: string;
   parent_folder: string;
-  version: number;
+  version: string;
   immutable: boolean;
+  branched: boolean;
   type: string;
-  content: {
-    content_size: number,
-    content_type: string,
-    original_file_name: string
-  }
+  root_id: string;
+  predecessor_id: string;
+  content: ContentDTO;
+}
+export interface ContentDTO {
+  content_size: number;
+  content_type: string;
+  original_file_name: string;
 }
 
 export interface ModifyDocumentDTO {
@@ -47,5 +56,5 @@ export interface NewDocumentDTO {
   keywords: string[];
   description: string;
   type: string;
-	parent_folder: string;
+  parent_folder: string;
 }

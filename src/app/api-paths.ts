@@ -9,6 +9,8 @@ export enum ApiPaths {
   DocumentCopy = '/documents/copy',
   DocumentCut = '/documents/cut',
   DocumentVersion = '/documents/version',
+  DocumentBranch = '/documents/branch',
+  DocumentVersions = '/documents/versions',
   DocColPref = '/preferences/document-columns',
   DocumentType = '/types',
   User = '/users',

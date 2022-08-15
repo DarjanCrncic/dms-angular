@@ -1,3 +1,4 @@
+import { VersionTreeDialogComponent } from './../../shared/version-tree-dialog/version-tree-dialog.component';
 import { DocumentService } from './../documents-service';
 import { AclClass } from './../../shared/services/administration-service';
 import { FileUploadResponse } from './../../shared/services/file-upload-service';
@@ -22,6 +23,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DocumentActionsComponent implements OnInit {
   @Input() docDTO!: DocumentDTO;
   loading: boolean = false;
+  loadingVersion: boolean = false;
   linkToFile: string = '';
   private file!: File;
 
@@ -101,9 +103,28 @@ export class DocumentActionsComponent implements OnInit {
   }
 
   onVersion(row: DocumentDTO) {
-    this.documentService.versionDocument(row.id).subscribe(res => {
-      this.documentService.refreshDocuments.next('');
-      this.snackbarService.openSnackBar("New version successfully created.", MessageTypes.SUCCESS);
+    this.loadingVersion = true;
+    this.documentService.versionDocument(row.id).subscribe({
+      next: (res) => {
+        this.documentService.refreshDocuments.next('');
+        this.snackbarService.openSnackBar(
+          'New version successfully created.',
+          MessageTypes.SUCCESS
+        );
+      },
+      complete: () => {
+        this.loadingVersion = false;
+      },
+    });
+  }
+
+  onVersionTree(row: DocumentDTO) {
+    const dialogRef = this.dialog.open(VersionTreeDialogComponent, {
+      minWidth: '1000px',
+      minHeight: '500px',
+      data: {
+        dto: row,
+      },
     });
   }
 }
