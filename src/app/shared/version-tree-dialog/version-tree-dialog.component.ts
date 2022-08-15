@@ -41,7 +41,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.refreshTree(this.data.dto.id);
+    this.data.dto.root_id && this.refreshTree(this.data.dto.id);
   }
 
   ngOnDestroy(): void {
@@ -115,7 +115,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
           });
           break;
         default:
-          !EXCLUDED_KEYS.includes(value) &&
+          !EXCLUDED_KEYS.includes(key) &&
             this.properties.push({ name: key, value: value });
       }
     }
