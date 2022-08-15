@@ -14,19 +14,19 @@ export interface FileUploadResponse {
 export class FileUploadService {
   constructor(private httpClient: HttpClient) {}
 
-  upload(file: File, document: DocumentDTO) {
+  upload(file: File, id: string) {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
     return this.httpClient.post<FileUploadResponse>(
-      environment.baseUrl + ApiPaths.DocumentUpload + '/' + document.id,
+      environment.baseUrl + ApiPaths.DocumentUpload + '/' + id,
       formData
     );
   }
 
-  download(document: DocumentDTO) {
+  download(id: string) {
     return this.httpClient.get(
-      environment.baseUrl + ApiPaths.DocumentDownload + '/' + document.id,
+      environment.baseUrl + ApiPaths.DocumentDownload + '/' + id,
       { responseType: 'blob' }
     );
   }

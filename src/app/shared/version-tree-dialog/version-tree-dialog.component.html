@@ -31,5 +31,12 @@
   <button mat-raised-button (click)="onCancel()">Cancel</button>
   <button mat-stroked-button (click)="onVersion()" *ngIf="!this.selected?.immutable">New Version</button>
   <button mat-stroked-button color="accent" (click)="createBranch()" *ngIf="!selected?.branched">Create branch</button>
-  <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="!selected?.branched && !selected?.immutable">Delete Node</button>
+  <label *ngIf="!isLoading && !selected?.immutable && !selected?.content" class="upload">
+    <mat-icon matTooltip="Upload file">backup</mat-icon>
+    <input type="file" (change)="onChange($event)" style="display: none;">
+  </label>
+  <a *ngIf="selected?.content" (click)="onDownload()" class="download">
+    <mat-icon color="primary" matTooltip="Download file">cloud_download</mat-icon>
+  </a>
+  <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="!selected?.branched && !selected?.immutable" class="delete-button">Delete Node</button>
 </div>

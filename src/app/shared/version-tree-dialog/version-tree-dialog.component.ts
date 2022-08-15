@@ -1,4 +1,14 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  FileUploadService,
+  FileUploadResponse,
+} from './../services/file-upload-service';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ContentDTO, DocumentDTO } from './../../document-list/document.model';
 import { DocumentService } from './../../document-list/documents-service';
@@ -18,13 +28,16 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
   properties: { name: any; value: any }[] = [];
   isLoading: boolean = false;
 
+  private file!: File;
+
   private taken = 0;
   versionMatrix: DocumentDTO[][] = [];
 
   constructor(
     public dialogRef: MatDialogRef<VersionTreeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { dto: DocumentDTO },
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -37,15 +50,20 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
 
   private refreshTree(pickId?: string) {
     this.isLoading = true;
-    this.documentService.getVersions(this.data.dto.root_id).subscribe((res) => {
-      this.versions = res.sort();
-      this.setUpVersionMatrix();
-      this.versions.length > 0 &&
-        pickId &&
-        this.pickVersion(
-          this.versions.find((ver) => ver.id === pickId) ?? this.versions[0]
-        );
-      this.isLoading = false;
+    this.documentService.getVersions(this.data.dto.root_id).subscribe({
+      next: (res) => {
+        this.versions = res.sort();
+        this.setUpVersionMatrix();
+        this.versions.length > 0 &&
+          pickId &&
+          this.pickVersion(
+            this.versions.find((ver) => ver.id === pickId) ?? this.versions[0]
+          );
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 
@@ -54,15 +72,21 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.selected && this.documentService.deleteDocuments([this.selected.id]).subscribe(res => {
-      this.refreshTree(this.selected?.predecessor_id);
-    });
+    this.selected &&
+      this.documentService
+        .deleteDocuments([this.selected.id])
+        .subscribe((res) => {
+          this.refreshTree(this.selected?.predecessor_id);
+        });
   }
 
   onVersion() {
-    this.selected && this.documentService.versionDocument(this.selected.id).subscribe(res => {
-      this.refreshTree(res.id);
-    });
+    this.selected &&
+      this.documentService
+        .versionDocument(this.selected.id)
+        .subscribe((res) => {
+          this.refreshTree(res.id);
+        });
   }
 
   createBranch() {
@@ -182,5 +206,46 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
       ? (column - predPos - 1) * (TD_WIDTH + 2 * TD_PADDING) +
           2 * (TD_PADDING + column - predPos)
       : (TD_PADDING + 1) * 2;
+  }
+
+  // DOWNLOAD/UPLOAD
+
+  onChange(event: any) {
+    this.file = event.target.files[0];
+    this.selected && this.onUpload(this.selected.id);
+  }
+
+  onUpload(id: string) {
+    this.isLoading = !this.isLoading;
+    this.fileUploadService.upload(this.file, id).subscribe({
+      next: (event: FileUploadResponse) => {
+        if (!this.selected) return;
+
+        this.selected.content = {
+          content_size: event.content_size,
+          original_file_name: event.original_file_name,
+          content_type: event.content_type,
+        };
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+  onDownload() {
+    this.selected &&
+      this.fileUploadService.download(this.selected.id).subscribe({
+        next: (event) => {
+          if (!this.selected) return;
+          const a = document.createElement('a');
+          const objectUrl = URL.createObjectURL(event);
+          a.href = objectUrl;
+          a.download = this.selected.content.original_file_name;
+          a.click();
+          URL.revokeObjectURL(objectUrl);
+        },
+        error: () => {},
+      });
   }
 }

@@ -1,15 +1,13 @@
 <div class="container">
   <mat-icon matTooltip="Edit" (click)="onEdit(docDTO)" *ngIf="!docDTO.immutable">edit</mat-icon>
   <mat-icon matTooltip="Permissions" (click)="onAdministrate(docDTO)">settings</mat-icon>
-  <mat-icon *ngIf="!loadingVersion && !docDTO.immutable" matTooltip="Version" (click)="onVersion(docDTO)">publish</mat-icon>
-  <mat-spinner *ngIf="loadingVersion" color="accent" [diameter]="25"></mat-spinner>
   <mat-icon matTooltip="Version Tree" (click)="onVersionTree(docDTO)">share</mat-icon>
   <label *ngIf="!loading && !docDTO.immutable" class="upload">
     <mat-icon matTooltip="Upload file">backup</mat-icon>
-    <input type="file" (change)="onChange($event)" style="display: none;">
+    <input type="file" (change)="onChange($event, docDTO.id)" style="display: none;">
   </label>
   <mat-spinner *ngIf="loading" color="accent" [diameter]="25"></mat-spinner>
-  <a *ngIf="linkToFile.length > 0" (click)="onDownload()" class="download">
+  <a *ngIf="linkToFile.length > 0" (click)="onDownload(docDTO.id)" class="download">
     <mat-icon color="primary" matTooltip="Download file">cloud_download</mat-icon>
   </a>
 </div>

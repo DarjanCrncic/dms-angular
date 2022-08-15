@@ -23,7 +23,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class DocumentActionsComponent implements OnInit {
   @Input() docDTO!: DocumentDTO;
   loading: boolean = false;
-  loadingVersion: boolean = false;
   linkToFile: string = '';
   private file!: File;
 
@@ -41,14 +40,14 @@ export class DocumentActionsComponent implements OnInit {
     }
   }
 
-  onChange(event: any) {
+  onChange(event: any, id: string) {
     this.file = event.target.files[0];
-    this.onUpload();
+    this.onUpload(id);
   }
 
-  onUpload() {
+  onUpload(id: string) {
     this.loading = !this.loading;
-    this.fileUploadService.upload(this.file, this.docDTO).subscribe({
+    this.fileUploadService.upload(this.file, id).subscribe({
       next: (event: FileUploadResponse) => {
         this.linkToFile = event.url_to_file;
 
@@ -69,8 +68,8 @@ export class DocumentActionsComponent implements OnInit {
     });
   }
 
-  onDownload() {
-    this.fileUploadService.download(this.docDTO).subscribe({
+  onDownload(id: string) {
+    this.fileUploadService.download(id).subscribe({
       next: (event) => {
         const a = document.createElement('a');
         const objectUrl = URL.createObjectURL(event);
@@ -98,22 +97,6 @@ export class DocumentActionsComponent implements OnInit {
       data: {
         dto: row,
         type: AclClass.DOCUMENT,
-      },
-    });
-  }
-
-  onVersion(row: DocumentDTO) {
-    this.loadingVersion = true;
-    this.documentService.versionDocument(row.id).subscribe({
-      next: (res) => {
-        this.documentService.refreshDocuments.next('');
-        this.snackbarService.openSnackBar(
-          'New version successfully created.',
-          MessageTypes.SUCCESS
-        );
-      },
-      complete: () => {
-        this.loadingVersion = false;
       },
     });
   }

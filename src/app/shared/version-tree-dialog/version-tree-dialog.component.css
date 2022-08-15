@@ -83,3 +83,12 @@ td {
 tr {
   height: 34px;
 }
+
+mat-icon {
+  margin-left: 10px;
+}
+
+.delete-button {
+  margin-right: 0;
+  margin-left: auto !important;
+}
