@@ -1,15 +1,18 @@
-import { ColumnOption, DocumentColumnService } from './../document-column-service';
+import {
+  ColumnOption,
+  DocumentColumnService
+} from './../document-column-service';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-document-column-select',
   templateUrl: './document-column-select.component.html',
-  styleUrls: ['./document-column-select.component.css'],
+  styleUrls: ['./document-column-select.component.css']
 })
 export class DocumentColumnSelectComponent implements OnInit {
   ngOnInit(): void {}
@@ -18,7 +21,7 @@ export class DocumentColumnSelectComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DocumentColumnDialog, {
-      width: '500px',
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -29,9 +32,9 @@ export class DocumentColumnSelectComponent implements OnInit {
 
 @Component({
   selector: 'document-column-dialog',
-  templateUrl: 'document-column-dialog.html',
+  templateUrl: 'document-column-dialog.html'
 })
-export class DocumentColumnDialog implements OnInit{
+export class DocumentColumnDialog implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DocumentColumnDialog>,
     @Inject(MAT_DIALOG_DATA) public data: [],
@@ -53,7 +56,9 @@ export class DocumentColumnDialog implements OnInit{
   }
 
   toggleSelection(event: any) {
-    const index = this.documentColumns.findIndex(col => col.identifier === event.option.value);
+    const index = this.documentColumns.findIndex(
+      (col) => col.identifier === event.option.value
+    );
     this.documentColumns[index].displayed = event.option.selected;
   }
 }
