@@ -1,6 +1,6 @@
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../message-snackbar/snackbar-service';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { FolderNode } from './../../folder-tree/folder-node.model';
 import {
   AclClass,
   AdministrationService,
-  GrantDTO,
+  GrantDTO
 } from './../services/administration-service';
 import { UserDetails, UserService } from './../services/user-service';
 
@@ -21,12 +21,12 @@ export const permissionsAll = [
   'CREATE',
   'VERSION',
   'DELETE',
-  'ADMINISTRATION',
+  'ADMINISTRATION'
 ];
 @Component({
   selector: 'app-grant-rights-dialog',
   templateUrl: './grant-rights-dialog.component.html',
-  styleUrls: ['./grant-rights-dialog.component.css'],
+  styleUrls: ['./grant-rights-dialog.component.css']
 })
 export class GrantRightsDialogComponent implements OnInit, OnDestroy {
   form: FormArray = new FormArray([]);
@@ -80,7 +80,7 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
     this.form.push(
       new FormGroup({
         username: new FormControl(username, Validators.required),
-        permissions: new FormControl(permissions, Validators.required),
+        permissions: new FormControl(permissions, Validators.required)
       })
     );
   }
@@ -100,7 +100,7 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
   addPermissionSet() {
     const permissionSet = new FormGroup({
       username: new FormControl('', Validators.required),
-      permissions: new FormControl('', Validators.required),
+      permissions: new FormControl('', Validators.required)
     });
 
     this.form.push(permissionSet);

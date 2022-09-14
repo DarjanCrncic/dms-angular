@@ -6,11 +6,11 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
+  UrlTree
 } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CanActivateDms implements CanActivate {
   constructor(private accountService: AccountService, private router: Router) {}
@@ -29,7 +29,7 @@ export class CanActivateDms implements CanActivate {
     );
     if (enabled) {
       return true;
-    } 
+    }
     this.router.navigate(['/login']);
     return false;
   }

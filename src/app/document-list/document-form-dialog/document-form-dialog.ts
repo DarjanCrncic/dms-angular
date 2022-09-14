@@ -1,24 +1,27 @@
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../../shared/message-snackbar/snackbar-service';
 import { DocumentService } from './../documents-service';
 import { DocumentDTO } from './../document.model';
 import {
   csvPattern,
-  ValidatorMessages,
+  ValidatorMessages
 } from './../../shared/validator-messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Errors } from 'src/app/shared/validator-messages';
-import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
+import {
+  DocumentTypeService,
+  TypeDTO
+} from 'src/app/shared/services/document-type-service';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 
 @Component({
   selector: 'document-form-dialog',
   templateUrl: 'document-form-dialog.html',
-  styleUrls: ['./document-form-dialog.css'],
+  styleUrls: ['./document-form-dialog.css']
 })
 export class DocumentFormDialog implements OnInit {
   documentForm: FormGroup = new FormGroup({});
@@ -39,14 +42,14 @@ export class DocumentFormDialog implements OnInit {
     this.documentForm = new FormGroup({
       object_name: new FormControl(this.isEdit ? this.data.object_name : null, [
         Validators.required,
-        Validators.minLength(4),
+        Validators.minLength(4)
       ]),
       description: new FormControl(this.isEdit ? this.data.description : null),
       keywords: new FormControl(
         this.isEdit ? this.data.keywords.join(',') : '',
         Validators.pattern(csvPattern)
       ),
-      type: new FormControl(this.isEdit ? this.data.type : 'document'),
+      type: new FormControl(this.isEdit ? this.data.type : 'document')
     });
 
     this.typeService.getAllDocumentTypes().subscribe((response) => {
@@ -64,7 +67,7 @@ export class DocumentFormDialog implements OnInit {
 
     const modifyDoc = {
       ...formVal,
-      keywords: formVal.keywords ? formVal.keywords.split(',') : null,
+      keywords: formVal.keywords ? formVal.keywords.split(',') : null
     };
     if (this.data && this.data.id) {
       this.documentService
@@ -72,7 +75,7 @@ export class DocumentFormDialog implements OnInit {
         .subscribe((response) => {
           this.documentForm.patchValue({
             ...response,
-            keywords: response.keywords.toString(),
+            keywords: response.keywords.toString()
           });
           this.documentService.refreshDocuments.next('');
           this.snackbarService.openSnackBar(
@@ -83,22 +86,22 @@ export class DocumentFormDialog implements OnInit {
     } else {
       const currentFolder = this.folderTreeService.getCurrentFolder();
       currentFolder &&
-      this.documentService
-        .saveNewDocument({
-          ...modifyDoc,
-          parent_folder_id: currentFolder.id,
-        })
-        .subscribe((response) => {
-          this.documentForm.patchValue({
-            ...response,
-            keywords: response.keywords.toString(),
+        this.documentService
+          .saveNewDocument({
+            ...modifyDoc,
+            parent_folder_id: currentFolder.id
+          })
+          .subscribe((response) => {
+            this.documentForm.patchValue({
+              ...response,
+              keywords: response.keywords.toString()
+            });
+            this.documentService.refreshDocuments.next('');
+            this.snackbarService.openSnackBar(
+              'Document successfully saved.',
+              MessageTypes.SUCCESS
+            );
           });
-          this.documentService.refreshDocuments.next('');
-          this.snackbarService.openSnackBar(
-            'Document successfully saved.',
-            MessageTypes.SUCCESS
-          );
-        });
     }
   }
 
@@ -114,6 +117,8 @@ export class DocumentFormDialog implements OnInit {
   }
 
   isSaveDisabled() {
-    return !this.documentForm.valid || !this.documentForm.dirty && this.isEdit;
+    return (
+      !this.documentForm.valid || (!this.documentForm.dirty && this.isEdit)
+    );
   }
 }

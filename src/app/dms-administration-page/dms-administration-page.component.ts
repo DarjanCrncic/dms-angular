@@ -5,11 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dms-administration-page.component.html',
   styleUrls: ['./dms-administration-page.component.css']
 })
-export class DmsAdministrationPageComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class DmsAdministrationPageComponent {
+  constructor() {}
 }

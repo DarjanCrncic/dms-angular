@@ -4,7 +4,7 @@ import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../shared/message-snackbar/snackbar-service';
 import { TestService } from './../shared/services/test-service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -12,7 +12,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
@@ -23,18 +23,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   firstName: string = '';
-  lastName: string= '';
+  lastName: string = '';
   private newUserSub: Subscription | null = null;
 
   ngOnInit(): void {
     const localAccount = this.accountService.getLocalData();
     this.firstName = localAccount && localAccount.first_name;
     this.lastName = localAccount && localAccount.last_name;
-    
-    this.newUserSub = this.accountService.newUserAnnouncment.subscribe(account => {
-      this.firstName = account.first_name;
-      this.lastName = account.last_name;
-    });
+
+    this.newUserSub = this.accountService.newUserAnnouncment.subscribe(
+      (account) => {
+        this.firstName = account.first_name;
+        this.lastName = account.last_name;
+      }
+    );
   }
 
   onLogoutClick() {
@@ -59,6 +61,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   isAdminRole() {
-    return this.accountService.account.roles?.findIndex(role => role === 'ROLE_ADMIN') > -1;
+    return (
+      this.accountService.account.roles?.findIndex(
+        (role) => role === 'ROLE_ADMIN'
+      ) > -1
+    );
   }
 }

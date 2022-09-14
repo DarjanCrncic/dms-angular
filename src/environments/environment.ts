@@ -4,14 +4,14 @@
 
 export const AuthInterceptors = {
   JWT: 'JWT',
-  BASIC: 'BASIC',
+  BASIC: 'BASIC'
 };
 
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080/api/v1',
   host: 'http://localhost:8080',
-  authInterceptor: AuthInterceptors.JWT,
+  authInterceptor: AuthInterceptors.JWT
 };
 
 /*

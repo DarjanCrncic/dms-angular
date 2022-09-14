@@ -27,7 +27,7 @@ export class JwtInterceptor implements HttpInterceptor {
     const isApiUrl = request.url.startsWith(environment.baseUrl);
     if (token && isApiUrl && this.accountService.isLoggedIn()) {
       request = request.clone({
-        setHeaders: { Authorization: `Bearer ${account.token}` },
+        setHeaders: { Authorization: `Bearer ${account.token}` }
       });
     } else if (isApiUrl && !this.accountService.isLoggedIn()) {
       this.router.navigate(['/login']);

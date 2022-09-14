@@ -1,13 +1,13 @@
 import {
   FileUploadService,
-  FileUploadResponse,
+  FileUploadResponse
 } from './../services/file-upload-service';
 import {
   ChangeDetectorRef,
   Component,
   Inject,
   OnInit,
-  OnDestroy,
+  OnDestroy
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ContentDTO, DocumentDTO } from './../../document-list/document.model';
@@ -20,7 +20,7 @@ const TD_PADDING = 11;
 @Component({
   selector: 'app-version-tree-dialog',
   templateUrl: './version-tree-dialog.component.html',
-  styleUrls: ['./version-tree-dialog.component.css'],
+  styleUrls: ['./version-tree-dialog.component.css']
 })
 export class VersionTreeDialogComponent implements OnInit, OnDestroy {
   versions: DocumentDTO[] = [];
@@ -63,7 +63,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
       },
       complete: () => {
         this.isLoading = false;
-      },
+      }
     });
   }
 
@@ -104,14 +104,14 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
         case 'creator':
           this.properties.push({
             name: key,
-            value: `${value.first_name} ${value.last_name}`,
+            value: `${value.first_name} ${value.last_name}`
           });
           break;
         case 'content':
           const valObj = value && (value as ContentDTO);
           this.properties.push({
             name: key,
-            value: value ? valObj.original_file_name : '',
+            value: value ? valObj.original_file_name : ''
           });
           break;
         default:
@@ -224,12 +224,12 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
         this.selected.content = {
           content_size: event.content_size,
           original_file_name: event.original_file_name,
-          content_type: event.content_type,
+          content_type: event.content_type
         };
       },
       complete: () => {
         this.isLoading = false;
-      },
+      }
     });
   }
 
@@ -245,7 +245,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
           a.click();
           URL.revokeObjectURL(objectUrl);
         },
-        error: () => {},
+        error: () => {}
       });
   }
 }

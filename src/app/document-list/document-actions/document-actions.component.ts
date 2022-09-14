@@ -9,7 +9,7 @@ import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../../shared/message-snackbar/snackbar-service';
 import { FileUploadService } from '../../shared/services/file-upload-service';
 import { DocumentDTO } from './../document.model';
@@ -18,7 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-document-actions',
   templateUrl: './document-actions.component.html',
-  styleUrls: ['./document-actions.component.css'],
+  styleUrls: ['./document-actions.component.css']
 })
 export class DocumentActionsComponent implements OnInit {
   @Input() docDTO!: DocumentDTO;
@@ -54,7 +54,7 @@ export class DocumentActionsComponent implements OnInit {
         this.docDTO.content = {
           content_size: event.content_size,
           original_file_name: event.original_file_name,
-          content_type: event.content_type,
+          content_type: event.content_type
         };
         this.snackbarService.openSnackBar(
           'Docuement successfully uploaded.',
@@ -64,7 +64,7 @@ export class DocumentActionsComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
-      },
+      }
     });
   }
 
@@ -78,7 +78,7 @@ export class DocumentActionsComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(objectUrl);
       },
-      error: () => {},
+      error: () => {}
     });
   }
 
@@ -86,7 +86,7 @@ export class DocumentActionsComponent implements OnInit {
     const dialogRef = this.dialog.open(DocumentFormDialog, {
       width: '800px',
       minHeight: '500px',
-      data: row,
+      data: row
     });
   }
 
@@ -96,8 +96,8 @@ export class DocumentActionsComponent implements OnInit {
       minHeight: '500px',
       data: {
         dto: row,
-        type: AclClass.DOCUMENT,
-      },
+        type: AclClass.DOCUMENT
+      }
     });
   }
 
@@ -106,8 +106,8 @@ export class DocumentActionsComponent implements OnInit {
       minWidth: '1000px',
       minHeight: '500px',
       data: {
-        dto: row,
-      },
+        dto: row
+      }
     });
   }
 }

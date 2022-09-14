@@ -1,13 +1,11 @@
 <h1 mat-dialog-title>Select displayed columns:</h1>
 <div mat-dialog-content>
-  <mat-selection-list 
-      #columns 
-      (selectionChange)="toggleSelection($event)"
-      >
-    <mat-list-option *ngFor="let column of documentColumns; let i = index" 
+  <mat-selection-list #columns (selectionChange)="toggleSelection($event)">
+    <mat-list-option
+      *ngFor="let column of documentColumns; let i = index"
       selected="{{column.displayed}}"
       [value]="column.identifier"
-      >
+    >
       {{column.title}}
     </mat-list-option>
   </mat-selection-list>

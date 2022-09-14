@@ -10,7 +10,7 @@ export interface GrantDTO {
 
 export enum AclClass {
   DOCUMENT,
-  FOLDER,
+  FOLDER
 }
 
 @Injectable({ providedIn: 'root' })

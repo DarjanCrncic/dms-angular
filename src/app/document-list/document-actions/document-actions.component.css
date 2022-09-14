@@ -1,9 +1,11 @@
-.upload, .download {
+.upload,
+.download {
   display: flex;
   align-items: flex-start;
 }
 
-mat-icon, mat-spinner{
+mat-icon,
+mat-spinner {
   margin-right: 10px;
 }
 

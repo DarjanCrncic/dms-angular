@@ -4,7 +4,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 @Component({
   selector: 'app-error-snackbar',
   templateUrl: './message-snackbar.component.html',
-  styleUrls: ['./message-snackbar.component.css'],
+  styleUrls: ['./message-snackbar.component.css']
 })
 export class MessageSnackbarComponent implements OnInit {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {}

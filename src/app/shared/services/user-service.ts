@@ -4,26 +4,30 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface UserDetails {
-  first_name: string,
-  last_name: string,
-  username: string,
-  id: string
+  first_name: string;
+  last_name: string;
+  username: string;
+  id: string;
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private httpClient: HttpClient) { }
-  
+  constructor(private httpClient: HttpClient) {}
 
   getUserDetails(username: string) {
-    return this.httpClient.get<UserDetails>(environment.baseUrl + ApiPaths.UserDetails, {
-      params: {
-        username: username
+    return this.httpClient.get<UserDetails>(
+      environment.baseUrl + ApiPaths.UserDetails,
+      {
+        params: {
+          username: username
+        }
       }
-    });
+    );
   }
 
   getAvailableUsers() {
-    return this.httpClient.get<UserDetails[]>(environment.baseUrl + ApiPaths.User);
+    return this.httpClient.get<UserDetails[]>(
+      environment.baseUrl + ApiPaths.User
+    );
   }
 }

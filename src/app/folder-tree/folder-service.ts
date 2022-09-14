@@ -29,7 +29,7 @@ export class FolderService {
       environment.baseUrl + ApiPaths.Folder,
       {
         name: name,
-        parent_folder_id: parentFolderId,
+        parent_folder_id: parentFolderId
       }
     );
   }
@@ -44,7 +44,7 @@ export class FolderService {
     return this.httpClient.put<FolderNode>(
       environment.baseUrl + ApiPaths.Folder + '/' + id,
       {
-        name: newPath,
+        name: newPath
       }
     );
   }

@@ -1,6 +1,6 @@
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';
@@ -43,7 +43,7 @@ export class AccountService {
     return this.htttpClient
       .post<Account>(environment.host + ApiPaths.AuthLogin, {
         username: username,
-        password: password,
+        password: password
       })
       .pipe(
         tap((res) => {

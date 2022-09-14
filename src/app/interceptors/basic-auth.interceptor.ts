@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpEvent,
   HttpHandler,
-  HttpRequest,
+  HttpRequest
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -15,11 +15,11 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-
-    if (environment.authInterceptor !== AuthInterceptors.BASIC) return next.handle(req);
+    if (environment.authInterceptor !== AuthInterceptors.BASIC)
+      return next.handle(req);
 
     const modified = req.clone({
-      headers: req.headers.append('Authorization', 'Basic YWRtaW46MTIzNDU='),
+      headers: req.headers.append('Authorization', 'Basic YWRtaW46MTIzNDU=')
       // headers: req.headers.append('Authorization', 'Basic ZWRpdG9yOjEyMzQ1'),
     });
     return next.handle(modified);

@@ -6,7 +6,7 @@ import { FolderService } from '../folder-service';
 import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
 import {
   MessageTypes,
-  SnackbarService,
+  SnackbarService
 } from './../../shared/message-snackbar/snackbar-service';
 import { RenameDialogComponent } from './../../shared/rename-dialog/rename-dialog.component';
 import { AclClass } from './../../shared/services/administration-service';
@@ -15,7 +15,7 @@ import { FolderOptionsService } from './../folder-options-service';
 @Component({
   selector: 'app-folder-tree-item',
   templateUrl: './folder-tree-item.component.html',
-  styleUrls: ['./folder-tree-item.component.css'],
+  styleUrls: ['./folder-tree-item.component.css']
 })
 export class FolderTreeItemComponent implements OnInit, OnDestroy {
   @Input() expanded = false;
@@ -39,7 +39,7 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
     private folderOptionsService: FolderOptionsService,
     private snackbarService: SnackbarService,
     private folderTreeService: FolderTreeService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +86,10 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
 
     this.folderService.deleteById(folder.id).subscribe(() => {
       this.folderTreeService.removeNode(folder.id);
-      this.snackbarService.openSnackBar("Folder successfully deleted.", MessageTypes.SUCCESS);
+      this.snackbarService.openSnackBar(
+        'Folder successfully deleted.',
+        MessageTypes.SUCCESS
+      );
     });
   }
 
@@ -97,8 +100,8 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
       minHeight: '500px',
       data: {
         dto: this.node,
-        type: AclClass.FOLDER,
-      },
+        type: AclClass.FOLDER
+      }
     });
   }
 
@@ -108,8 +111,8 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
       width: '800px',
       data: {
         update: true,
-        node: this.node,
-      },
+        node: this.node
+      }
     });
   }
 
@@ -119,8 +122,8 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
       width: '800px',
       data: {
         update: false,
-        node: this.node,
-      },
+        node: this.node
+      }
     });
   }
 }

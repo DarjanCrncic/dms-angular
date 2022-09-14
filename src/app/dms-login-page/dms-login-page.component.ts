@@ -9,7 +9,7 @@ import { ValidatorMessages } from './../shared/validator-messages';
 @Component({
   selector: 'app-dms-login-page',
   templateUrl: './dms-login-page.component.html',
-  styleUrls: ['./dms-login-page.component.css'],
+  styleUrls: ['./dms-login-page.component.css']
 })
 export class DmsLoginPageComponent implements OnInit {
   constructor(
@@ -25,12 +25,12 @@ export class DmsLoginPageComponent implements OnInit {
     this.loginForm = new FormGroup({
       username: new FormControl('admin', [
         Validators.required,
-        Validators.minLength(4),
+        Validators.minLength(4)
       ]),
       password: new FormControl('12345', [
         Validators.required,
-        Validators.minLength(4),
-      ]),
+        Validators.minLength(4)
+      ])
     });
   }
 
@@ -62,7 +62,7 @@ export class DmsLoginPageComponent implements OnInit {
         },
         complete: () => {
           this.buttonDisabled = false;
-        },
+        }
       });
   }
 }

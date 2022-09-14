@@ -12,5 +12,5 @@ export const Errors = {
   alphaNumeric: 'Characters allowed: [a-zA-Z0-9_]'
 };
 
-export const csvPattern =  /^[^,][\w|,| ]*[^,]$|^$|^\w$/;
+export const csvPattern = /^[^,][\w|,| ]*[^,]$|^$|^\w$/;
 export const validFolderName = /^\w+$/;

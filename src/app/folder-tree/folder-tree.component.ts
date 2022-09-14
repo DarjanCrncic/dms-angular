@@ -9,7 +9,7 @@ import { FolderTreeService, FlatTreeNode } from './folder-tree-service';
 @Component({
   selector: 'app-folder-tree',
   templateUrl: 'folder-tree.component.html',
-  styleUrls: ['folder-tree.component.css'],
+  styleUrls: ['folder-tree.component.css']
 })
 export class FolderTreeComponent implements OnInit {
   newFolderForm: FormGroup = new FormGroup({});
@@ -21,7 +21,9 @@ export class FolderTreeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.folderTreeService.getFolderTree(this.folderTreeService?.getCurrentFolder()?.id);
+    this.folderTreeService.getFolderTree(
+      this.folderTreeService?.getCurrentFolder()?.id
+    );
   }
 
   getTreeControl() {

@@ -5,7 +5,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Injectable } from '@angular/core';
 import {
   MatTreeFlatDataSource,
-  MatTreeFlattener,
+  MatTreeFlattener
 } from '@angular/material/tree';
 
 export interface FlatTreeNode {
@@ -31,7 +31,7 @@ export class FolderTreeService {
       name: node.name,
       parent_folder_id: node.parent_folder_id,
       level: level,
-      empty: node.subfolders.length === 0 && node.num_of_documents === 0,
+      empty: node.subfolders.length === 0 && node.num_of_documents === 0
     };
   };
 
@@ -57,7 +57,7 @@ export class FolderTreeService {
   }
 
   setCurrentFolder(id: string) {
-    const current = this.originalFolderData.find(folder => folder.id === id);
+    const current = this.originalFolderData.find((folder) => folder.id === id);
     if (!current) return;
     this.selectedFolderId = current.id;
     this.selectedFolderChanged.next(current);
@@ -65,7 +65,9 @@ export class FolderTreeService {
   }
 
   getCurrentFolder() {
-    const current = this.originalFolderData.find(folder => folder.id === this.selectedFolderId);
+    const current = this.originalFolderData.find(
+      (folder) => folder.id === this.selectedFolderId
+    );
     return current;
   }
 
@@ -152,7 +154,7 @@ export class FolderTreeService {
   }
 
   setCurrentToRoot() {
-    const root = this.originalFolderData.find(folder => folder.name === '/');
+    const root = this.originalFolderData.find((folder) => folder.name === '/');
     if (root) this.selectedFolderId = root.id;
   }
 
@@ -167,10 +169,14 @@ export class FolderTreeService {
   }
 
   private filterChildrenRec(parentId: string) {
-    const children = this.originalFolderData.filter(folder => folder.parent_folder_id === parentId);
-    children.forEach(child => this.filterChildrenRec(child.id));
+    const children = this.originalFolderData.filter(
+      (folder) => folder.parent_folder_id === parentId
+    );
+    children.forEach((child) => this.filterChildrenRec(child.id));
 
-    this.originalFolderData = this.originalFolderData.filter(folder => folder.id !== parentId);
+    this.originalFolderData = this.originalFolderData.filter(
+      (folder) => folder.id !== parentId
+    );
   }
 
   saveDataToLocal() {

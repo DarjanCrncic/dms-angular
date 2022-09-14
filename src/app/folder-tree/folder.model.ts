@@ -1,15 +1,22 @@
 export class Folder {
   id: string;
-	creationDate: Date;
-	modifyDate :Date;
-	
-	path: string;
-	parentFolder: Folder;
-	subFolders: Folder[];
+  creationDate: Date;
+  modifyDate: Date;
 
-	// documents: Document[];
+  path: string;
+  parentFolder: Folder;
+  subFolders: Folder[];
 
-  constructor(id: string, creationDate: Date, modifyDate: Date, path: string, parentFolder: Folder, subFolders: Folder[]){
+  // documents: Document[];
+
+  constructor(
+    id: string,
+    creationDate: Date,
+    modifyDate: Date,
+    path: string,
+    parentFolder: Folder,
+    subFolders: Folder[]
+  ) {
     this.id = id;
     this.creationDate = creationDate;
     this.modifyDate = modifyDate;

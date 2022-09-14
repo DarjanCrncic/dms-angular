@@ -2,7 +2,7 @@ import { FolderTreeService } from './../../folder-tree/folder-tree-service';
 import { FlatTreeNode } from '../../folder-tree/folder-tree-service';
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../message-snackbar/snackbar-service';
 import { Errors, validFolderName } from './../validator-messages';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 @Component({
   selector: 'app-rename-dialog',
   templateUrl: './rename-dialog.component.html',
-  styleUrls: ['./rename-dialog.component.css'],
+  styleUrls: ['./rename-dialog.component.css']
 })
 export class RenameDialogComponent implements OnInit {
   constructor(
@@ -34,8 +34,8 @@ export class RenameDialogComponent implements OnInit {
     this.nameForm = new FormGroup({
       nameControl: new FormControl(this.data.update ? name : '', [
         Validators.pattern(validFolderName),
-        Validators.required,
-      ]),
+        Validators.required
+      ])
     });
   }
 

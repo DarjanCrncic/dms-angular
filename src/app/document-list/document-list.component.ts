@@ -2,7 +2,7 @@ import { CopyService, COPY_ACTION } from './../shared/services/copy-service';
 import { GrantRightsDialogComponent } from './../shared/grant-rights-dialog/grant-rights-dialog.component';
 import {
   SnackbarService,
-  MessageTypes,
+  MessageTypes
 } from './../shared/message-snackbar/snackbar-service';
 import { DocumentFormDialog } from './document-form-dialog/document-form-dialog';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ import { FolderTreeService } from '../folder-tree/folder-tree-service';
 @Component({
   selector: 'app-document-list',
   templateUrl: './document-list.component.html',
-  styleUrls: ['./document-list.component.css'],
+  styleUrls: ['./document-list.component.css']
 })
 export class DocumentListComponent implements OnInit, OnDestroy {
   displayedColumns: ColumnOption[] = [];
@@ -88,7 +88,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DocumentFormDialog, {
       width: '800px',
       minHeight: '500px',
-      data: { parent_folder: this.folderTreeService.getCurrentFolder() },
+      data: { parent_folder: this.folderTreeService.getCurrentFolder() }
     });
   }
 

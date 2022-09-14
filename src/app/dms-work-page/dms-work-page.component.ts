@@ -5,15 +5,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-dms-work-page',
   templateUrl: './dms-work-page.component.html',
-  styleUrls: ['./dms-work-page.component.css'],
+  styleUrls: ['./dms-work-page.component.css']
 })
 export class DmsWorkPageComponent implements OnInit, OnDestroy {
   opened = true;
   sidebarSubscription = new Subscription();
 
-  constructor(
-    private sidebarService: SidebarService,
-  ) {}
+  constructor(private sidebarService: SidebarService) {}
 
   ngOnInit(): void {
     this.sidebarSubscription = this.sidebarService.toggleSidebar.subscribe(

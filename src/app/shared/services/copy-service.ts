@@ -5,7 +5,9 @@ import { Injectable } from '@angular/core';
 import { EMPTY_OBSERVER } from 'rxjs/internal/Subscriber';
 
 export enum COPY_ACTION {
-  COPY, CUT, NULL
+  COPY,
+  CUT,
+  NULL
 }
 @Injectable({ providedIn: 'root' })
 export class CopyService {
@@ -24,7 +26,7 @@ export class CopyService {
   }
 
   public copyDocuments(newFolderId: string) {
-    const ids = this._documents.map(doc => doc.id);
+    const ids = this._documents.map((doc) => doc.id);
     if (this.action === COPY_ACTION.COPY) {
       return this.documentService.copyDocuments(ids, newFolderId);
     }

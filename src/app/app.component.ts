@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   loginSubscription = new Subscription();
@@ -15,8 +15,8 @@ export class AppComponent {
 
   ngOnInit(): void {
     if (this.accountService.hasLocalData()) {
-      this.accountService.updateAccountWithLocalData(); 
+      this.accountService.updateAccountWithLocalData();
       this.router.navigate(['/dms']);
     }
-  } 
+  }
 }

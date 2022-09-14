@@ -12,9 +12,9 @@ export class PermissionRowComponent implements OnInit {
   @Input() users: UserDetails[] = [];
   @Input() index: number = 0;
   @Output() removeEntryEmitter: EventEmitter<number> = new EventEmitter();
-  
+
   subForm: FormGroup = new FormGroup({});
-  
+
   constructor(private parentForm: FormGroupDirective) {}
 
   ngOnInit(): void {
@@ -26,7 +26,6 @@ export class PermissionRowComponent implements OnInit {
   }
 
   getOnlyUsernames(): string[] {
-    return this.users.map(user => user.username);
+    return this.users.map((user) => user.username);
   }
-
 }

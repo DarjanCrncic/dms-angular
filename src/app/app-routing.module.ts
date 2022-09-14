@@ -7,15 +7,25 @@ import { RouterModule, Routes } from '@angular/router';
 import { DmsAdministrationPageComponent } from './dms-administration-page/dms-administration-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: 'dms', component: DmsWorkPageComponent, pathMatch: 'full', canActivate: [CanActivateDms]},
-  { path: 'administration', component: DmsAdministrationPageComponent, pathMatch: 'full', canActivate: [CanActivateDms]},
-  { path: 'login', component: DmsLoginPageComponent, pathMatch: 'full'},
-  { path: '**', component: PageNotFoundComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  {
+    path: 'dms',
+    component: DmsWorkPageComponent,
+    pathMatch: 'full',
+    canActivate: [CanActivateDms]
+  },
+  {
+    path: 'administration',
+    component: DmsAdministrationPageComponent,
+    pathMatch: 'full',
+    canActivate: [CanActivateDms]
+  },
+  { path: 'login', component: DmsLoginPageComponent, pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

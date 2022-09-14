@@ -10,7 +10,7 @@ import { FolderTreeComponent } from './folder-tree/folder-tree.component';
 import { AuthInterceptor } from './interceptors/basic-auth.interceptor';
 import {
   DocumentColumnSelectComponent,
-  DocumentColumnDialog,
+  DocumentColumnDialog
 } from './document-list/document-column-select/document-column-select.component';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -71,7 +71,7 @@ import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version
     PermissionRowComponent,
     RenameDialogComponent,
     DmsAdministrationPageComponent,
-    VersionTreeDialogComponent,
+    VersionTreeDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -102,25 +102,25 @@ import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatMenuModule,
+    MatMenuModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
-      multi: true,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      multi: true,
-    },
+      multi: true
+    }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
