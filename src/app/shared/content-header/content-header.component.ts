@@ -6,11 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './content-header.component.html',
   styleUrls: ['./content-header.component.css']
 })
-export class ContentHeaderComponent implements OnInit {
+export class ContentHeaderComponent {
   @Input() title: string = '';
   constructor(private sidebarService: SidebarService) {}
-
-  ngOnInit(): void {}
 
   onToggleClick() {
     this.sidebarService.toggleSidebar.next('toggle');

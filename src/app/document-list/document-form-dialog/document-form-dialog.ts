@@ -19,17 +19,17 @@ import {
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 
 @Component({
-  selector: 'document-form-dialog',
+  selector: 'app-document-form-dialog',
   templateUrl: 'document-form-dialog.html',
   styleUrls: ['./document-form-dialog.css']
 })
-export class DocumentFormDialog implements OnInit {
+export class DocumentFormDialogComponent implements OnInit {
   documentForm: FormGroup = new FormGroup({});
   types: TypeDTO[] = [];
   isEdit: boolean = false;
 
   constructor(
-    public dialogRef: MatDialogRef<DocumentFormDialog>,
+    public dialogRef: MatDialogRef<DocumentFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
     private typeService: DocumentTypeService,
     private documentService: DocumentService,

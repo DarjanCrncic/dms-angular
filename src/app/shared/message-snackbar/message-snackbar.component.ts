@@ -1,12 +1,12 @@
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-error-snackbar',
   templateUrl: './message-snackbar.component.html',
   styleUrls: ['./message-snackbar.component.css']
 })
-export class MessageSnackbarComponent implements OnInit {
+export class MessageSnackbarComponent implements OnInit, OnDestroy {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {}
   public status: number = 0;
   private interval: any;
