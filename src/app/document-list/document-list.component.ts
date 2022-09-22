@@ -1,10 +1,8 @@
 import { CopyService, COPY_ACTION } from './../shared/services/copy-service';
-import { GrantRightsDialogComponent } from './../shared/grant-rights-dialog/grant-rights-dialog.component';
 import {
   SnackbarService,
   MessageTypes
 } from './../shared/message-snackbar/snackbar-service';
-import { DocumentFormDialog } from './document-form-dialog/document-form-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -17,6 +15,7 @@ import { DocumentColumnService, ColumnOption } from './document-column-service';
 import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
 import { FolderTreeService } from '../folder-tree/folder-tree-service';
+import { DocumentFormDialogComponent } from './document-form-dialog/document-form-dialog';
 
 @Component({
   selector: 'app-document-list',
@@ -85,7 +84,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   openAddDialog(): void {
-    const dialogRef = this.dialog.open(DocumentFormDialog, {
+    const dialogRef = this.dialog.open(DocumentFormDialogComponent, {
       width: '800px',
       minHeight: '500px',
       data: { parent_folder: this.folderTreeService.getCurrentFolder() }

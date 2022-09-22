@@ -4,7 +4,6 @@ import { AclClass } from './../../shared/services/administration-service';
 import { FileUploadResponse } from './../../shared/services/file-upload-service';
 import { MatDialog } from '@angular/material/dialog';
 import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
-import { DocumentFormDialog } from './../document-form-dialog/document-form-dialog';
 import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
 import {
@@ -14,6 +13,7 @@ import {
 import { FileUploadService } from '../../shared/services/file-upload-service';
 import { DocumentDTO } from './../document.model';
 import { Component, OnInit, Input } from '@angular/core';
+import { DocumentFormDialogComponent } from '../document-form-dialog/document-form-dialog';
 
 @Component({
   selector: 'app-document-actions',
@@ -83,7 +83,7 @@ export class DocumentActionsComponent implements OnInit {
   }
 
   onEdit(row: DocumentDTO) {
-    const dialogRef = this.dialog.open(DocumentFormDialog, {
+    const dialogRef = this.dialog.open(DocumentFormDialogComponent, {
       width: '800px',
       minHeight: '500px',
       data: row
