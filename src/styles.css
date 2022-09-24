@@ -58,3 +58,11 @@ mat-progress-bar .mat-progress-bar-fill::after {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.selected-menu-item-background {
+  background-color: rgba(63,81,181,.15);
+}
+
+.selected-menu-item-hover:hover {
+  background-color: #e7e7e799;
+}

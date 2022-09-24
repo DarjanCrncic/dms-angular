@@ -3,11 +3,7 @@
 }
 
 .mat-tree-node-custom {
-  min-height: 40px;
-}
-
-.mat-tree-node-custom:hover {
-  background-color: #e7e7e799;
+  min-height: 36px;
 }
 
 .mat-divider {

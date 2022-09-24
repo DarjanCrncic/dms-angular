@@ -7,10 +7,13 @@
       <mat-tree-node
         *matTreeNodeDef="let node"
         matTreeNodePadding
-        class="mat-tree-node-custom"
+        class="selected-menu-item-hover mat-tree-node-custom"
         matTreeNodePadding
         matTreeNodePaddingIndent="20"
         (mouseenter)="onHoverIn(node)"
+        [ngClass]="{
+          'selected-menu-item-background': isCurrentlySelected(node.id) 
+        }"
       >
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
@@ -25,11 +28,14 @@
       <mat-tree-node
         *matTreeNodeDef="let node; when: hasChild"
         matTreeNodePadding
-        class="mat-tree-node-custom"
+        class="selected-menu-item-hover mat-tree-node-custom"
         matTreeNodePadding
         matTreeNodePaddingIndent="20"
         #node
         (mouseenter)="onHoverIn(node)"
+        [ngClass]="{
+          'selected-menu-item-background': isCurrentlySelected(node.id) 
+        }"
       >
         <button
           mat-icon-button

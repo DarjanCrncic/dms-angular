@@ -56,4 +56,8 @@ export class FolderTreeComponent implements OnInit {
   saveFolderTreeToLocalStorage() {
     this.folderTreeService.saveDataToLocal();
   }
+
+  isCurrentlySelected(id: string) {
+    return this.folderTreeService.getCurrentFolder()?.id === id;
+  }
 }
