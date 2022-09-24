@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="space-between none" class="container">
+  <h2>Folders:</h2>
+  <mat-divider></mat-divider>
   <div class="tree-container">
-    <h2>Folders:</h2>
-    <mat-divider></mat-divider>
     <mat-tree [dataSource]="getDataSource()" [treeControl]="getTreeControl()">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node

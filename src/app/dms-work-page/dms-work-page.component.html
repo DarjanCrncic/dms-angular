@@ -1,11 +1,11 @@
-<mat-drawer-container class="example-container" autosize #sidenav>
-  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened" [style.width.px]="sideNavWidth">
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened" [style.width.px]="navWidth">
+    <div class="resize-handle-right" (mousedown)="setResizing()" (window:mouseup)="resetResizing()"></div>
+    <div class="dragger" (mousedown)="setResizing()" (window:mouseup)="resetResizing()">
+      <mat-icon>more_vert</mat-icon>
+    </div>
     <router-outlet name="sidenav"></router-outlet>
-    <div
-      class="expander"
-      (click)="onToggleEvent()"
-      [ngClass]="{ 'should-hover': !opened }"
-    >
+    <div class="expander" (click)="onToggleEvent()" [ngClass]="{ 'should-hover': !opened }">
       <button mat-mini-fab color="white">
         <mat-icon *ngIf="opened">keyboard_double_arrow_left</mat-icon>
         <mat-icon *ngIf="!opened">keyboard_double_arrow_right</mat-icon>

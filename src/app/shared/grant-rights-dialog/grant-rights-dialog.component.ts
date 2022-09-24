@@ -3,7 +3,7 @@ import {
   MessageTypes
 } from './../message-snackbar/snackbar-service';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Subscription } from 'rxjs';
 import { DocumentDTO } from './../../document-list/document.model';
@@ -29,7 +29,7 @@ export const permissionsAll = [
   styleUrls: ['./grant-rights-dialog.component.css']
 })
 export class GrantRightsDialogComponent implements OnInit, OnDestroy {
-  form: FormArray = new FormArray([]);
+  form: FormArray = new FormArray<FormGroup>([]);
   permissionsAll = permissionsAll;
   users: UserDetails[] = [];
   isLoadingResults: boolean = false;

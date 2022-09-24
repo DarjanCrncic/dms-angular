@@ -39,3 +39,19 @@
 .should-hover:hover {
   transform: translate(20px, 0);
 }
+
+.resize-handle-right {
+  position: absolute;
+  height: 100%;
+  cursor: col-resize;
+  width: 5px;
+  right: -5px;
+}
+
+.dragger {
+  position: absolute;
+  cursor: move;
+  bottom: 50%;
+  right: -24px;
+  font-size: 2rem;
+}
