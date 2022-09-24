@@ -38,12 +38,13 @@
   </button>
 </div>
 
-<div class="example-container mat-elevation-z8">
-  <div class="example-loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner *ngIf="isLoadingResults" class="mat-spinner"></mat-spinner>
-  </div>
+<div class="example-container">
+  <mat-spinner
+    *ngIf="isLoadingResults"
+    class="mat-spinner centered-default"
+  ></mat-spinner>
 
-  <div class="example-table-container">
+  <div class="example-table-container mat-elevation-z2">
     <table
       mat-table
       [dataSource]="dataSource"
@@ -54,14 +55,6 @@
       cdkDropListOrientation="horizontal"
       (cdkDropListDropped)="drop($event)"
     >
-      <ng-container>
-        <tr class="mat-row-custom" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length + 2">
-            No documents in this folder.
-          </td>
-        </tr>
-      </ng-container>
-
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -104,4 +97,7 @@
       <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
     </table>
   </div>
+  <ng-container *ngIf="dataSource.data.length === 0">
+    <h3 class="centered-default">No documents in this folder.</h3>
+  </ng-container>
 </div>

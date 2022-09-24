@@ -1,6 +1,16 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened">
     <app-folder-tree></app-folder-tree>
+    <div
+      class="expander"
+      (click)="onToggleEvent()"
+      [ngClass]="{ 'should-hover': !opened }"
+    >
+      <button mat-mini-fab color="white">
+        <mat-icon *ngIf="opened">keyboard_double_arrow_left</mat-icon>
+        <mat-icon *ngIf="!opened">keyboard_double_arrow_right</mat-icon>
+      </button>
+    </div>
   </mat-drawer>
   <div class="example-sidenav-content">
     <app-document-list></app-document-list>

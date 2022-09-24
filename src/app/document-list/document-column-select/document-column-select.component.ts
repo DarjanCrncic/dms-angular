@@ -15,7 +15,6 @@ import {
   styleUrls: ['./document-column-select.component.css']
 })
 export class DocumentColumnSelectComponent {
-
   constructor(public dialog: MatDialog) {}
 
   openDialog(): void {

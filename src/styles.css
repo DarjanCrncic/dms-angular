@@ -51,3 +51,10 @@ mat-progress-bar .mat-progress-bar-fill::after {
   top: 0;
   bottom: 0;
 }
+
+.centered-default {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

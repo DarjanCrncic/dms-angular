@@ -7,35 +7,14 @@ button {
   margin: 0 8px 8px 0;
 }
 
-/* Structure */
-.example-container {
-  position: relative;
-}
-
 .example-table-container {
   position: relative;
-  min-height: 500px;
   max-height: 500px;
   overflow: auto;
 }
 
 table {
   width: 100%;
-}
-
-.example-loading-shade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  top: 56px;
-  right: 0;
-  background: transparent;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 444px;
-  max-height: 444px;
 }
 
 .example-rate-limit-reached {
@@ -53,14 +32,9 @@ table {
   max-width: 124px;
 }
 
-.mat-row-custom {
-  height: 444px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.07);
-}
-
 .mat-spinner {
-  background: transparent;
+  width: 100px;
+  height: 100px;
 }
 
 ::ng-deep mat-icon {

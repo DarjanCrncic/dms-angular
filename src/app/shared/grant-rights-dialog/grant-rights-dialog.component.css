@@ -1,10 +1,6 @@
 .mat-spinner {
   width: 100px;
   height: 100px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50px, -50px);
 }
 
 .mat-dialog-content {

@@ -32,7 +32,8 @@ import { DmsLoginPageComponent } from './dms-login-page/dms-login-page.component
 import { DmsWorkPageComponent } from './dms-work-page/dms-work-page.component';
 import { DocumentActionsComponent } from './document-list/document-actions/document-actions.component';
 import {
-  DocumentColumnDialogComponent, DocumentColumnSelectComponent
+  DocumentColumnDialogComponent,
+  DocumentColumnSelectComponent
 } from './document-list/document-column-select/document-column-select.component';
 import { DocumentFormDialogComponent } from './document-list/document-form-dialog/document-form-dialog';
 import { DocumentListComponent } from './document-list/document-list.component';

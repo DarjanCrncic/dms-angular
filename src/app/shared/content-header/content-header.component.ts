@@ -1,5 +1,4 @@
-import { SidebarService } from './../services/sidebar-service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-content-header',
@@ -8,9 +7,5 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ContentHeaderComponent {
   @Input() title: string = '';
-  constructor(private sidebarService: SidebarService) {}
-
-  onToggleClick() {
-    this.sidebarService.toggleSidebar.next('toggle');
-  }
+  constructor() {}
 }
