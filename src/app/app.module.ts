@@ -51,6 +51,7 @@ import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.co
 import { RenameDialogComponent } from './shared/rename-dialog/rename-dialog.component';
 import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version-tree-dialog.component';
 import { AdministrationMenuComponent } from './administration-menu/administration-menu.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { AdministrationMenuComponent } from './administration-menu/administratio
     RenameDialogComponent,
     DmsAdministrationPageComponent,
     VersionTreeDialogComponent,
-    AdministrationMenuComponent
+    AdministrationMenuComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,

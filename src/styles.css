@@ -66,3 +66,8 @@ mat-progress-bar .mat-progress-bar-fill::after {
 .selected-menu-item-hover:hover {
   background-color: #e7e7e799;
 }
+
+.selected-menu-item-text {
+  font-weight: 500 !important;
+  color: rgb(63, 81, 181) !important;
+}

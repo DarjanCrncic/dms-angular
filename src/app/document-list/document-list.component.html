@@ -93,7 +93,7 @@
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="getIdentifiers()"></tr>
+      <tr mat-header-row *matHeaderRowDef="getIdentifiers(); sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
     </table>
   </div>

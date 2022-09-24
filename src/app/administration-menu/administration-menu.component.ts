@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administration-menu',
   templateUrl: './administration-menu.component.html',
   styleUrls: ['./administration-menu.component.css']
 })
-export class AdministrationMenuComponent implements OnInit {
+export class AdministrationMenuComponent {
+  menuItems = [
+    {
+      path: '/administration/users',
+      title: 'Users'
+    },
+    {
+      path: '/administration/items',
+      title: 'Items'
+    }
+  ];
 
-  constructor() { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
+  isCurrentlyActive(path: string) {
+    return this.router.url == path;
   }
-
 }

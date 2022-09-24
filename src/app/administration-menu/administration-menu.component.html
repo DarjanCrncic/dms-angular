@@ -1,1 +1,7 @@
-<p>administration-menu works!</p>
+<mat-list role="list">
+  <mat-list-item *ngFor="let item of menuItems" role="listitem" [routerLink]="[item.path]"
+    class="selected-menu-item-hover"
+    [ngClass]="{'selected-menu-item-background selected-menu-item-text': isCurrentlyActive(item.path)}">
+    {{item.title}}
+  </mat-list-item>
+</mat-list>
