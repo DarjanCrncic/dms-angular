@@ -50,8 +50,11 @@
 
 .dragger {
   position: absolute;
-  cursor: move;
   bottom: 50%;
   right: -24px;
   font-size: 2rem;
+}
+
+.dragger mat-icon {
+  cursor: move;
 }
