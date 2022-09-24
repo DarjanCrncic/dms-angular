@@ -1,6 +1,7 @@
 import { Subscription } from 'rxjs';
 import { SidebarService } from '../shared/services/sidebar-service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { DragRef, Point } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-dms-work-page',
@@ -10,13 +11,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class DmsWorkPageComponent implements OnInit, OnDestroy {
   opened = true;
   sidebarSubscription = new Subscription();
+  sideNavWidth: number = 400;
+
+  @ViewChild('drawer') sidenav: ElementRef<HTMLElement> | null = null;
 
   constructor(private sidebarService: SidebarService) {}
 
   ngOnInit(): void {
-    this.sidebarSubscription = this.sidebarService.toggleSidebar.subscribe(
-      (event) => {
-        this.onToggleEvent();
+    this.sidebarSubscription = this.sidebarService.$toggleSidebar.subscribe(
+      (isOpened) => {
+        this.opened = isOpened;
       }
     );
   }
@@ -25,6 +29,6 @@ export class DmsWorkPageComponent implements OnInit, OnDestroy {
   }
 
   onToggleEvent() {
-    this.opened = !this.opened;
+    this.sidebarService.toggle();
   }
 }

@@ -1,6 +1,6 @@
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened">
-    <app-folder-tree></app-folder-tree>
+<mat-drawer-container class="example-container" autosize #sidenav>
+  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened" [style.width.px]="sideNavWidth">
+    <router-outlet name="sidenav"></router-outlet>
     <div
       class="expander"
       (click)="onToggleEvent()"
@@ -13,6 +13,6 @@
     </div>
   </mat-drawer>
   <div class="example-sidenav-content">
-    <app-document-list></app-document-list>
+    <router-outlet name="content"></router-outlet>
   </div>
 </mat-drawer-container>

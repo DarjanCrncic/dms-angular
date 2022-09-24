@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.accountService.hasLocalData()) {
       this.accountService.updateAccountWithLocalData();
-      this.router.navigate(['/dms']);
     }
   }
 }

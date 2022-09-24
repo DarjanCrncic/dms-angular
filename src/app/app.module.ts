@@ -50,6 +50,7 @@ import { MessageSnackbarComponent } from './shared/message-snackbar/message-snac
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { RenameDialogComponent } from './shared/rename-dialog/rename-dialog.component';
 import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version-tree-dialog.component';
+import { AdministrationMenuComponent } from './administration-menu/administration-menu.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version
     PermissionRowComponent,
     RenameDialogComponent,
     DmsAdministrationPageComponent,
-    VersionTreeDialogComponent
+    VersionTreeDialogComponent,
+    AdministrationMenuComponent
   ],
   imports: [
     BrowserModule,

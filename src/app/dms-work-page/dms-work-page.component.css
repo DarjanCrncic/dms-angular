@@ -11,9 +11,6 @@
 }
 
 .example-sidenav {
-  padding: 20px;
-  min-width: 20%;
-  max-width: 30%;
   box-sizing: unset;
   overflow: unset;
   visibility: visible !important;
@@ -23,11 +20,10 @@
 .expander {
   position: absolute;
   right: -20px;
-  top: 40px;
+  top: 7px;
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  cursor: pointer;
 }
 
 .expander button {

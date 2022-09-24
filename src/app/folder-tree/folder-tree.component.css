@@ -12,6 +12,8 @@
 
 .mat-divider {
   border-top-width: 3px;
+  width: 96%;
+  margin: auto;
 }
 
 h4 {
@@ -20,7 +22,7 @@ h4 {
 }
 
 h2 {
-  margin-bottom: 5px;
+  margin: 10px;
 }
 
 .container {
@@ -28,7 +30,7 @@ h2 {
 }
 
 .tree-container {
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
   width: 100%;
 }

@@ -1,12 +1,17 @@
 h3 {
   margin: auto 0 auto 5px;
   display: inline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .inline-span {
   display: flex;
   align-items: center;
+  max-width: 200px;
 }
+
 mat-icon {
   margin: auto;
 }
