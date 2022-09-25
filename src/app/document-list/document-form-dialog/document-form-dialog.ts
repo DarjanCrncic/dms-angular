@@ -1,21 +1,12 @@
-import {
-  SnackbarService,
-  MessageTypes
-} from './../../shared/message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
 import { DocumentService } from './../documents-service';
 import { DocumentDTO } from './../document.model';
-import {
-  csvPattern,
-  ValidatorMessages
-} from './../../shared/validator-messages';
+import { csvPattern, ValidatorMessages } from './../../shared/validator-messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Errors } from 'src/app/shared/validator-messages';
-import {
-  DocumentTypeService,
-  TypeDTO
-} from 'src/app/shared/services/document-type-service';
+import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 
 @Component({
@@ -45,10 +36,7 @@ export class DocumentFormDialogComponent implements OnInit {
         Validators.minLength(4)
       ]),
       description: new FormControl(this.isEdit ? this.data.description : null),
-      keywords: new FormControl(
-        this.isEdit ? this.data.keywords.join(',') : '',
-        Validators.pattern(csvPattern)
-      ),
+      keywords: new FormControl(this.isEdit ? this.data.keywords.join(',') : '', Validators.pattern(csvPattern)),
       type: new FormControl(this.isEdit ? this.data.type : 'document')
     });
 
@@ -70,19 +58,14 @@ export class DocumentFormDialogComponent implements OnInit {
       keywords: formVal.keywords ? formVal.keywords.split(',') : null
     };
     if (this.data && this.data.id) {
-      this.documentService
-        .patchDocument(modifyDoc, this.data.id)
-        .subscribe((response) => {
-          this.documentForm.patchValue({
-            ...response,
-            keywords: response.keywords.toString()
-          });
-          this.documentService.refreshDocuments.next('');
-          this.snackbarService.openSnackBar(
-            'Document successfully updated.',
-            MessageTypes.SUCCESS
-          );
+      this.documentService.patchDocument(modifyDoc, this.data.id).subscribe((response) => {
+        this.documentForm.patchValue({
+          ...response,
+          keywords: response.keywords.toString()
         });
+        this.documentService.refreshDocuments.next('');
+        this.snackbarService.openSnackBar('Document successfully updated.', MessageTypes.SUCCESS);
+      });
     } else {
       const currentFolder = this.folderTreeService.getCurrentFolder();
       currentFolder &&
@@ -97,10 +80,7 @@ export class DocumentFormDialogComponent implements OnInit {
               keywords: response.keywords.toString()
             });
             this.documentService.refreshDocuments.next('');
-            this.snackbarService.openSnackBar(
-              'Document successfully saved.',
-              MessageTypes.SUCCESS
-            );
+            this.snackbarService.openSnackBar('Document successfully saved.', MessageTypes.SUCCESS);
           });
     }
   }
@@ -117,8 +97,6 @@ export class DocumentFormDialogComponent implements OnInit {
   }
 
   isSaveDisabled() {
-    return (
-      !this.documentForm.valid || (!this.documentForm.dirty && this.isEdit)
-    );
+    return !this.documentForm.valid || (!this.documentForm.dirty && this.isEdit);
   }
 }

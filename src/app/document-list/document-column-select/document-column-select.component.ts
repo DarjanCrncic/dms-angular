@@ -1,13 +1,6 @@
-import {
-  ColumnOption,
-  DocumentColumnService
-} from './../document-column-service';
+import { ColumnOption, DocumentColumnService } from './../document-column-service';
 import { Component, Inject, OnInit } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-document-column-select',
@@ -54,9 +47,7 @@ export class DocumentColumnDialogComponent implements OnInit {
   }
 
   toggleSelection(event: any) {
-    const index = this.documentColumns.findIndex(
-      (col) => col.identifier === event.option.value
-    );
+    const index = this.documentColumns.findIndex((col) => col.identifier === event.option.value);
     this.documentColumns[index].displayed = event.option.selected;
   }
 }

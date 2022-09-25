@@ -18,16 +18,11 @@ export class AdministrationService {
   constructor(private httpClient: HttpClient) {}
 
   public grantRights(id: string, body: GrantDTO[], type: AclClass) {
-    return this.httpClient.post<GrantDTO[]>(
-      environment.baseUrl + this.getPathGrant(type) + '/' + id,
-      body
-    );
+    return this.httpClient.post<GrantDTO[]>(environment.baseUrl + this.getPathGrant(type) + '/' + id, body);
   }
 
   public getExistingRights(id: string, type: AclClass) {
-    return this.httpClient.get<GrantDTO[]>(
-      environment.baseUrl + this.getPath(type) + '/' + id
-    );
+    return this.httpClient.get<GrantDTO[]>(environment.baseUrl + this.getPath(type) + '/' + id);
   }
 
   public getPathGrant(entity: AclClass): string {

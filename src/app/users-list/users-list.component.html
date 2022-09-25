@@ -1,13 +1,8 @@
 <app-content-header [title]="'Users'" (search)="handleQuickSearch($event)" [enableSearch]="true"></app-content-header>
-<div>
-  
-</div>
+<div></div>
 
 <div class="example-container">
-  <mat-spinner
-    *ngIf="isLoadingResults"
-    class="mat-spinner centered-default"
-  ></mat-spinner>
+  <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
 
   <div class="example-table-container mat-elevation-z2">
     <table
@@ -20,10 +15,7 @@
       cdkDropListOrientation="horizontal"
       (cdkDropListDropped)="drop($event)"
     >
-      <ng-container
-        matColumnDef="{{ column.identifier }}"
-        *ngFor="let column of displayedColumns"
-      >
+      <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
         <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
           {{ column.title }}
         </th>

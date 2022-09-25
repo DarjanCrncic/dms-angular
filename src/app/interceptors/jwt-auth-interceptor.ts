@@ -1,10 +1,5 @@
 import { AccountService } from './../security/account-service';
-import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest
-} from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -15,12 +10,8 @@ import { AuthInterceptors } from './../../environments/environment';
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService, private router: Router) {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (environment.authInterceptor !== AuthInterceptors.JWT)
-      return next.handle(request);
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (environment.authInterceptor !== AuthInterceptors.JWT) return next.handle(request);
 
     const account = this.accountService.account;
     const token = account?.token;

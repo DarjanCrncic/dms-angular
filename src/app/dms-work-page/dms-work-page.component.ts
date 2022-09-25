@@ -1,19 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {
-  fromEvent,
-  Subject,
-  Subscription,
-  switchMapTo,
-  takeUntil,
-  tap
-} from 'rxjs';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { fromEvent, Subject, Subscription, switchMapTo, takeUntil, tap } from 'rxjs';
 import { SidebarService } from '../shared/services/sidebar-service';
 @Component({
   selector: 'app-dms-work-page',
@@ -52,16 +38,12 @@ export class DmsWorkPageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.sidebarService.$toggleSidebar
-      .pipe(takeUntil(this.$componentDestroyed))
-      .subscribe((isOpened) => {
-        this.opened = isOpened;
-      });
-    this.sidebarService.$sidebarWidth
-      .pipe(takeUntil(this.$componentDestroyed))
-      .subscribe((width) => {
-        this.navWidth = width;
-      });
+    this.sidebarService.$toggleSidebar.pipe(takeUntil(this.$componentDestroyed)).subscribe((isOpened) => {
+      this.opened = isOpened;
+    });
+    this.sidebarService.$sidebarWidth.pipe(takeUntil(this.$componentDestroyed)).subscribe((width) => {
+      this.navWidth = width;
+    });
   }
   ngOnDestroy(): void {
     this.$componentDestroyed.next(true);

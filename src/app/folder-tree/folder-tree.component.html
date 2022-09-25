@@ -12,16 +12,12 @@
         matTreeNodePaddingIndent="20"
         (mouseenter)="onHoverIn(node)"
         [ngClass]="{
-          'selected-menu-item-background': isCurrentlySelected(node.id) 
+          'selected-menu-item-background': isCurrentlySelected(node.id)
         }"
       >
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
-        <app-folder-tree-item
-          [expanded]="getTreeControl().isExpanded(node)"
-          [empty]="node.empty"
-          [node]="node"
-        >
+        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
         </app-folder-tree-item>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
@@ -34,30 +30,15 @@
         #node
         (mouseenter)="onHoverIn(node)"
         [ngClass]="{
-          'selected-menu-item-background': isCurrentlySelected(node.id) 
+          'selected-menu-item-background': isCurrentlySelected(node.id)
         }"
       >
-        <button
-          mat-icon-button
-          matTreeNodeToggle
-          [attr.aria-label]="'Toggle ' + node.name"
-        >
-          <mat-icon
-            class="mat-icon-rtl-mirror"
-            (click)="saveFolderTreeToLocalStorage()"
-          >
-            {{
-              getTreeControl().isExpanded(node)
-                ? 'expand_more'
-                : 'chevron_right'
-            }}
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror" (click)="saveFolderTreeToLocalStorage()">
+            {{ getTreeControl().isExpanded(node) ? 'expand_more' : 'chevron_right' }}
           </mat-icon>
         </button>
-        <app-folder-tree-item
-          [expanded]="getTreeControl().isExpanded(node)"
-          [empty]="node.empty"
-          [node]="node"
-        >
+        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
         </app-folder-tree-item>
       </mat-tree-node>
     </mat-tree>

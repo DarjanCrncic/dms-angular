@@ -3,10 +3,7 @@
   <a [routerLink]="['/dms']" *ngIf="logoutVissible()">
     <button mat-flat-button color="primary">Documents</button>
   </a>
-  <a
-    [routerLink]="['/administration/users']"
-    *ngIf="logoutVissible() && isAdminRole()"
-  >
+  <a [routerLink]="['/administration/users']" *ngIf="logoutVissible() && isAdminRole()">
     <button mat-flat-button color="primary">Administration</button>
   </a>
   <span class="example-spacer"></span>
@@ -18,26 +15,15 @@
   >
     <mat-icon>favorite</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-    (click)="onClick()"
-  >
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onClick()">
     <mat-icon>share</mat-icon>
   </button>
-  <button
-    mat-icon-button
-    [matMenuTriggerFor]="beforeMenu"
-    *ngIf="logoutVissible()"
-  >
+  <button mat-icon-button [matMenuTriggerFor]="beforeMenu" *ngIf="logoutVissible()">
     <mat-icon>account_circle</mat-icon>
   </button>
   <mat-menu #beforeMenu="matMenu" xPosition="before">
     <p class="name">{{ firstName }} {{ lastName }}</p>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="onLogoutClick()">
-      <mat-icon>logout</mat-icon> Logout
-    </button>
+    <button mat-menu-item (click)="onLogoutClick()"><mat-icon>logout</mat-icon> Logout</button>
   </mat-menu>
 </mat-toolbar>

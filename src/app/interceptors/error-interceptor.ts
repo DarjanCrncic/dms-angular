@@ -1,25 +1,13 @@
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import {
-  SnackbarService,
-  MessageTypes
-} from './../shared/message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private snackbarService: SnackbarService) {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((res: HttpErrorResponse) => {
         console.log(res);

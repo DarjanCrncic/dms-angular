@@ -14,8 +14,6 @@ export class DocumentTypeService {
   constructor(private httpClient: HttpClient) {}
 
   getAllDocumentTypes() {
-    return this.httpClient.get<TypeDTO[]>(
-      environment.baseUrl + ApiPaths.DocumentType
-    );
+    return this.httpClient.get<TypeDTO[]>(environment.baseUrl + ApiPaths.DocumentType);
   }
 }

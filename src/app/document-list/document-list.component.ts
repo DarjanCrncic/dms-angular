@@ -1,9 +1,6 @@
 import { SearchUtil, SearchClasses } from './../shared/search-field/search-util';
 import { CopyService, COPY_ACTION } from './../shared/services/copy-service';
-import {
-  SnackbarService,
-  MessageTypes
-} from './../shared/message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -47,22 +44,18 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.displayedColumns = this.colService.getActiveColumns();
 
-    this.folderChangedSub =
-      this.folderTreeService.selectedFolderChanged.subscribe((folder) => {
-        this.getDocuments(folder.id);
-      });
+    this.folderChangedSub = this.folderTreeService.selectedFolderChanged.subscribe((folder) => {
+      this.getDocuments(folder.id);
+    });
 
     this.refreshData = this.documentService.refreshDocuments.subscribe(() => {
       const currentFolder = this.folderTreeService.getCurrentFolder();
       currentFolder && this.getDocuments(currentFolder.id);
     });
 
-    this.displayedColumnsChangedSub =
-      this.colService.displayedColumnsChanged.subscribe(
-        (newDisplayedColumns) => {
-          this.displayedColumns = newDisplayedColumns;
-        }
-      );
+    this.displayedColumnsChangedSub = this.colService.displayedColumnsChanged.subscribe((newDisplayedColumns) => {
+      this.displayedColumns = newDisplayedColumns;
+    });
 
     const currentFolder = this.folderTreeService.getCurrentFolder();
     currentFolder && this.getDocuments(currentFolder.id);
@@ -71,8 +64,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.folderChangedSub && this.folderChangedSub.unsubscribe();
     this.refreshData && this.refreshData.unsubscribe();
-    this.displayedColumnsChangedSub &&
-      this.displayedColumnsChangedSub.unsubscribe();
+    this.displayedColumnsChangedSub && this.displayedColumnsChangedSub.unsubscribe();
   }
 
   getDocuments(folderId?: string) {
@@ -95,9 +87,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   }
 
   getIdentifiers(): string[] {
-    const identifiers = this.displayedColumns
-      .filter((col) => col.displayed)
-      .map((colOpt) => colOpt.identifier);
+    const identifiers = this.displayedColumns.filter((col) => col.displayed).map((colOpt) => colOpt.identifier);
     return ['select', ...identifiers, 'actions'];
   }
 
@@ -113,11 +103,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   // moveable columns
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(
-      this.displayedColumns,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -158,10 +144,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     this.documentService.deleteDocuments(toDelete).subscribe(() => {
       this.documentService.refreshDocuments.next('');
       this.selection.clear();
-      this.snackbarService.openSnackBar(
-        'Documents deleted.',
-        MessageTypes.SUCCESS
-      );
+      this.snackbarService.openSnackBar('Documents deleted.', MessageTypes.SUCCESS);
     });
   }
 
@@ -189,10 +172,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     this.copyService.copyDocuments(currentFolder.id).subscribe((res) => {
       this.copyService.clearDocuments();
       this.documentService.refreshDocuments.next(null);
-      this.snackbarService.openSnackBar(
-        'Documents successfully copied.',
-        MessageTypes.SUCCESS
-      );
+      this.snackbarService.openSnackBar('Documents successfully copied.', MessageTypes.SUCCESS);
     });
   }
 

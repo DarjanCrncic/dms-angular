@@ -23,14 +23,8 @@ export class DmsLoginPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: new FormControl('admin', [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      password: new FormControl('12345', [
-        Validators.required,
-        Validators.minLength(4)
-      ])
+      username: new FormControl('admin', [Validators.required, Validators.minLength(4)]),
+      password: new FormControl('12345', [Validators.required, Validators.minLength(4)])
     });
   }
 
@@ -47,22 +41,19 @@ export class DmsLoginPageComponent implements OnInit {
     if (!this.loginForm.valid) return;
     const formVal = this.loginForm.value;
     this.buttonDisabled = true;
-    this.accountService
-      .login(formVal['username'], formVal['password'])
-      .subscribe({
-        next: (res) => {
-          this.folderTreeService.setCurrentToRoot();
-          this.router.navigate(['/dms']);
-          this.errorMsg = '';
-        },
-        error: (error) => {
-          this.errorMsg =
-            error?.error?.status == 400 ? 'Invalid username or password.' : '';
-          this.buttonDisabled = false;
-        },
-        complete: () => {
-          this.buttonDisabled = false;
-        }
-      });
+    this.accountService.login(formVal['username'], formVal['password']).subscribe({
+      next: (res) => {
+        this.folderTreeService.setCurrentToRoot();
+        this.router.navigate(['/dms']);
+        this.errorMsg = '';
+      },
+      error: (error) => {
+        this.errorMsg = error?.error?.status == 400 ? 'Invalid username or password.' : '';
+        this.buttonDisabled = false;
+      },
+      complete: () => {
+        this.buttonDisabled = false;
+      }
+    });
   }
 }

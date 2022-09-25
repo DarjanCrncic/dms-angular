@@ -60,7 +60,7 @@ mat-progress-bar .mat-progress-bar-fill::after {
 }
 
 .selected-menu-item-background {
-  background-color: rgba(63,81,181,.15);
+  background-color: rgba(63, 81, 181, 0.15);
 }
 
 .selected-menu-item-hover:hover {

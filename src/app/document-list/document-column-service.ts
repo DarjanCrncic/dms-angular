@@ -19,25 +19,18 @@ export class DocumentColumnService {
   }
 
   getDocColPrefsForUser() {
-    this.httpClient
-      .get<ColumnOption[]>(environment.baseUrl + ApiPaths.DocColPref)
-      .subscribe((response) => {
-        this.displayableColumns = response;
-        this.displayedColumnsChanged.next(response);
-      });
+    this.httpClient.get<ColumnOption[]>(environment.baseUrl + ApiPaths.DocColPref).subscribe((response) => {
+      this.displayableColumns = response;
+      this.displayedColumnsChanged.next(response);
+    });
   }
 
   saveNewSelectionForUser(options: ColumnOption[]) {
-    return this.httpClient.post<ColumnOption[]>(
-      environment.baseUrl + ApiPaths.DocColPref,
-      options
-    );
+    return this.httpClient.post<ColumnOption[]>(environment.baseUrl + ApiPaths.DocColPref, options);
   }
 
   getActiveColumns(): ColumnOption[] {
-    return this.displayableColumns
-      .filter((col) => col.displayed)
-      .map((a) => ({ ...a }));
+    return this.displayableColumns.filter((col) => col.displayed).map((a) => ({ ...a }));
   }
 
   getAllColumns(): ColumnOption[] {

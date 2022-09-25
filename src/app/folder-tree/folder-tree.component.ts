@@ -15,15 +15,10 @@ export class FolderTreeComponent implements OnInit {
   newFolderForm: FormGroup = new FormGroup({});
   folderDeletedSub: Subscription | null = null;
 
-  constructor(
-    private folderOptionsService: FolderOptionsService,
-    private folderTreeService: FolderTreeService
-  ) {}
+  constructor(private folderOptionsService: FolderOptionsService, private folderTreeService: FolderTreeService) {}
 
   ngOnInit(): void {
-    this.folderTreeService.getFolderTree(
-      this.folderTreeService?.getCurrentFolder()?.id
-    );
+    this.folderTreeService.getFolderTree(this.folderTreeService?.getCurrentFolder()?.id);
   }
 
   getTreeControl() {
@@ -38,11 +33,7 @@ export class FolderTreeComponent implements OnInit {
 
   getErrorMessage(controlName: string) {
     const control = this.newFolderForm.get(controlName);
-    return control?.hasError('required')
-      ? Errors.required
-      : control?.hasError('pattern')
-      ? Errors.alphaNumeric
-      : null;
+    return control?.hasError('required') ? Errors.required : control?.hasError('pattern') ? Errors.alphaNumeric : null;
   }
 
   onHoverIn(node: any) {

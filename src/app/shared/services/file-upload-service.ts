@@ -18,16 +18,10 @@ export class FileUploadService {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    return this.httpClient.post<FileUploadResponse>(
-      environment.baseUrl + ApiPaths.DocumentUpload + '/' + id,
-      formData
-    );
+    return this.httpClient.post<FileUploadResponse>(environment.baseUrl + ApiPaths.DocumentUpload + '/' + id, formData);
   }
 
   download(id: string) {
-    return this.httpClient.get(
-      environment.baseUrl + ApiPaths.DocumentDownload + '/' + id,
-      { responseType: 'blob' }
-    );
+    return this.httpClient.get(environment.baseUrl + ApiPaths.DocumentDownload + '/' + id, { responseType: 'blob' });
   }
 }

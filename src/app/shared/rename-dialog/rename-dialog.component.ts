@@ -1,9 +1,6 @@
 import { FolderTreeService } from './../../folder-tree/folder-tree-service';
 import { FlatTreeNode } from '../../folder-tree/folder-tree-service';
-import {
-  SnackbarService,
-  MessageTypes
-} from './../message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../message-snackbar/snackbar-service';
 import { Errors, validFolderName } from './../validator-messages';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { FolderService } from './../../folder-tree/folder-service';
@@ -42,26 +39,16 @@ export class RenameDialogComponent implements OnInit {
   onSave() {
     if (this.data.update) {
       const newFolderName = this.nameForm.value['nameControl'];
-      this.folderService
-        .updateFolderPath(this.data.node.id, newFolderName)
-        .subscribe((res) => {
-          this.snackbarService.openSnackBar(
-            'Folder successfully updated.',
-            MessageTypes.SUCCESS
-          );
-          this.folderTreeService.updateNode(this.data.node.id, res);
-        });
+      this.folderService.updateFolderPath(this.data.node.id, newFolderName).subscribe((res) => {
+        this.snackbarService.openSnackBar('Folder successfully updated.', MessageTypes.SUCCESS);
+        this.folderTreeService.updateNode(this.data.node.id, res);
+      });
     } else {
       const newFolderName = this.nameForm.value['nameControl'];
-      this.folderService
-        .createNewFolder(newFolderName, this.data.node.id)
-        .subscribe((res) => {
-          this.snackbarService.openSnackBar(
-            'Folder successfully created.',
-            MessageTypes.SUCCESS
-          );
-          this.folderTreeService.addNodeToTree(this.data.node, res);
-        });
+      this.folderService.createNewFolder(newFolderName, this.data.node.id).subscribe((res) => {
+        this.snackbarService.openSnackBar('Folder successfully created.', MessageTypes.SUCCESS);
+        this.folderTreeService.addNodeToTree(this.data.node, res);
+      });
     }
   }
 
@@ -71,11 +58,7 @@ export class RenameDialogComponent implements OnInit {
 
   getErrorMessage(controlName: string) {
     const control = this.nameForm.get(controlName);
-    return control?.hasError('required')
-      ? Errors.required
-      : control?.hasError('pattern')
-      ? Errors.alphaNumeric
-      : null;
+    return control?.hasError('required') ? Errors.required : control?.hasError('pattern') ? Errors.alphaNumeric : null;
   }
 
   getTitle() {

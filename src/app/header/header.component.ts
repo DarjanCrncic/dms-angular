@@ -2,10 +2,7 @@ import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 import { Subscription, filter } from 'rxjs';
 import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
-import {
-  SnackbarService,
-  MessageTypes
-} from './../shared/message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { TestService } from './../shared/services/test-service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -31,12 +28,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.firstName = localAccount && localAccount.first_name;
     this.lastName = localAccount && localAccount.last_name;
 
-    this.newUserSub = this.accountService.newUserAnnouncment.subscribe(
-      (account) => {
-        this.firstName = account.first_name;
-        this.lastName = account.last_name;
-      }
-    );
+    this.newUserSub = this.accountService.newUserAnnouncment.subscribe((account) => {
+      this.firstName = account.first_name;
+      this.lastName = account.last_name;
+    });
   }
 
   onLogoutClick() {
@@ -61,10 +56,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   isAdminRole() {
-    return (
-      this.accountService.account.roles?.findIndex(
-        (role) => role === 'ROLE_ADMIN'
-      ) > -1
-    );
+    return this.accountService.account.roles?.findIndex((role) => role === 'ROLE_ADMIN') > -1;
   }
 }

@@ -1,14 +1,5 @@
-import {
-  FileUploadService,
-  FileUploadResponse
-} from './../services/file-upload-service';
-import {
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
+import { FileUploadService, FileUploadResponse } from './../services/file-upload-service';
+import { ChangeDetectorRef, Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ContentDTO, DocumentDTO } from './../../document-list/document.model';
 import { DocumentService } from './../../document-list/documents-service';
@@ -56,9 +47,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
         this.setUpVersionMatrix();
         this.versions.length > 0 &&
           pickId &&
-          this.pickVersion(
-            this.versions.find((ver) => ver.id === pickId) ?? this.versions[0]
-          );
+          this.pickVersion(this.versions.find((ver) => ver.id === pickId) ?? this.versions[0]);
         this.isLoading = false;
       },
       complete: () => {
@@ -73,20 +62,16 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
 
   onDelete() {
     this.selected &&
-      this.documentService
-        .deleteDocuments([this.selected.id])
-        .subscribe((res) => {
-          this.refreshTree(this.selected?.predecessor_id);
-        });
+      this.documentService.deleteDocuments([this.selected.id]).subscribe((res) => {
+        this.refreshTree(this.selected?.predecessor_id);
+      });
   }
 
   onVersion() {
     this.selected &&
-      this.documentService
-        .versionDocument(this.selected.id)
-        .subscribe((res) => {
-          this.refreshTree(res.id);
-        });
+      this.documentService.versionDocument(this.selected.id).subscribe((res) => {
+        this.refreshTree(res.id);
+      });
   }
 
   createBranch() {
@@ -115,8 +100,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
           });
           break;
         default:
-          !EXCLUDED_KEYS.includes(key) &&
-            this.properties.push({ name: key, value: value });
+          !EXCLUDED_KEYS.includes(key) && this.properties.push({ name: key, value: value });
       }
     }
   }
@@ -129,10 +113,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
 
   private getBranch(version: string) {
     return this.versions.filter((ver) => {
-      return (
-        ver.version.startsWith(version) &&
-        ver.version.split('.').length - 1 == version.split('.').length
-      );
+      return ver.version.startsWith(version) && ver.version.split('.').length - 1 == version.split('.').length;
     });
   }
 
@@ -153,9 +134,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
       if (versionSum > height) height = versionSum;
     });
 
-    this.versionMatrix = new Array(height)
-      .fill(0)
-      .map(() => new Array(colNum).fill(0));
+    this.versionMatrix = new Array(height).fill(0).map(() => new Array(colNum).fill(0));
     this.getMainVersions().forEach((version) => {
       this.versionMatrix[+version.version - 1][0] = version;
       this.handleChildren(+version.version - 1, 1, version.version);
@@ -203,8 +182,7 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
     if (predPos == null) return 0;
 
     return column - predPos > 1
-      ? (column - predPos - 1) * (TD_WIDTH + 2 * TD_PADDING) +
-          2 * (TD_PADDING + column - predPos)
+      ? (column - predPos - 1) * (TD_WIDTH + 2 * TD_PADDING) + 2 * (TD_PADDING + column - predPos)
       : (TD_PADDING + 1) * 2;
   }
 

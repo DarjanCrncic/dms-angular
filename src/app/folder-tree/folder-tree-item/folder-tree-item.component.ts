@@ -4,10 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { FolderService } from '../folder-service';
 import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
-import {
-  MessageTypes,
-  SnackbarService
-} from './../../shared/message-snackbar/snackbar-service';
+import { MessageTypes, SnackbarService } from './../../shared/message-snackbar/snackbar-service';
 import { RenameDialogComponent } from './../../shared/rename-dialog/rename-dialog.component';
 import { AclClass } from './../../shared/services/administration-service';
 import { FolderOptionsService } from './../folder-options-service';
@@ -43,19 +40,15 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.currentlySelected =
-      this.folderTreeService.getCurrentFolder()?.id === this.node.id;
+    this.currentlySelected = this.folderTreeService.getCurrentFolder()?.id === this.node.id;
 
-    this.currentFolderChangedSub =
-      this.folderTreeService.selectedFolderChanged.subscribe((newFolder) => {
-        this.currentlySelected = newFolder.id === this.node.id;
-      });
+    this.currentFolderChangedSub = this.folderTreeService.selectedFolderChanged.subscribe((newFolder) => {
+      this.currentlySelected = newFolder.id === this.node.id;
+    });
 
-    this.folderHoverChangedSub =
-      this.folderOptionsService.hoveredNodeChanged.subscribe((selected) => {
-        this.showOptions =
-          this.node.name === selected?.name && this.node.name !== '/';
-      });
+    this.folderHoverChangedSub = this.folderOptionsService.hoveredNodeChanged.subscribe((selected) => {
+      this.showOptions = this.node.name === selected?.name && this.node.name !== '/';
+    });
   }
 
   getFolderName(path: string) {
@@ -77,19 +70,13 @@ export class FolderTreeItemComponent implements OnInit, OnDestroy {
     if (!folder) return;
 
     if (folder.name === '/') {
-      this.snackbarService.openSnackBar(
-        'Root folder cannot be deleted.',
-        MessageTypes.ERROR
-      );
+      this.snackbarService.openSnackBar('Root folder cannot be deleted.', MessageTypes.ERROR);
       throw new Error('Root folder cannot be deleted.');
     }
 
     this.folderService.deleteById(folder.id).subscribe(() => {
       this.folderTreeService.removeNode(folder.id);
-      this.snackbarService.openSnackBar(
-        'Folder successfully deleted.',
-        MessageTypes.SUCCESS
-      );
+      this.snackbarService.openSnackBar('Folder successfully deleted.', MessageTypes.SUCCESS);
     });
   }
 

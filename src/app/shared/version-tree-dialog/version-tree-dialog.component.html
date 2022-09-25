@@ -13,10 +13,7 @@
               [ngClass]="{ selected: version.id === selected?.id }"
             >
               <span class="version-number">{{ version.version }}</span>
-              <div
-                *ngIf="i > 0 && versionMatrix[i - 1][j]"
-                class="vertical-connection"
-              ></div>
+              <div *ngIf="i > 0 && versionMatrix[i - 1][j]" class="vertical-connection"></div>
               <div
                 class="horizontal-connection"
                 [ngStyle]="{
@@ -31,9 +28,7 @@
     </ng-container>
   </div>
   <div class="selected-box" *ngIf="selected">
-    <h2 class="version-title">
-      (Version: {{ selected.version }}) {{ selected.object_name }}
-    </h2>
+    <h2 class="version-title">(Version: {{ selected.version }}) {{ selected.object_name }}</h2>
     <div *ngFor="let property of properties" class="prop-row">
       <p class="prop">{{ property.name }}:</p>
       <p class="value">{{ property.value }}</p>
@@ -42,32 +37,14 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onCancel()">Cancel</button>
-  <button
-    mat-stroked-button
-    (click)="onVersion()"
-    *ngIf="!this.selected?.immutable"
-  >
-    New Version
-  </button>
-  <button
-    mat-stroked-button
-    color="accent"
-    (click)="createBranch()"
-    *ngIf="!selected?.branched"
-  >
-    Create branch
-  </button>
-  <label
-    *ngIf="!isLoading && !selected?.immutable && !selected?.content"
-    class="upload"
-  >
+  <button mat-stroked-button (click)="onVersion()" *ngIf="!this.selected?.immutable">New Version</button>
+  <button mat-stroked-button color="accent" (click)="createBranch()" *ngIf="!selected?.branched">Create branch</button>
+  <label *ngIf="!isLoading && !selected?.immutable && !selected?.content" class="upload">
     <mat-icon matTooltip="Upload file">backup</mat-icon>
     <input type="file" (change)="onChange($event)" style="display: none" />
   </label>
   <a *ngIf="selected?.content" (click)="onDownload()" class="download">
-    <mat-icon color="primary" matTooltip="Download file"
-      >cloud_download</mat-icon
-    >
+    <mat-icon color="primary" matTooltip="Download file">cloud_download</mat-icon>
   </a>
   <button
     mat-raised-button

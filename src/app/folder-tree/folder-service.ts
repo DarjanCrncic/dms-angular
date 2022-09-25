@@ -10,42 +10,30 @@ export class FolderService {
   constructor(private httpClient: HttpClient) {}
 
   getFolders() {
-    this.httpClient
-      .get<Folder[]>(environment.baseUrl + ApiPaths.Folder)
-      .subscribe((response) => {
-        return response;
-      });
+    this.httpClient.get<Folder[]>(environment.baseUrl + ApiPaths.Folder).subscribe((response) => {
+      return response;
+    });
     return [];
   }
 
   getFolderTree() {
-    return this.httpClient.get<FolderNode[]>(
-      environment.baseUrl + ApiPaths.FolderTree
-    );
+    return this.httpClient.get<FolderNode[]>(environment.baseUrl + ApiPaths.FolderTree);
   }
 
   createNewFolder(name: string, parentFolderId: string) {
-    return this.httpClient.post<FolderNode>(
-      environment.baseUrl + ApiPaths.Folder,
-      {
-        name: name,
-        parent_folder_id: parentFolderId
-      }
-    );
+    return this.httpClient.post<FolderNode>(environment.baseUrl + ApiPaths.Folder, {
+      name: name,
+      parent_folder_id: parentFolderId
+    });
   }
 
   deleteById(id: string) {
-    return this.httpClient.delete(
-      environment.baseUrl + ApiPaths.Folder + '/' + id
-    );
+    return this.httpClient.delete(environment.baseUrl + ApiPaths.Folder + '/' + id);
   }
 
   updateFolderPath(id: string, newPath: string) {
-    return this.httpClient.put<FolderNode>(
-      environment.baseUrl + ApiPaths.Folder + '/' + id,
-      {
-        name: newPath
-      }
-    );
+    return this.httpClient.put<FolderNode>(environment.baseUrl + ApiPaths.Folder + '/' + id, {
+      name: newPath
+    });
   }
 }

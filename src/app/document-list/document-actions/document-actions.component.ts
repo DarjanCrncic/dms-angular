@@ -6,10 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GrantRightsDialogComponent } from './../../shared/grant-rights-dialog/grant-rights-dialog.component';
 import { ApiPaths } from './../../api-paths';
 import { environment } from './../../../environments/environment';
-import {
-  SnackbarService,
-  MessageTypes
-} from './../../shared/message-snackbar/snackbar-service';
+import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
 import { FileUploadService } from '../../shared/services/file-upload-service';
 import { DocumentDTO } from './../document.model';
 import { Component, OnInit, Input } from '@angular/core';
@@ -35,8 +32,7 @@ export class DocumentActionsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.docDTO.content && this.docDTO.content.content_size > 0) {
-      this.linkToFile =
-        environment.baseUrl + ApiPaths.DocumentDownload + '/' + this.docDTO.id;
+      this.linkToFile = environment.baseUrl + ApiPaths.DocumentDownload + '/' + this.docDTO.id;
     }
   }
 
@@ -56,10 +52,7 @@ export class DocumentActionsComponent implements OnInit {
           original_file_name: event.original_file_name,
           content_type: event.content_type
         };
-        this.snackbarService.openSnackBar(
-          'Docuement successfully uploaded.',
-          MessageTypes.SUCCESS
-        );
+        this.snackbarService.openSnackBar('Docuement successfully uploaded.', MessageTypes.SUCCESS);
         this.loading = false;
       },
       error: (error) => {

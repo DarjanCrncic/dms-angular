@@ -1,48 +1,19 @@
-<app-content-header [title]="getHeaderTitle()" (search)="handleQuickSearch($event)" [enableSearch]="true"></app-content-header>
+<app-content-header
+  [title]="getHeaderTitle()"
+  (search)="handleQuickSearch($event)"
+  [enableSearch]="true"
+></app-content-header>
 <div class="table-action-header">
-  <button mat-stroked-button color="primary" (click)="openAddDialog()">
-    New Document
-  </button>
-  <button
-    *ngIf="isAnySelected()"
-    mat-stroked-button
-    color="primary"
-    (click)="onGroupCopy()"
-  >
-    Copy Documents
-  </button>
-  <button
-    *ngIf="isAnySelected()"
-    mat-stroked-button
-    color="primary"
-    (click)="onGroupCut()"
-  >
-    Cut Documents
-  </button>
-  <button
-    *ngIf="isPasteEnabled()"
-    mat-stroked-button
-    color="primary"
-    (click)="onGroupPaste()"
-  >
-    Paste Documents
-  </button>
+  <button mat-stroked-button color="primary" (click)="openAddDialog()">New Document</button>
+  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCopy()">Copy Documents</button>
+  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCut()">Cut Documents</button>
+  <button *ngIf="isPasteEnabled()" mat-stroked-button color="primary" (click)="onGroupPaste()">Paste Documents</button>
   <app-document-column-select></app-document-column-select>
-  <button
-    *ngIf="isAnySelected()"
-    color="warn"
-    mat-stroked-button
-    (click)="onGroupDelete()"
-  >
-    Delete Documents
-  </button>
+  <button *ngIf="isAnySelected()" color="warn" mat-stroked-button (click)="onGroupDelete()">Delete Documents</button>
 </div>
 
 <div class="example-container">
-  <mat-spinner
-    *ngIf="isLoadingResults"
-    class="mat-spinner centered-default"
-  ></mat-spinner>
+  <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
 
   <div class="example-table-container mat-elevation-z2">
     <table
@@ -76,10 +47,7 @@
           </mat-checkbox>
         </td>
       </ng-container>
-      <ng-container
-        matColumnDef="{{ column.identifier }}"
-        *ngFor="let column of displayedColumns"
-      >
+      <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
         <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
           {{ column.title }}
         </th>
