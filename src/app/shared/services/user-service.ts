@@ -21,27 +21,20 @@ export class UserService {
   refresh: Subject<null> = new Subject();
 
   getUserDetails(username: string) {
-    return this.httpClient.get<UserDetails>(
-      environment.baseUrl + ApiPaths.UserDetails,
-      {
-        params: {
-          username: username
-        }
+    return this.httpClient.get<UserDetails>(environment.baseUrl + ApiPaths.UserDetails, {
+      params: {
+        username: username
       }
-    );
+    });
   }
 
-  getAvailableUsers(sort?: Sort) {
-    return this.httpClient.get<UserDetails[]>(
-      environment.baseUrl + ApiPaths.User,
-      {
-        params: sort
-          ? {
-              active: sort.active,
-              direction: sort.direction
-            }
-          : {}
+  getAvailableUsers(sort?: Sort, search?: string) {
+    return this.httpClient.get<UserDetails[]>(environment.baseUrl + ApiPaths.User, {
+      params: {
+        search: search ?? '',
+        sort: sort?.active ?? '',
+        direction: sort?.direction ?? ''
       }
-    );
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { SearchUtil, SearchClasses } from './../shared/search-field/search-util';
 import { Subscription } from 'rxjs';
 import { ColumnOption } from './../document-list/document-column-service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -18,7 +19,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
   isLoadingResults = false;
   dataSource = new MatTableDataSource<UserDetails>([]);
   private refreshData: Subscription = new Subscription();
-  sort: Sort = {active: 'creation_date', direction: 'desc'};
+  private sort: Sort = { active: 'creation_date', direction: 'desc' };
+  private search: string = '';
 
   constructor(public dialog: MatDialog, private userService: UserService) {}
 
@@ -29,7 +31,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
       { displayed: true, identifier: 'last_name', title: 'Last Name' },
       { displayed: true, identifier: 'creation_date', title: 'Creation Date' },
       { displayed: true, identifier: 'modify_date', title: 'Modify Date' },
-      { displayed: true, identifier: 'email', title: 'Email' },
+      { displayed: true, identifier: 'email', title: 'Email' }
     ];
 
     this.getUserDetails();
@@ -45,18 +47,16 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   getUserDetails() {
     this.isLoadingResults = true;
-    this.userService.getAvailableUsers(this.sort).subscribe(
-      (response: UserDetails[]) => {
+    this.userService
+      .getAvailableUsers(this.sort, SearchUtil.buildSearch(this.search, SearchClasses.USER))
+      .subscribe((response: UserDetails[]) => {
         this.isLoadingResults = false;
         this.dataSource.data = response;
-      }
-    );
+      });
   }
 
   getIdentifiers(): string[] {
-    const identifiers = this.displayedColumns
-      .filter((col) => col.displayed)
-      .map((colOpt) => colOpt.identifier);
+    const identifiers = this.displayedColumns.filter((col) => col.displayed).map((colOpt) => colOpt.identifier);
     return [...identifiers, 'actions'];
   }
 
@@ -67,10 +67,11 @@ export class UsersListComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(
-      this.displayedColumns,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.displayedColumns, event.previousIndex, event.currentIndex);
+  }
+
+  handleQuickSearch($event: string) {
+    this.search = $event;
+    this.getUserDetails();
   }
 }

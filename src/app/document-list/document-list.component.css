@@ -44,3 +44,7 @@ table {
 button {
   background: white;
 }
+
+.table-action-header {
+  position: relative;
+}

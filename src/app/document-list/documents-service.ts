@@ -18,7 +18,8 @@ export class DocumentService {
 
   getDocuments(
     sort?: Sort,
-    parentFolderId?: string
+    parentFolderId?: string,
+    search?: string
   ): Observable<DocumentDTO[]> {
     if (!sort) {
       sort = {
@@ -30,6 +31,7 @@ export class DocumentService {
       active: sort.active,
       direction: sort.direction
     };
+    const addition = search ? `,${search}` : '';
 
     return this.httpClient.get<DocumentDTO[]>(
       environment.baseUrl + ApiPaths.Document,
@@ -37,7 +39,7 @@ export class DocumentService {
         params: parentFolderId
           ? {
               ...params,
-              search: `parentFolder:${parentFolderId},immutable:false`
+              search: `parentFolder:${parentFolderId},immutable:false${addition}`
             }
           : params
       }

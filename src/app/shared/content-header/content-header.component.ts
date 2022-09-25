@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-content-header',
@@ -7,5 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class ContentHeaderComponent {
   @Input() title: string = '';
+  @Input() enableSearch: boolean = false;
+  @Output() search: EventEmitter<string> = new EventEmitter();
+
   constructor() {}
+
+  emitSearch($event: string) {
+    this.search.emit($event);
+  }
 }

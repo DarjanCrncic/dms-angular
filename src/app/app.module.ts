@@ -52,6 +52,7 @@ import { RenameDialogComponent } from './shared/rename-dialog/rename-dialog.comp
 import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version-tree-dialog.component';
 import { AdministrationMenuComponent } from './administration-menu/administration-menu.component';
 import { UsersListComponent } from './users-list/users-list.component';
+import { SearchFieldComponent } from './shared/search-field/search-field.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { UsersListComponent } from './users-list/users-list.component';
     DmsAdministrationPageComponent,
     VersionTreeDialogComponent,
     AdministrationMenuComponent,
-    UsersListComponent
+    UsersListComponent,
+    SearchFieldComponent
   ],
   imports: [
     BrowserModule,

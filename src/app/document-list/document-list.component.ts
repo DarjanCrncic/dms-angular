@@ -1,3 +1,4 @@
+import { SearchUtil, SearchClasses } from './../shared/search-field/search-util';
 import { CopyService, COPY_ACTION } from './../shared/services/copy-service';
 import {
   SnackbarService,
@@ -10,7 +11,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { FolderService } from './../folder-tree/folder-service';
 import { DocumentColumnService, ColumnOption } from './document-column-service';
 import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
@@ -32,6 +32,9 @@ export class DocumentListComponent implements OnInit, OnDestroy {
   private displayedColumnsChangedSub: Subscription = new Subscription();
   private refreshData: Subscription = new Subscription();
 
+  private sort: Sort | undefined = undefined;
+  private search: string = '';
+
   constructor(
     private documentService: DocumentService,
     private colService: DocumentColumnService,
@@ -46,12 +49,12 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
     this.folderChangedSub =
       this.folderTreeService.selectedFolderChanged.subscribe((folder) => {
-        this.getDocuments(undefined, folder.id);
+        this.getDocuments(folder.id);
       });
 
     this.refreshData = this.documentService.refreshDocuments.subscribe(() => {
       const currentFolder = this.folderTreeService.getCurrentFolder();
-      currentFolder && this.getDocuments(undefined, currentFolder.id);
+      currentFolder && this.getDocuments(currentFolder.id);
     });
 
     this.displayedColumnsChangedSub =
@@ -62,7 +65,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       );
 
     const currentFolder = this.folderTreeService.getCurrentFolder();
-    currentFolder && this.getDocuments(undefined, currentFolder.id);
+    currentFolder && this.getDocuments(currentFolder.id);
   }
 
   ngOnDestroy(): void {
@@ -72,10 +75,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
       this.displayedColumnsChangedSub.unsubscribe();
   }
 
-  getDocuments(sort?: Sort, folderId?: string) {
+  getDocuments(folderId?: string) {
     this.isLoadingResults = true;
     this.documentService
-      .getDocuments(sort, folderId)
+      .getDocuments(this.sort, folderId, SearchUtil.buildSearch(this.search, SearchClasses.DOCUMENT))
       .subscribe((response: DocumentDTO[]) => {
         this.selection.clear();
         this.isLoadingResults = false;
@@ -104,7 +107,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   // sorting
   sortData(event: Sort) {
-    this.getDocuments(event, this.folderTreeService.getCurrentFolder()?.id);
+    this.sort = event;
+    this.getDocuments(this.folderTreeService.getCurrentFolder()?.id);
   }
 
   // moveable columns
@@ -203,5 +207,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
   isPasteEnabled() {
     return this.copyService.getDocumentsForCopy().length > 0;
+  }
+
+  handleQuickSearch($event: string) {
+    this.search = $event;
+    this.getDocuments(this.folderTreeService.getCurrentFolder()?.id);
   }
 }

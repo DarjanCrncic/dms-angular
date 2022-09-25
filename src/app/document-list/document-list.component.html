@@ -1,5 +1,5 @@
-<app-content-header [title]="getHeaderTitle()"></app-content-header>
-<div>
+<app-content-header [title]="getHeaderTitle()" (search)="handleQuickSearch($event)" [enableSearch]="true"></app-content-header>
+<div class="table-action-header">
   <button mat-stroked-button color="primary" (click)="openAddDialog()">
     New Document
   </button>
