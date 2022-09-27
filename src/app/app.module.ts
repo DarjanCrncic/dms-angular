@@ -53,6 +53,7 @@ import { VersionTreeDialogComponent } from './shared/version-tree-dialog/version
 import { AdministrationMenuComponent } from './administration-menu/administration-menu.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { SearchFieldComponent } from './shared/search-field/search-field.component';
+import { AdmininstrationSearchComponentComponent } from './admininstration-search-component/admininstration-search-component.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { SearchFieldComponent } from './shared/search-field/search-field.compone
     VersionTreeDialogComponent,
     AdministrationMenuComponent,
     UsersListComponent,
-    SearchFieldComponent
+    SearchFieldComponent,
+    AdmininstrationSearchComponentComponent
   ],
   imports: [
     BrowserModule,

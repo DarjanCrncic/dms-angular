@@ -15,6 +15,10 @@ export class AdministrationMenuComponent {
     {
       path: '/administration/items',
       title: 'Items'
+    },
+    {
+      path: '/administration/advanced-search',
+      title: 'Advanced Search'
     }
   ];
 

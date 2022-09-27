@@ -1,0 +1,23 @@
+.full-height {
+  min-height: 70vh;
+}
+
+.top-card {
+  margin-bottom: 10px;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+::ng-deep .top-card .mat-form-field-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.search {
+  width: 40%;
+}
+
+.url {
+  width: 30%;
+}
