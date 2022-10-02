@@ -31,3 +31,8 @@ table {
 ::ng-deep mat-icon {
   cursor: pointer;
 }
+
+button {
+  margin: 0 8px 8px 0;
+  background: white;
+}

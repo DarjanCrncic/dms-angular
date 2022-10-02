@@ -1,20 +1,14 @@
 <app-content-header [title]="'Users'" (search)="handleQuickSearch($event)" [enableSearch]="true"></app-content-header>
-<div></div>
+<div class="table-action-header">
+  <button mat-stroked-button color="primary" (click)="openAddDialog()">New User</button>
+</div>
 
 <div class="example-container">
   <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
 
   <div class="example-table-container mat-elevation-z2">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="example-table"
-      matSort
-      (matSortChange)="sortData($event)"
-      cdkDropList
-      cdkDropListOrientation="horizontal"
-      (cdkDropListDropped)="drop($event)"
-    >
+    <table mat-table [dataSource]="dataSource" class="example-table" matSort (matSortChange)="sortData($event)"
+      cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
       <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
         <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
           {{ column.title }}
@@ -25,7 +19,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let row">
-          <app-document-actions [docDTO]="row"></app-document-actions>
+          <app-users-actions [userDetails]="row"></app-users-actions>
         </td>
       </ng-container>
 

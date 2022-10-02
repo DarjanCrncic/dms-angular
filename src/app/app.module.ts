@@ -54,6 +54,8 @@ import { AdministrationMenuComponent } from './administration-menu/administratio
 import { UsersListComponent } from './users-list/users-list.component';
 import { SearchFieldComponent } from './shared/search-field/search-field.component';
 import { AdmininstrationSearchComponentComponent } from './admininstration-search-component/admininstration-search-component.component';
+import { UsersFormDialogComponent } from './users-list/users-form-dialog/users-form-dialog.component';
+import { UsersActionsComponent } from './users-list/users-actions/users-actions.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { AdmininstrationSearchComponentComponent } from './admininstration-searc
     AdministrationMenuComponent,
     UsersListComponent,
     SearchFieldComponent,
-    AdmininstrationSearchComponentComponent
+    AdmininstrationSearchComponentComponent,
+    UsersFormDialogComponent,
+    UsersActionsComponent
   ],
   imports: [
     BrowserModule,

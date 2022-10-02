@@ -13,6 +13,8 @@ export interface UserDetails {
   creation_date: Date;
   modify_date: Date;
   email: string;
+  role: string;
+  privileges: string[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -36,5 +38,13 @@ export class UserService {
         direction: sort?.direction ?? ''
       }
     });
+  }
+
+  createUser(userDetails: UserDetails) {
+    return this.httpClient.post<UserDetails>(environment.baseUrl + ApiPaths.User, userDetails);
+  }
+
+  updateUser(userDetails: UserDetails, id: string) {
+    return this.httpClient.patch<UserDetails>(environment.baseUrl + ApiPaths.User + '/' + id, userDetails);
   }
 }

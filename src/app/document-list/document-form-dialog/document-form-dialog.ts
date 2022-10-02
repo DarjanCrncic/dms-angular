@@ -1,7 +1,7 @@
 import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
 import { DocumentService } from './../documents-service';
 import { DocumentDTO } from './../document.model';
-import { csvPattern, ValidatorMessages } from './../../shared/validator-messages';
+import { csvPattern, ValidatorMessages, ErrorUtil } from './../../shared/validator-messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -87,13 +87,7 @@ export class DocumentFormDialogComponent implements OnInit {
 
   getErrorMessage(controlName: string) {
     const control = this.documentForm.get(controlName);
-    return control?.hasError('required')
-      ? Errors.required
-      : control?.hasError('minlength')
-      ? ValidatorMessages.minimum(4)
-      : control?.hasError('pattern')
-      ? Errors.csv
-      : null;
+    return control && ErrorUtil.getErrorMessage(control);
   }
 
   isSaveDisabled() {

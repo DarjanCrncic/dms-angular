@@ -5,6 +5,7 @@
 
 button {
   margin: 0 8px 8px 0;
+  background: white;
 }
 
 .example-table-container {
@@ -39,10 +40,6 @@ table {
 
 ::ng-deep mat-icon {
   cursor: pointer;
-}
-
-button {
-  background: white;
 }
 
 .table-action-header {

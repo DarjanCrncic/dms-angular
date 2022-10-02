@@ -42,4 +42,10 @@ export class AdministrationService {
         return ApiPaths.AdministrationFolder;
     }
   }
+
+  getRolesAndPrivileges() {
+    return this.httpClient.get<{ roles: string[]; privileges: string[] }>(
+      environment.baseUrl + ApiPaths.RolesPrivileges
+    );
+  }
 }

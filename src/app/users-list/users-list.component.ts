@@ -1,3 +1,4 @@
+import { UsersFormDialogComponent } from './users-form-dialog/users-form-dialog.component';
 import { SearchUtil, SearchClasses } from './../shared/search-field/search-util';
 import { Subscription } from 'rxjs';
 import { ColumnOption } from './../document-list/document-column-service';
@@ -73,5 +74,13 @@ export class UsersListComponent implements OnInit, OnDestroy {
   handleQuickSearch($event: string) {
     this.search = $event;
     this.getUserDetails();
+  }
+
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(UsersFormDialogComponent, {
+      width: '800px',
+      minHeight: '500px',
+      data: null
+    });
   }
 }

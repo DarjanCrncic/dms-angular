@@ -1,0 +1,58 @@
+<h1 mat-dialog-title>{{isEdit ? 'Edit user' : 'Create user'}}</h1>
+<form [formGroup]="userForm" fxLayout="row wrap" fxLayoutAlign="space-around">
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Username" formControlName="username" />
+      <mat-error *ngIf="userForm.get('username')?.errors">{{getErrorMessage("username")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput placeholder="First Name" formControlName="first_name" />
+      <mat-error *ngIf="userForm.get('first_name')?.errors">{{getErrorMessage("first_name")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" disableOptionCentering panelClass="normalSelect">
+        <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" *ngIf="!isEdit">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" formControlName="password" />
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="email" />
+      <mat-error *ngIf="userForm.get('email')?.errors">{{getErrorMessage("email")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput placeholder="Last Name" formControlName="last_name" />
+      <mat-error *ngIf="userForm.get('last_name')?.errors">{{getErrorMessage("last_name")}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Permissions</mat-label>
+      <mat-select formControlName="privileges" multiple disableOptionCentering panelClass="normalSelect">
+        <mat-select-trigger>
+          {{userForm.controls['privileges'].value?.[0] || ''}}
+          <span *ngIf="(userForm.controls['privileges'].value?.length || 0) > 1" class="example-additional-selection">
+            (+{{ (userForm.controls['privileges'].value?.length || 0) - 1 }}
+            {{ userForm.controls['privileges'].value?.length === 2 ? 'other' : 'others' }})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let privilege of privileges" [value]="privilege">{{ privilege }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div [ngStyle]="{'height.px': 78}" *ngIf="!isEdit"></div>
+  </div>
+</form>
+<mat-error *ngIf="!userForm.valid && userForm.touched">Please enter valid data.</mat-error>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
+    Save
+  </button>
+</div>
