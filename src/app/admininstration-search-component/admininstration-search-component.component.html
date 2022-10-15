@@ -8,8 +8,5 @@
 </mat-card>
 <mat-card class="full-height">
     <mat-spinner *ngIf="loading" class="centered-default"></mat-spinner>
-    <pre>
-    {{ response }}
-  </pre
-    >
+    <pre [innerHtml]="syntaxHighlight(response)"></pre>
 </mat-card>

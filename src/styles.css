@@ -71,3 +71,20 @@ mat-progress-bar .mat-progress-bar-fill::after {
     font-weight: 500 !important;
     color: rgb(63, 81, 181) !important;
 }
+
+/* json pretty stiles */
+.string {
+    color: olive;
+}
+.number {
+    color: navy;
+}
+.boolean {
+    color: navy;
+}
+.null {
+    color: navy;
+}
+.key {
+    color: brown;
+}
