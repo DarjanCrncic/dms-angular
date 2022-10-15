@@ -1,3 +1,4 @@
+import { GroupsListComponent } from './groups-list/groups-list.component';
 import { CanActivateChildDms } from './security/can-activate-child-guard';
 import { CanActivateChildAdministration } from './security/can-activate-child-administration';
 import { CanActivateAdministration } from './security/can-activate-administration';
@@ -50,6 +51,22 @@ const routes: Routes = [
                     {
                         path: '',
                         component: UsersListComponent,
+                        outlet: 'content'
+                    }
+                ]
+            },
+            {
+                path: 'groups',
+                component: DmsWorkPageComponent,
+                children: [
+                    {
+                        path: '',
+                        component: AdministrationMenuComponent,
+                        outlet: 'sidenav'
+                    },
+                    {
+                        path: '',
+                        component: GroupsListComponent,
                         outlet: 'content'
                     }
                 ]

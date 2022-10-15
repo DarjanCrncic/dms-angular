@@ -56,6 +56,9 @@ import { SearchFieldComponent } from './shared/search-field/search-field.compone
 import { AdmininstrationSearchComponentComponent } from './admininstration-search-component/admininstration-search-component.component';
 import { UsersFormDialogComponent } from './users-list/users-form-dialog/users-form-dialog.component';
 import { UsersActionsComponent } from './users-list/users-actions/users-actions.component';
+import { GroupsListComponent } from './groups-list/groups-list.component';
+import { GroupsActionsComponent } from './groups-list/groups-actions/groups-actions.component';
+import { GroupsFormDialogComponent } from './groups-list/groups-form-dialog/groups-form-dialog.component';
 
 @NgModule({
     declarations: [
@@ -83,7 +86,10 @@ import { UsersActionsComponent } from './users-list/users-actions/users-actions.
         SearchFieldComponent,
         AdmininstrationSearchComponentComponent,
         UsersFormDialogComponent,
-        UsersActionsComponent
+        UsersActionsComponent,
+        GroupsListComponent,
+        GroupsActionsComponent,
+        GroupsFormDialogComponent
     ],
     imports: [
         BrowserModule,

@@ -1,3 +1,4 @@
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';
@@ -18,7 +19,12 @@ export interface Account {
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-    constructor(private htttpClient: HttpClient, private router: Router, private snackbarService: SnackbarService) {}
+    constructor(
+        private htttpClient: HttpClient,
+        private router: Router,
+        private snackbarService: SnackbarService,
+        private dialogRef: MatDialog
+    ) {}
     private authTimer: ReturnType<typeof setTimeout> | null = null;
     newUserAnnouncment: Subject<Account> = new Subject();
 
@@ -64,6 +70,7 @@ export class AccountService {
         this.authTimer && clearTimeout(this.authTimer);
         this.authTimer = null;
 
+        this.dialogRef.closeAll();
         this.router.navigate(['/login']);
     }
 

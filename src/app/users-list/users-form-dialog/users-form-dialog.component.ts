@@ -64,11 +64,13 @@ export class UsersFormDialogComponent implements OnInit {
             this.userService.updateUser(formVal, this.data.id).subscribe(() => {
                 this.userService.refresh.next(null);
                 this.snackbarService.openSnackBar('User successfully updated.', MessageTypes.SUCCESS);
+                this.userForm.markAsPristine();
             });
         } else {
             this.userService.createUser(formVal).subscribe(() => {
                 this.userService.refresh.next(null);
                 this.snackbarService.openSnackBar('User successfully created.', MessageTypes.SUCCESS);
+                this.userForm.markAsPristine();
             });
         }
     }

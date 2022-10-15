@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>{{ isEdit ? 'Edit Group' : 'Create Group' }}</h1>
+<form [formGroup]="groupForm" fxLayout="row wrap" fxLayoutAlign="space-around">
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field appearance="outline">
+            <mat-label>Group Name</mat-label>
+            <input matInput placeholder="Group Name" formControlName="group_name" />
+            <mat-error *ngIf="groupForm.get('group_name')?.errors">{{ getErrorMessage('group_name') }}</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description" formControlName="description"/>
+            <mat-error *ngIf="groupForm.get('description')?.errors">{{ getErrorMessage('email') }}</mat-error>
+        </mat-form-field>
+    </div>
+</form>
+<mat-error *ngIf="!groupForm.valid && groupForm.touched">Please enter valid data.</mat-error>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
+        Save
+    </button>
+</div>

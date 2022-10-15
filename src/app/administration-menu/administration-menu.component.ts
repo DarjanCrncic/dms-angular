@@ -13,8 +13,8 @@ export class AdministrationMenuComponent {
             title: 'Users'
         },
         {
-            path: '/administration/items',
-            title: 'Items'
+            path: '/administration/groups',
+            title: 'Groups'
         },
         {
             path: '/administration/advanced-search',

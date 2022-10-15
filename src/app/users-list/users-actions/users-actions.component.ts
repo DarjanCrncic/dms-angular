@@ -12,7 +12,7 @@ import { UsersFormDialogComponent } from './../users-form-dialog/users-form-dial
 export class UsersActionsComponent {
     @Input() userDetails!: UserDetails;
 
-    constructor(private snackbarService: SnackbarService, public dialog: MatDialog) {}
+    constructor(public dialog: MatDialog) {}
 
     onEdit(row: UserDetails) {
         const dialogRef = this.dialog.open(UsersFormDialogComponent, {
