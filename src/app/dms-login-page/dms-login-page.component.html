@@ -1,31 +1,36 @@
 <div class="container">
-  <mat-card class="card">
-    <mat-card-title>Login</mat-card-title>
-    <mat-divider></mat-divider>
-    <mat-card-content class="content">
-      <form [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="center center" class="card-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput placeholder="Enter username" formControlName="username" (keydown.enter)="onLoginClick()" />
-          <mat-error *ngIf="loginForm.get('username')?.errors">{{ getErrorMessage('username') }}</mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            placeholder="Enter password"
-            formControlName="password"
-            type="password"
-            (keydown.enter)="onLoginClick()"
-          />
-          <mat-error *ngIf="loginForm.get('password')?.errors">{{ getErrorMessage('password') }}</mat-error>
-        </mat-form-field>
-        <mat-error>{{ this.errorMsg }}</mat-error>
-      </form>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions>
-      <button mat-button (click)="onLoginClick()" [disabled]="!loginForm.valid || buttonDisabled">Login</button>
-    </mat-card-actions>
-  </mat-card>
+    <mat-card class="card">
+        <mat-card-title>Login</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content class="content">
+            <form [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="center center" class="card-form">
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input
+                        matInput
+                        placeholder="Enter username"
+                        formControlName="username"
+                        (keydown.enter)="onLoginClick()"
+                    />
+                    <mat-error *ngIf="loginForm.get('username')?.errors">{{ getErrorMessage('username') }}</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input
+                        matInput
+                        placeholder="Enter password"
+                        formControlName="password"
+                        type="password"
+                        (keydown.enter)="onLoginClick()"
+                    />
+                    <mat-error *ngIf="loginForm.get('password')?.errors">{{ getErrorMessage('password') }}</mat-error>
+                </mat-form-field>
+                <mat-error>{{ this.errorMsg }}</mat-error>
+            </form>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+            <button mat-button (click)="onLoginClick()" [disabled]="!loginForm.valid || buttonDisabled">Login</button>
+        </mat-card-actions>
+    </mat-card>
 </div>

@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" class="search">
-  <input matInput placeholder="Search" [formControl]="value" />
-  <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value.setValue('')">
-    <mat-icon>close</mat-icon>
-  </button>
+    <input matInput placeholder="Search" [formControl]="value" />
+    <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value.setValue('')">
+        <mat-icon>close</mat-icon>
+    </button>
 </mat-form-field>

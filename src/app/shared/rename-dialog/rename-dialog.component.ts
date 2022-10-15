@@ -8,60 +8,64 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
-  selector: 'app-rename-dialog',
-  templateUrl: './rename-dialog.component.html',
-  styleUrls: ['./rename-dialog.component.css']
+    selector: 'app-rename-dialog',
+    templateUrl: './rename-dialog.component.html',
+    styleUrls: ['./rename-dialog.component.css']
 })
 export class RenameDialogComponent implements OnInit {
-  constructor(
-    public dialogRef: MatDialogRef<RenameDialogComponent>,
-    @Inject(MAT_DIALOG_DATA)
-    public data: { update: boolean; node: FlatTreeNode },
-    private folderService: FolderService,
-    private snackbarService: SnackbarService,
-    private folderTreeService: FolderTreeService
-  ) {}
+    constructor(
+        public dialogRef: MatDialogRef<RenameDialogComponent>,
+        @Inject(MAT_DIALOG_DATA)
+        public data: { update: boolean; node: FlatTreeNode },
+        private folderService: FolderService,
+        private snackbarService: SnackbarService,
+        private folderTreeService: FolderTreeService
+    ) {}
 
-  nameForm: FormGroup = new FormGroup({});
+    nameForm: FormGroup = new FormGroup({});
 
-  ngOnInit(): void {
-    const pathArray = this.data.node.name.split('/');
-    const name = pathArray[pathArray.length - 1];
+    ngOnInit(): void {
+        const pathArray = this.data.node.name.split('/');
+        const name = pathArray[pathArray.length - 1];
 
-    this.nameForm = new FormGroup({
-      nameControl: new FormControl(this.data.update ? name : '', [
-        Validators.pattern(validFolderName),
-        Validators.required
-      ])
-    });
-  }
-
-  onSave() {
-    if (this.data.update) {
-      const newFolderName = this.nameForm.value['nameControl'];
-      this.folderService.updateFolderPath(this.data.node.id, newFolderName).subscribe((res) => {
-        this.snackbarService.openSnackBar('Folder successfully updated.', MessageTypes.SUCCESS);
-        this.folderTreeService.updateNode(this.data.node.id, res);
-      });
-    } else {
-      const newFolderName = this.nameForm.value['nameControl'];
-      this.folderService.createNewFolder(newFolderName, this.data.node.id).subscribe((res) => {
-        this.snackbarService.openSnackBar('Folder successfully created.', MessageTypes.SUCCESS);
-        this.folderTreeService.addNodeToTree(this.data.node, res);
-      });
+        this.nameForm = new FormGroup({
+            nameControl: new FormControl(this.data.update ? name : '', [
+                Validators.pattern(validFolderName),
+                Validators.required
+            ])
+        });
     }
-  }
 
-  onCancel() {
-    this.dialogRef.close();
-  }
+    onSave() {
+        if (this.data.update) {
+            const newFolderName = this.nameForm.value['nameControl'];
+            this.folderService.updateFolderPath(this.data.node.id, newFolderName).subscribe((res) => {
+                this.snackbarService.openSnackBar('Folder successfully updated.', MessageTypes.SUCCESS);
+                this.folderTreeService.updateNode(this.data.node.id, res);
+            });
+        } else {
+            const newFolderName = this.nameForm.value['nameControl'];
+            this.folderService.createNewFolder(newFolderName, this.data.node.id).subscribe((res) => {
+                this.snackbarService.openSnackBar('Folder successfully created.', MessageTypes.SUCCESS);
+                this.folderTreeService.addNodeToTree(this.data.node, res);
+            });
+        }
+    }
 
-  getErrorMessage(controlName: string) {
-    const control = this.nameForm.get(controlName);
-    return control?.hasError('required') ? Errors.required : control?.hasError('pattern') ? Errors.alphaNumeric : null;
-  }
+    onCancel() {
+        this.dialogRef.close();
+    }
 
-  getTitle() {
-    return this.data.update ? 'Folder update' : 'Add folder';
-  }
+    getErrorMessage(controlName: string) {
+        const control = this.nameForm.get(controlName);
+        return control?.hasError('required')
+            ? Errors.required
+            : control?.hasError('pattern')
+            ? Errors.alphaNumeric
+            : null;
+    }
+
+    getTitle() {
+        return this.data.update ? 'Folder update' : 'Add folder';
+    }
 }

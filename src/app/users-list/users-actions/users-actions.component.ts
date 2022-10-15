@@ -5,20 +5,20 @@ import { SnackbarService } from './../../shared/message-snackbar/snackbar-servic
 import { UsersFormDialogComponent } from './../users-form-dialog/users-form-dialog.component';
 
 @Component({
-  selector: 'app-users-actions',
-  templateUrl: './users-actions.component.html',
-  styleUrls: ['./users-actions.component.css']
+    selector: 'app-users-actions',
+    templateUrl: './users-actions.component.html',
+    styleUrls: ['./users-actions.component.css']
 })
 export class UsersActionsComponent {
-  @Input() userDetails!: UserDetails;
+    @Input() userDetails!: UserDetails;
 
-  constructor(private snackbarService: SnackbarService, public dialog: MatDialog) {}
+    constructor(private snackbarService: SnackbarService, public dialog: MatDialog) {}
 
-  onEdit(row: UserDetails) {
-    const dialogRef = this.dialog.open(UsersFormDialogComponent, {
-      width: '800px',
-      minHeight: '500px',
-      data: row
-    });
-  }
+    onEdit(row: UserDetails) {
+        const dialogRef = this.dialog.open(UsersFormDialogComponent, {
+            width: '800px',
+            minHeight: '500px',
+            data: row
+        });
+    }
 }

@@ -4,9 +4,9 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TestService {
-  constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) {}
 
-  getError() {
-    return this.httpClient.get(environment.baseUrl + '/ping/error');
-  }
+    getError() {
+        return this.httpClient.get(environment.baseUrl + '/ping/error');
+    }
 }

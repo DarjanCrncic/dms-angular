@@ -1,21 +1,21 @@
 <h1 mat-dialog-title>Permission Settings</h1>
 <div mat-dialog-content>
-  <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
-  <div *ngFor="let permissionSet of getGroups(); let i = index" class="row">
-    <app-permission-row
-      [formGroup]="permissionSet"
-      [permissions]="getPermissions()"
-      [index]="i"
-      [users]="users"
-      (removeEntryEmitter)="removeEntry($event)"
-    ></app-permission-row>
-  </div>
-  <button mat-raised-button (click)="addPermissionSet()" color="accent">Add</button>
-  <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
+    <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
+    <div *ngFor="let permissionSet of getGroups(); let i = index" class="row">
+        <app-permission-row
+            [formGroup]="permissionSet"
+            [permissions]="getPermissions()"
+            [index]="i"
+            [users]="users"
+            (removeEntryEmitter)="removeEntry($event)"
+        ></app-permission-row>
+    </div>
+    <button mat-raised-button (click)="addPermissionSet()" color="accent">Add</button>
+    <mat-error *ngIf="errorMsg">{{ errorMsg }}</mat-error>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button cdkFocusInitial (click)="onSave()" color="primary" [disabled]="!form.valid || errorMsg">
-    Save
-  </button>
+    <button mat-raised-button (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button cdkFocusInitial (click)="onSave()" color="primary" [disabled]="!form.valid || errorMsg">
+        Save
+    </button>
 </div>

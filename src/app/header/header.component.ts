@@ -7,55 +7,55 @@ import { TestService } from './../shared/services/test-service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(
-    private testService: TestService,
-    private snackbarService: SnackbarService,
-    private accountService: AccountService,
-    private folderTreeService: FolderTreeService
-  ) {}
+    constructor(
+        private testService: TestService,
+        private snackbarService: SnackbarService,
+        private accountService: AccountService,
+        private folderTreeService: FolderTreeService
+    ) {}
 
-  firstName: string = '';
-  lastName: string = '';
-  private newUserSub: Subscription | null = null;
+    firstName: string = '';
+    lastName: string = '';
+    private newUserSub: Subscription | null = null;
 
-  ngOnInit(): void {
-    const localAccount = this.accountService.getLocalData();
-    this.firstName = localAccount && localAccount.first_name;
-    this.lastName = localAccount && localAccount.last_name;
+    ngOnInit(): void {
+        const localAccount = this.accountService.getLocalData();
+        this.firstName = localAccount && localAccount.first_name;
+        this.lastName = localAccount && localAccount.last_name;
 
-    this.newUserSub = this.accountService.newUserAnnouncment.subscribe((account) => {
-      this.firstName = account.first_name;
-      this.lastName = account.last_name;
-    });
-  }
+        this.newUserSub = this.accountService.newUserAnnouncment.subscribe((account) => {
+            this.firstName = account.first_name;
+            this.lastName = account.last_name;
+        });
+    }
 
-  onLogoutClick() {
-    this.accountService.logout();
-    this.folderTreeService.clearLocalData();
-  }
+    onLogoutClick() {
+        this.accountService.logout();
+        this.folderTreeService.clearLocalData();
+    }
 
-  logoutVissible() {
-    return this.accountService.isLoggedIn();
-  }
+    logoutVissible() {
+        return this.accountService.isLoggedIn();
+    }
 
-  onClick() {
-    this.testService.getError().subscribe();
-  }
+    onClick() {
+        this.testService.getError().subscribe();
+    }
 
-  onFavClick() {
-    this.snackbarService.openSnackBar('Test info', MessageTypes.INFO);
-  }
+    onFavClick() {
+        this.snackbarService.openSnackBar('Test info', MessageTypes.INFO);
+    }
 
-  ngOnDestroy() {
-    this.newUserSub && this.newUserSub.unsubscribe();
-  }
+    ngOnDestroy() {
+        this.newUserSub && this.newUserSub.unsubscribe();
+    }
 
-  isAdminRole() {
-    return this.accountService.account.roles?.findIndex((role) => role === 'ROLE_ADMIN') > -1;
-  }
+    isAdminRole() {
+        return this.accountService.account.roles?.findIndex((role) => role === 'ROLE_ADMIN') > -1;
+    }
 }

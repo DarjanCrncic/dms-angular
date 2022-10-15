@@ -1,16 +1,16 @@
 .upload,
 .download {
-  display: flex;
-  align-items: flex-start;
+    display: flex;
+    align-items: flex-start;
 }
 
 mat-icon,
 mat-spinner {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .container {
-  display: flex;
-  align-items: center;
-  vertical-align: middle;
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
 }

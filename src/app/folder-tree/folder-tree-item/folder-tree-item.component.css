@@ -1,26 +1,26 @@
 h3 {
-  margin: auto 0 auto 5px;
-  display: inline;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    margin: auto 0 auto 5px;
+    display: inline;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .inline-span {
-  display: flex;
-  align-items: center;
-  max-width: 200px;
+    display: flex;
+    align-items: center;
+    max-width: 200px;
 }
 
 mat-icon {
-  margin: auto;
+    margin: auto;
 }
 
 .more-icon {
-  font-size: 20px;
+    font-size: 20px;
 }
 
 .placeholder {
-  margin-left: 10px;
-  width: 40px;
+    margin-left: 10px;
+    width: 40px;
 }

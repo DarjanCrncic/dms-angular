@@ -1,36 +1,36 @@
 <h1 mat-dialog-title>{{isEdit ? 'Edit document' : 'Create document'}}</h1>
 <form [formGroup]="documentForm" fxLayout="row wrap" fxLayoutAlign="space-around">
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input matInput placeholder="Enter document title" formControlName="object_name" />
-      <mat-error *ngIf="documentForm.get('object_name')?.errors">{{getErrorMessage("object_name")}}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <input matInput placeholder="Enter document description" formControlName="description" />
-      <mat-hint>Document description</mat-hint>
-    </mat-form-field>
-  </div>
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <mat-form-field appearance="outline">
-      <mat-label>Keywords</mat-label>
-      <input matInput placeholder="Enter keywords" formControlName="keywords" />
-      <mat-hint>Enter a list of comma separated values</mat-hint>
-      <mat-error *ngIf="documentForm.get('keywords')?.errors">{{getErrorMessage("keywords")}}</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Type</mat-label>
-      <mat-select formControlName="type" disableOptionCentering panelClass="normalSelect">
-        <mat-option *ngFor="let type of types" [value]="type.type_name">{{type.type_name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Enter document title" formControlName="object_name" />
+            <mat-error *ngIf="documentForm.get('object_name')?.errors">{{getErrorMessage("object_name")}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Enter document description" formControlName="description" />
+            <mat-hint>Document description</mat-hint>
+        </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field appearance="outline">
+            <mat-label>Keywords</mat-label>
+            <input matInput placeholder="Enter keywords" formControlName="keywords" />
+            <mat-hint>Enter a list of comma separated values</mat-hint>
+            <mat-error *ngIf="documentForm.get('keywords')?.errors">{{getErrorMessage("keywords")}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type" disableOptionCentering panelClass="normalSelect">
+                <mat-option *ngFor="let type of types" [value]="type.type_name">{{type.type_name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 </form>
 <mat-error *ngIf="!documentForm.valid && documentForm.touched">Please enter valid data.</mat-error>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
-  <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
-    Save
-  </button>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
+        Save
+    </button>
 </div>

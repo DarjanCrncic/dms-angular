@@ -1,47 +1,47 @@
 .documents-card {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 button {
-  margin: 0 8px 8px 0;
-  background: white;
+    margin: 0 8px 8px 0;
+    background: white;
 }
 
 .example-table-container {
-  position: relative;
-  max-height: 70vh;
-  overflow: auto;
+    position: relative;
+    max-height: 70vh;
+    overflow: auto;
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 .example-rate-limit-reached {
-  max-width: 360px;
-  text-align: center;
+    max-width: 360px;
+    text-align: center;
 }
 
 /* Column Widths */
 .mat-column-number,
 .mat-column-state {
-  max-width: 64px;
+    max-width: 64px;
 }
 
 .mat-column-created {
-  max-width: 124px;
+    max-width: 124px;
 }
 
 .mat-spinner {
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
 }
 
 ::ng-deep mat-icon {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .table-action-header {
-  position: relative;
+    position: relative;
 }

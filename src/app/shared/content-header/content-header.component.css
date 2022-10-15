@@ -1,18 +1,18 @@
 .title-card {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 16px !important;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px !important;
 }
 
 h1 {
-  display: inline;
-  margin-bottom: 0;
+    display: inline;
+    margin-bottom: 0;
 }
 
 .toggle-button {
-  margin-right: 5px;
-  margin-left: auto;
-  display: block;
+    margin-right: 5px;
+    margin-left: auto;
+    display: block;
 }

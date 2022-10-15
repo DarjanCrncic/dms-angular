@@ -1,33 +1,41 @@
 <app-content-header [title]="'Users'" (search)="handleQuickSearch($event)" [enableSearch]="true"></app-content-header>
 <div class="table-action-header">
-  <button mat-stroked-button color="primary" (click)="openAddDialog()">New User</button>
+    <button mat-stroked-button color="primary" (click)="openAddDialog()">New User</button>
 </div>
 
 <div class="example-container">
-  <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
+    <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
 
-  <div class="example-table-container mat-elevation-z2">
-    <table mat-table [dataSource]="dataSource" class="example-table" matSort (matSortChange)="sortData($event)"
-      cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-      <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-          {{ column.title }}
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row[column.identifier] }}</td>
-      </ng-container>
+    <div class="example-table-container mat-elevation-z2">
+        <table
+            mat-table
+            [dataSource]="dataSource"
+            class="example-table"
+            matSort
+            (matSortChange)="sortData($event)"
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="drop($event)"
+        >
+            <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                    {{ column.title }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row[column.identifier] }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <app-users-actions [userDetails]="row"></app-users-actions>
-        </td>
-      </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <app-users-actions [userDetails]="row"></app-users-actions>
+                </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="getIdentifiers(); sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
-    </table>
-  </div>
-  <ng-container *ngIf="dataSource.data.length === 0">
-    <h3 class="centered-default">No users found.</h3>
-  </ng-container>
+            <tr mat-header-row *matHeaderRowDef="getIdentifiers(); sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
+        </table>
+    </div>
+    <ng-container *ngIf="dataSource.data.length === 0">
+        <h3 class="centered-default">No users found.</h3>
+    </ng-container>
 </div>

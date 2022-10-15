@@ -1,14 +1,15 @@
 <mat-card class="top-card">
-  <mat-form-field appearance="outline" class="search">
-    <input matInput placeholder="Search" [formControl]="search" (keydown)="triggerCall($event)"/>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="url">
-    <input matInput placeholder="Url" [formControl]="url" (keydown)="triggerCall($event)"/>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="search">
+        <input matInput placeholder="Search" [formControl]="search" (keydown)="triggerCall($event)" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="url">
+        <input matInput placeholder="Url" [formControl]="url" (keydown)="triggerCall($event)" />
+    </mat-form-field>
 </mat-card>
 <mat-card class="full-height">
-  <mat-spinner *ngIf="loading" class="centered-default"></mat-spinner>
-  <pre>
-    {{response}}
-  </pre>
+    <mat-spinner *ngIf="loading" class="centered-default"></mat-spinner>
+    <pre>
+    {{ response }}
+  </pre
+    >
 </mat-card>

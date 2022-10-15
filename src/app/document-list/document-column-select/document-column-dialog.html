@@ -1,16 +1,16 @@
 <h1 mat-dialog-title>Select displayed columns:</h1>
 <div mat-dialog-content>
-  <mat-selection-list #columns (selectionChange)="toggleSelection($event)">
-    <mat-list-option
-      *ngFor="let column of documentColumns; let i = index"
-      selected="{{column.displayed}}"
-      [value]="column.identifier"
-    >
-      {{column.title}}
-    </mat-list-option>
-  </mat-selection-list>
+    <mat-selection-list #columns (selectionChange)="toggleSelection($event)">
+        <mat-list-option
+            *ngFor="let column of documentColumns; let i = index"
+            selected="{{column.displayed}}"
+            [value]="column.identifier"
+        >
+            {{column.title}}
+        </mat-list-option>
+    </mat-selection-list>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
-  <button mat-button cdkFocusInitial (click)="onSaveClick()">Save</button>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-button cdkFocusInitial (click)="onSaveClick()">Save</button>
 </div>

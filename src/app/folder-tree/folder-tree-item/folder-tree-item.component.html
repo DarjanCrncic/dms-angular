@@ -1,41 +1,41 @@
 <span class="inline-span">
-  <span (click)="handleFolderClick()" [ngStyle]="{ cursor: 'pointer' }" class="inline-span">
-    <mat-icon *ngIf="!empty">folder_open</mat-icon>
-    <mat-icon *ngIf="empty" [style.color]="'rgba(0, 0, 0, 0.54)'">folder</mat-icon>
-    <h3
-      [ngStyle]="{
-        cursor: 'pointer'
-      }"
-      [ngClass]="{ 'selected-menu-item-text': currentlySelected }"
-    >
-      {{ getFolderName(this.node.name) }}
-    </h3>
-  </span>
-  <div class="placeholder">
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Folder actions">
-      <mat-icon class="more-icon">more_horiz</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="openAddFolderDialog()">
-        <mat-icon>add</mat-icon>
-        <span>Add</span>
-      </button>
-      <button mat-menu-item (click)="openRenameDialog()" *ngIf="showOptions">
-        <mat-icon>edit</mat-icon>
-        <span>Rename</span>
-      </button>
-      <button mat-menu-item (click)="deleteFolder()" *ngIf="showOptions">
-        <mat-icon color="warn">delete</mat-icon>
-        <span color="warn">Delete</span>
-      </button>
-      <button mat-menu-item (click)="openAdminDialog()" *ngIf="showOptions">
-        <mat-icon>settings</mat-icon>
-        <span>Permissions</span>
-      </button>
-      <button mat-menu-item *ngIf="showOptions" disabled="true">
-        <mat-icon>push_pin</mat-icon>
-        <span>Pin</span>
-      </button>
-    </mat-menu>
-  </div>
+    <span (click)="handleFolderClick()" [ngStyle]="{ cursor: 'pointer' }" class="inline-span">
+        <mat-icon *ngIf="!empty">folder_open</mat-icon>
+        <mat-icon *ngIf="empty" [style.color]="'rgba(0, 0, 0, 0.54)'">folder</mat-icon>
+        <h3
+            [ngStyle]="{
+                cursor: 'pointer'
+            }"
+            [ngClass]="{ 'selected-menu-item-text': currentlySelected }"
+        >
+            {{ getFolderName(this.node.name) }}
+        </h3>
+    </span>
+    <div class="placeholder">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Folder actions">
+            <mat-icon class="more-icon">more_horiz</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openAddFolderDialog()">
+                <mat-icon>add</mat-icon>
+                <span>Add</span>
+            </button>
+            <button mat-menu-item (click)="openRenameDialog()" *ngIf="showOptions">
+                <mat-icon>edit</mat-icon>
+                <span>Rename</span>
+            </button>
+            <button mat-menu-item (click)="deleteFolder()" *ngIf="showOptions">
+                <mat-icon color="warn">delete</mat-icon>
+                <span color="warn">Delete</span>
+            </button>
+            <button mat-menu-item (click)="openAdminDialog()" *ngIf="showOptions">
+                <mat-icon>settings</mat-icon>
+                <span>Permissions</span>
+            </button>
+            <button mat-menu-item *ngIf="showOptions" disabled="true">
+                <mat-icon>push_pin</mat-icon>
+                <span>Pin</span>
+            </button>
+        </mat-menu>
+    </div>
 </span>

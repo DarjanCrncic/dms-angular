@@ -3,31 +3,33 @@ import { FormControl, Validators } from '@angular/forms';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-search-field',
-  templateUrl: './search-field.component.html',
-  styleUrls: ['./search-field.component.css']
+    selector: 'app-search-field',
+    templateUrl: './search-field.component.html',
+    styleUrls: ['./search-field.component.css']
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
-  @Output() private search: EventEmitter<string> = new EventEmitter();
-  private $componentDestroyed: Subject<null> = new Subject();
-  value: FormControl;
-  debounceTime = 500;
+    @Output() private search: EventEmitter<string> = new EventEmitter();
+    private $componentDestroyed: Subject<null> = new Subject();
+    value: FormControl;
+    debounceTime = 500;
 
-  constructor() {
-    this.value = new FormControl('', [Validators.pattern('[\\w]+')]);
-  }
+    constructor() {
+        this.value = new FormControl('', [Validators.pattern('[\\w]+')]);
+    }
 
-  ngOnDestroy(): void {
-    this.$componentDestroyed.next(null);
-  }
+    ngOnDestroy(): void {
+        this.$componentDestroyed.next(null);
+    }
 
-  ngOnInit(): void {
-    this.value.valueChanges.pipe(debounceTime(this.debounceTime), takeUntil(this.$componentDestroyed)).subscribe(() => {
-      this.functionToBeCalled();
-    });
-  }
+    ngOnInit(): void {
+        this.value.valueChanges
+            .pipe(debounceTime(this.debounceTime), takeUntil(this.$componentDestroyed))
+            .subscribe(() => {
+                this.functionToBeCalled();
+            });
+    }
 
-  functionToBeCalled() {
-    this.value.valid && this.search.emit(this.value.value);
-  }
+    functionToBeCalled() {
+        this.value.valid && this.search.emit(this.value.value);
+    }
 }

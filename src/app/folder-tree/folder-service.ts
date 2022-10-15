@@ -7,33 +7,33 @@ import { Folder } from './folder.model';
 
 @Injectable({ providedIn: 'root' })
 export class FolderService {
-  constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) {}
 
-  getFolders() {
-    this.httpClient.get<Folder[]>(environment.baseUrl + ApiPaths.Folder).subscribe((response) => {
-      return response;
-    });
-    return [];
-  }
+    getFolders() {
+        this.httpClient.get<Folder[]>(environment.baseUrl + ApiPaths.Folder).subscribe((response) => {
+            return response;
+        });
+        return [];
+    }
 
-  getFolderTree() {
-    return this.httpClient.get<FolderNode[]>(environment.baseUrl + ApiPaths.FolderTree);
-  }
+    getFolderTree() {
+        return this.httpClient.get<FolderNode[]>(environment.baseUrl + ApiPaths.FolderTree);
+    }
 
-  createNewFolder(name: string, parentFolderId: string) {
-    return this.httpClient.post<FolderNode>(environment.baseUrl + ApiPaths.Folder, {
-      name: name,
-      parent_folder_id: parentFolderId
-    });
-  }
+    createNewFolder(name: string, parentFolderId: string) {
+        return this.httpClient.post<FolderNode>(environment.baseUrl + ApiPaths.Folder, {
+            name: name,
+            parent_folder_id: parentFolderId
+        });
+    }
 
-  deleteById(id: string) {
-    return this.httpClient.delete(environment.baseUrl + ApiPaths.Folder + '/' + id);
-  }
+    deleteById(id: string) {
+        return this.httpClient.delete(environment.baseUrl + ApiPaths.Folder + '/' + id);
+    }
 
-  updateFolderPath(id: string, newPath: string) {
-    return this.httpClient.put<FolderNode>(environment.baseUrl + ApiPaths.Folder + '/' + id, {
-      name: newPath
-    });
-  }
+    updateFolderPath(id: string, newPath: string) {
+        return this.httpClient.put<FolderNode>(environment.baseUrl + ApiPaths.Folder + '/' + id, {
+            name: newPath
+        });
+    }
 }

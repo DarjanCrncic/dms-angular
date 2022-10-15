@@ -1,60 +1,60 @@
 .example-container {
-  width: 100%;
-  height: calc(100% - 64px);
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  background-color: #f3f3f3;
+    width: 100%;
+    height: calc(100% - 64px);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: #f3f3f3;
 }
 
 .example-sidenav-content {
-  background-color: #f3f3f3;
-  padding: 15px 30px;
+    background-color: #f3f3f3;
+    padding: 15px 30px;
 }
 
 .example-sidenav {
-  box-sizing: unset;
-  overflow: unset;
-  visibility: visible !important;
-  display: block !important;
+    box-sizing: unset;
+    overflow: unset;
+    visibility: visible !important;
+    display: block !important;
 }
 
 .expander {
-  position: absolute;
-  right: -20px;
-  top: 7px;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+    position: absolute;
+    right: -20px;
+    top: 7px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
 }
 
 .expander button {
-  border: 1px solid #0000001f;
-  box-shadow: none;
+    border: 1px solid #0000001f;
+    box-shadow: none;
 }
 
 .should-hover {
-  transition: transform 0.3s ease-out;
-  display: inline-block;
+    transition: transform 0.3s ease-out;
+    display: inline-block;
 }
 
 .should-hover:hover {
-  transform: translate(20px, 0);
+    transform: translate(20px, 0);
 }
 
 .resize-handle-right {
-  position: absolute;
-  height: 100%;
-  cursor: col-resize;
-  width: 5px;
-  right: -5px;
+    position: absolute;
+    height: 100%;
+    cursor: col-resize;
+    width: 5px;
+    right: -5px;
 }
 
 .dragger {
-  position: absolute;
-  bottom: 50%;
-  right: -24px;
-  font-size: 2rem;
+    position: absolute;
+    bottom: 50%;
+    right: -24px;
+    font-size: 2rem;
 }
 
 .dragger mat-icon {
-  cursor: move;
+    cursor: move;
 }

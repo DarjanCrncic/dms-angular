@@ -1,71 +1,73 @@
 <app-content-header
-  [title]="getHeaderTitle()"
-  (search)="handleQuickSearch($event)"
-  [enableSearch]="true"
+    [title]="getHeaderTitle()"
+    (search)="handleQuickSearch($event)"
+    [enableSearch]="true"
 ></app-content-header>
 <div class="table-action-header">
-  <button mat-stroked-button color="primary" (click)="openAddDialog()">New Document</button>
-  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCopy()">Copy Documents</button>
-  <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCut()">Cut Documents</button>
-  <button *ngIf="isPasteEnabled()" mat-stroked-button color="primary" (click)="onGroupPaste()">Paste Documents</button>
-  <app-document-column-select></app-document-column-select>
-  <button *ngIf="isAnySelected()" color="warn" mat-stroked-button (click)="onGroupDelete()">Delete Documents</button>
+    <button mat-stroked-button color="primary" (click)="openAddDialog()">New Document</button>
+    <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCopy()">Copy Documents</button>
+    <button *ngIf="isAnySelected()" mat-stroked-button color="primary" (click)="onGroupCut()">Cut Documents</button>
+    <button *ngIf="isPasteEnabled()" mat-stroked-button color="primary" (click)="onGroupPaste()">
+        Paste Documents
+    </button>
+    <app-document-column-select></app-document-column-select>
+    <button *ngIf="isAnySelected()" color="warn" mat-stroked-button (click)="onGroupDelete()">Delete Documents</button>
 </div>
 
 <div class="example-container">
-  <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
+    <mat-spinner *ngIf="isLoadingResults" class="mat-spinner centered-default"></mat-spinner>
 
-  <div class="example-table-container mat-elevation-z2">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="example-table"
-      matSort
-      (matSortChange)="sortData($event)"
-      cdkDropList
-      cdkDropListOrientation="horizontal"
-      (cdkDropListDropped)="drop($event)"
-    >
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? masterToggle() : null"
-            [checked]="getSelection().hasValue() && isAllSelected()"
-            [indeterminate]="getSelection().hasValue() && !isAllSelected()"
-            [aria-label]="checkboxLabel()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? getSelection().toggle(row) : null"
-            [checked]="getSelection().isSelected(row)"
-            [aria-label]="checkboxLabel(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-          {{ column.title }}
-        </th>
-        <td mat-cell *matCellDef="let row">{{ row[column.identifier] }}</td>
-      </ng-container>
+    <div class="example-table-container mat-elevation-z2">
+        <table
+            mat-table
+            [dataSource]="dataSource"
+            class="example-table"
+            matSort
+            (matSortChange)="sortData($event)"
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="drop($event)"
+        >
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="getSelection().hasValue() && isAllSelected()"
+                        [indeterminate]="getSelection().hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()"
+                    >
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? getSelection().toggle(row) : null"
+                        [checked]="getSelection().isSelected(row)"
+                        [aria-label]="checkboxLabel(row)"
+                    >
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="{{ column.identifier }}" *ngFor="let column of displayedColumns">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                    {{ column.title }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row[column.identifier] }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <app-document-actions [docDTO]="row"></app-document-actions>
-        </td>
-      </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let row">
+                    <app-document-actions [docDTO]="row"></app-document-actions>
+                </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="getIdentifiers(); sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
-    </table>
-  </div>
-  <ng-container *ngIf="dataSource.data.length === 0">
-    <h3 class="centered-default">No documents in this folder.</h3>
-  </ng-container>
+            <tr mat-header-row *matHeaderRowDef="getIdentifiers(); sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: getIdentifiers()"></tr>
+        </table>
+    </div>
+    <ng-container *ngIf="dataSource.data.length === 0">
+        <h3 class="centered-default">No documents in this folder.</h3>
+    </ng-container>
 </div>

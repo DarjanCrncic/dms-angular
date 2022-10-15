@@ -14,70 +14,70 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { AdmininstrationSearchComponentComponent } from './admininstration-search-component/admininstration-search-component.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  {
-    path: 'dms',
-    component: DmsWorkPageComponent,
-    pathMatch: 'full',
-    canActivate: [CanActivateDms],
-    children: [
-      {
-        path: '',
-        component: FolderTreeComponent,
-        outlet: 'sidenav'
-      },
-      {
-        path: '',
-        component: DocumentListComponent,
-        outlet: 'content'
-      }
-    ]
-  },
-  {
-    path: 'administration',
-    canActivate: [CanActivateDms, CanActivateAdministration],
-    canActivateChild: [CanActivateChildDms, CanActivateChildAdministration],
-    children: [
-      {
-        path: 'users',
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    {
+        path: 'dms',
         component: DmsWorkPageComponent,
+        pathMatch: 'full',
+        canActivate: [CanActivateDms],
         children: [
-          {
-            path: '',
-            component: AdministrationMenuComponent,
-            outlet: 'sidenav'
-          },
-          {
-            path: '',
-            component: UsersListComponent,
-            outlet: 'content'
-          }
+            {
+                path: '',
+                component: FolderTreeComponent,
+                outlet: 'sidenav'
+            },
+            {
+                path: '',
+                component: DocumentListComponent,
+                outlet: 'content'
+            }
         ]
-      },
-      {
-        path: 'advanced-search',
-        component: DmsWorkPageComponent,
+    },
+    {
+        path: 'administration',
+        canActivate: [CanActivateDms, CanActivateAdministration],
+        canActivateChild: [CanActivateChildDms, CanActivateChildAdministration],
         children: [
-          {
-            path: '',
-            component: AdministrationMenuComponent,
-            outlet: 'sidenav'
-          },
-          {
-            path: '',
-            component: AdmininstrationSearchComponentComponent,
-            outlet: 'content'
-          }
+            {
+                path: 'users',
+                component: DmsWorkPageComponent,
+                children: [
+                    {
+                        path: '',
+                        component: AdministrationMenuComponent,
+                        outlet: 'sidenav'
+                    },
+                    {
+                        path: '',
+                        component: UsersListComponent,
+                        outlet: 'content'
+                    }
+                ]
+            },
+            {
+                path: 'advanced-search',
+                component: DmsWorkPageComponent,
+                children: [
+                    {
+                        path: '',
+                        component: AdministrationMenuComponent,
+                        outlet: 'sidenav'
+                    },
+                    {
+                        path: '',
+                        component: AdmininstrationSearchComponentComponent,
+                        outlet: 'content'
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  { path: 'login', component: DmsLoginPageComponent, pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+    },
+    { path: 'login', component: DmsLoginPageComponent, pathMatch: 'full' },
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

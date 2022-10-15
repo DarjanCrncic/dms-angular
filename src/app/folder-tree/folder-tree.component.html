@@ -1,46 +1,46 @@
 <div fxLayout="column" fxLayoutAlign="space-between none" class="container">
-  <h2>Folders:</h2>
-  <mat-divider></mat-divider>
-  <div class="tree-container">
-    <mat-tree [dataSource]="getDataSource()" [treeControl]="getTreeControl()">
-      <!-- This is the tree node template for leaf nodes -->
-      <mat-tree-node
-        *matTreeNodeDef="let node"
-        matTreeNodePadding
-        class="selected-menu-item-hover mat-tree-node-custom"
-        matTreeNodePadding
-        matTreeNodePaddingIndent="20"
-        (mouseenter)="onHoverIn(node)"
-        [ngClass]="{
-          'selected-menu-item-background': isCurrentlySelected(node.id)
-        }"
-      >
-        <!-- use a disabled button to provide padding for tree leaf -->
-        <button mat-icon-button disabled></button>
-        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
-        </app-folder-tree-item>
-      </mat-tree-node>
-      <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node
-        *matTreeNodeDef="let node; when: hasChild"
-        matTreeNodePadding
-        class="selected-menu-item-hover mat-tree-node-custom"
-        matTreeNodePadding
-        matTreeNodePaddingIndent="20"
-        #node
-        (mouseenter)="onHoverIn(node)"
-        [ngClass]="{
-          'selected-menu-item-background': isCurrentlySelected(node.id)
-        }"
-      >
-        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-          <mat-icon class="mat-icon-rtl-mirror" (click)="saveFolderTreeToLocalStorage()">
-            {{ getTreeControl().isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
-        </button>
-        <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
-        </app-folder-tree-item>
-      </mat-tree-node>
-    </mat-tree>
-  </div>
+    <h2>Folders:</h2>
+    <mat-divider></mat-divider>
+    <div class="tree-container">
+        <mat-tree [dataSource]="getDataSource()" [treeControl]="getTreeControl()">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node
+                *matTreeNodeDef="let node"
+                matTreeNodePadding
+                class="selected-menu-item-hover mat-tree-node-custom"
+                matTreeNodePadding
+                matTreeNodePaddingIndent="20"
+                (mouseenter)="onHoverIn(node)"
+                [ngClass]="{
+                    'selected-menu-item-background': isCurrentlySelected(node.id)
+                }"
+            >
+                <!-- use a disabled button to provide padding for tree leaf -->
+                <button mat-icon-button disabled></button>
+                <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
+                </app-folder-tree-item>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node
+                *matTreeNodeDef="let node; when: hasChild"
+                matTreeNodePadding
+                class="selected-menu-item-hover mat-tree-node-custom"
+                matTreeNodePadding
+                matTreeNodePaddingIndent="20"
+                #node
+                (mouseenter)="onHoverIn(node)"
+                [ngClass]="{
+                    'selected-menu-item-background': isCurrentlySelected(node.id)
+                }"
+            >
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                    <mat-icon class="mat-icon-rtl-mirror" (click)="saveFolderTreeToLocalStorage()">
+                        {{ getTreeControl().isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                    </mat-icon>
+                </button>
+                <app-folder-tree-item [expanded]="getTreeControl().isExpanded(node)" [empty]="node.empty" [node]="node">
+                </app-folder-tree-item>
+            </mat-tree-node>
+        </mat-tree>
+    </div>
 </div>

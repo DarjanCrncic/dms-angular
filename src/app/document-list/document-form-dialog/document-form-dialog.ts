@@ -10,87 +10,87 @@ import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-t
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 
 @Component({
-  selector: 'app-document-form-dialog',
-  templateUrl: 'document-form-dialog.html',
-  styleUrls: ['./document-form-dialog.css']
+    selector: 'app-document-form-dialog',
+    templateUrl: 'document-form-dialog.html',
+    styleUrls: ['./document-form-dialog.css']
 })
 export class DocumentFormDialogComponent implements OnInit {
-  documentForm: FormGroup = new FormGroup({});
-  types: TypeDTO[] = [];
-  isEdit: boolean = false;
+    documentForm: FormGroup = new FormGroup({});
+    types: TypeDTO[] = [];
+    isEdit: boolean = false;
 
-  constructor(
-    public dialogRef: MatDialogRef<DocumentFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
-    private typeService: DocumentTypeService,
-    private documentService: DocumentService,
-    private snackbarService: SnackbarService,
-    private folderTreeService: FolderTreeService
-  ) {}
+    constructor(
+        public dialogRef: MatDialogRef<DocumentFormDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: DocumentDTO,
+        private typeService: DocumentTypeService,
+        private documentService: DocumentService,
+        private snackbarService: SnackbarService,
+        private folderTreeService: FolderTreeService
+    ) {}
 
-  ngOnInit(): void {
-    this.isEdit = this.data && this.data.id ? true : false;
-    this.documentForm = new FormGroup({
-      object_name: new FormControl(this.isEdit ? this.data.object_name : null, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      description: new FormControl(this.isEdit ? this.data.description : null),
-      keywords: new FormControl(this.isEdit ? this.data.keywords.join(',') : '', Validators.pattern(csvPattern)),
-      type: new FormControl(this.isEdit ? this.data.type : 'document')
-    });
-
-    this.typeService.getAllDocumentTypes().subscribe((response) => {
-      this.types = response;
-    });
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onSaveClick() {
-    const formVal = this.documentForm.value;
-    if (!this.documentForm.valid) return;
-
-    const modifyDoc = {
-      ...formVal,
-      keywords: formVal.keywords ? formVal.keywords.split(',') : null
-    };
-    if (this.data && this.data.id) {
-      this.documentService.patchDocument(modifyDoc, this.data.id).subscribe((response) => {
-        this.documentForm.patchValue({
-          ...response,
-          keywords: response.keywords.toString()
+    ngOnInit(): void {
+        this.isEdit = this.data && this.data.id ? true : false;
+        this.documentForm = new FormGroup({
+            object_name: new FormControl(this.isEdit ? this.data.object_name : null, [
+                Validators.required,
+                Validators.minLength(4)
+            ]),
+            description: new FormControl(this.isEdit ? this.data.description : null),
+            keywords: new FormControl(this.isEdit ? this.data.keywords.join(',') : '', Validators.pattern(csvPattern)),
+            type: new FormControl(this.isEdit ? this.data.type : 'document')
         });
-        this.documentService.refreshDocuments.next('');
-        this.snackbarService.openSnackBar('Document successfully updated.', MessageTypes.SUCCESS);
-      });
-    } else {
-      const currentFolder = this.folderTreeService.getCurrentFolder();
-      currentFolder &&
-        this.documentService
-          .saveNewDocument({
-            ...modifyDoc,
-            parent_folder_id: currentFolder.id
-          })
-          .subscribe((response) => {
-            this.documentForm.patchValue({
-              ...response,
-              keywords: response.keywords.toString()
-            });
-            this.documentService.refreshDocuments.next('');
-            this.snackbarService.openSnackBar('Document successfully saved.', MessageTypes.SUCCESS);
-          });
+
+        this.typeService.getAllDocumentTypes().subscribe((response) => {
+            this.types = response;
+        });
     }
-  }
 
-  getErrorMessage(controlName: string) {
-    const control = this.documentForm.get(controlName);
-    return control && ErrorUtil.getErrorMessage(control);
-  }
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
 
-  isSaveDisabled() {
-    return !this.documentForm.valid || (!this.documentForm.dirty && this.isEdit);
-  }
+    onSaveClick() {
+        const formVal = this.documentForm.value;
+        if (!this.documentForm.valid) return;
+
+        const modifyDoc = {
+            ...formVal,
+            keywords: formVal.keywords ? formVal.keywords.split(',') : null
+        };
+        if (this.data && this.data.id) {
+            this.documentService.patchDocument(modifyDoc, this.data.id).subscribe((response) => {
+                this.documentForm.patchValue({
+                    ...response,
+                    keywords: response.keywords.toString()
+                });
+                this.documentService.refreshDocuments.next('');
+                this.snackbarService.openSnackBar('Document successfully updated.', MessageTypes.SUCCESS);
+            });
+        } else {
+            const currentFolder = this.folderTreeService.getCurrentFolder();
+            currentFolder &&
+                this.documentService
+                    .saveNewDocument({
+                        ...modifyDoc,
+                        parent_folder_id: currentFolder.id
+                    })
+                    .subscribe((response) => {
+                        this.documentForm.patchValue({
+                            ...response,
+                            keywords: response.keywords.toString()
+                        });
+                        this.documentService.refreshDocuments.next('');
+                        this.snackbarService.openSnackBar('Document successfully saved.', MessageTypes.SUCCESS);
+                    });
+        }
+    }
+
+    getErrorMessage(controlName: string) {
+        const control = this.documentForm.get(controlName);
+        return control && ErrorUtil.getErrorMessage(control);
+    }
+
+    isSaveDisabled() {
+        return !this.documentForm.valid || (!this.documentForm.dirty && this.isEdit);
+    }
 }

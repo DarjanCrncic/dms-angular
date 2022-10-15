@@ -32,8 +32,8 @@ import { DmsLoginPageComponent } from './dms-login-page/dms-login-page.component
 import { DmsWorkPageComponent } from './dms-work-page/dms-work-page.component';
 import { DocumentActionsComponent } from './document-list/document-actions/document-actions.component';
 import {
-  DocumentColumnDialogComponent,
-  DocumentColumnSelectComponent
+    DocumentColumnDialogComponent,
+    DocumentColumnSelectComponent
 } from './document-list/document-column-select/document-column-select.component';
 import { DocumentFormDialogComponent } from './document-list/document-form-dialog/document-form-dialog';
 import { DocumentListComponent } from './document-list/document-list.component';
@@ -58,82 +58,82 @@ import { UsersFormDialogComponent } from './users-list/users-form-dialog/users-f
 import { UsersActionsComponent } from './users-list/users-actions/users-actions.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FolderTreeComponent,
-    FolderTreeItemComponent,
-    DocumentListComponent,
-    ContentHeaderComponent,
-    DocumentColumnSelectComponent,
-    DocumentColumnDialogComponent,
-    DocumentFormDialogComponent,
-    MessageSnackbarComponent,
-    DmsWorkPageComponent,
-    DmsLoginPageComponent,
-    PageNotFoundComponent,
-    GrantRightsDialogComponent,
-    DocumentActionsComponent,
-    PermissionRowComponent,
-    RenameDialogComponent,
-    DmsAdministrationPageComponent,
-    VersionTreeDialogComponent,
-    AdministrationMenuComponent,
-    UsersListComponent,
-    SearchFieldComponent,
-    AdmininstrationSearchComponentComponent,
-    UsersFormDialogComponent,
-    UsersActionsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-    FlexLayoutModule,
-    ReactiveFormsModule,
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        FolderTreeComponent,
+        FolderTreeItemComponent,
+        DocumentListComponent,
+        ContentHeaderComponent,
+        DocumentColumnSelectComponent,
+        DocumentColumnDialogComponent,
+        DocumentFormDialogComponent,
+        MessageSnackbarComponent,
+        DmsWorkPageComponent,
+        DmsLoginPageComponent,
+        PageNotFoundComponent,
+        GrantRightsDialogComponent,
+        DocumentActionsComponent,
+        PermissionRowComponent,
+        RenameDialogComponent,
+        DmsAdministrationPageComponent,
+        VersionTreeDialogComponent,
+        AdministrationMenuComponent,
+        UsersListComponent,
+        SearchFieldComponent,
+        AdmininstrationSearchComponentComponent,
+        UsersFormDialogComponent,
+        UsersActionsComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FormsModule,
+        FlexLayoutModule,
+        ReactiveFormsModule,
 
-    MatToolbarModule,
-    MatIconModule,
-    MatTreeModule,
-    MatProgressBarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatSortModule,
-    DragDropModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatMenuModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        MatToolbarModule,
+        MatIconModule,
+        MatTreeModule,
+        MatProgressBarModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatSortModule,
+        DragDropModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatMenuModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

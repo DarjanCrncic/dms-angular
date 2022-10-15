@@ -6,45 +6,45 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface UserDetails {
-  first_name: string;
-  last_name: string;
-  username: string;
-  id: string;
-  creation_date: Date;
-  modify_date: Date;
-  email: string;
-  role: string;
-  privileges: string[];
+    first_name: string;
+    last_name: string;
+    username: string;
+    id: string;
+    creation_date: Date;
+    modify_date: Date;
+    email: string;
+    role: string;
+    privileges: string[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private httpClient: HttpClient) {}
-  refresh: Subject<null> = new Subject();
+    constructor(private httpClient: HttpClient) {}
+    refresh: Subject<null> = new Subject();
 
-  getUserDetails(username: string) {
-    return this.httpClient.get<UserDetails>(environment.baseUrl + ApiPaths.UserDetails, {
-      params: {
-        username: username
-      }
-    });
-  }
+    getUserDetails(username: string) {
+        return this.httpClient.get<UserDetails>(environment.baseUrl + ApiPaths.UserDetails, {
+            params: {
+                username: username
+            }
+        });
+    }
 
-  getAvailableUsers(sort?: Sort, search?: string) {
-    return this.httpClient.get<UserDetails[]>(environment.baseUrl + ApiPaths.User, {
-      params: {
-        search: search ?? '',
-        sort: sort?.active ?? '',
-        direction: sort?.direction ?? ''
-      }
-    });
-  }
+    getAvailableUsers(sort?: Sort, search?: string) {
+        return this.httpClient.get<UserDetails[]>(environment.baseUrl + ApiPaths.User, {
+            params: {
+                search: search ?? '',
+                sort: sort?.active ?? '',
+                direction: sort?.direction ?? ''
+            }
+        });
+    }
 
-  createUser(userDetails: UserDetails) {
-    return this.httpClient.post<UserDetails>(environment.baseUrl + ApiPaths.User, userDetails);
-  }
+    createUser(userDetails: UserDetails) {
+        return this.httpClient.post<UserDetails>(environment.baseUrl + ApiPaths.User, userDetails);
+    }
 
-  updateUser(userDetails: UserDetails, id: string) {
-    return this.httpClient.patch<UserDetails>(environment.baseUrl + ApiPaths.User + '/' + id, userDetails);
-  }
+    updateUser(userDetails: UserDetails, id: string) {
+        return this.httpClient.patch<UserDetails>(environment.baseUrl + ApiPaths.User + '/' + id, userDetails);
+    }
 }

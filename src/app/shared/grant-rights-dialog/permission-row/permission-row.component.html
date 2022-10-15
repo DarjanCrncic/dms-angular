@@ -1,26 +1,29 @@
 <div>
-  <form [formGroup]="subForm" class="row">
-    <mat-form-field appearance="outline">
-      <mat-label>User</mat-label>
-      <mat-select formControlName="username" disableOptionCentering panelClass="normalSelect">
-        <mat-option *ngFor="let user of users" [value]="user.username"
-          >{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Permissions</mat-label>
-      <mat-select formControlName="permissions" multiple disableOptionCentering panelClass="normalSelect">
-        <mat-select-trigger>
-          {{subForm.controls['permissions'].value?.[0] || ''}}
-          <span *ngIf="(subForm.controls['permissions'].value?.length || 0) > 1" class="example-additional-selection">
-            (+{{ (subForm.controls['permissions'].value?.length || 0) - 1 }}
-            {{ subForm.controls['permissions'].value?.length === 2 ? 'other' : 'others' }})
-          </span>
-        </mat-select-trigger>
-        <mat-option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-icon matTooltip="Remove" (click)="removeEntry()" color="accent">close</mat-icon>
-  </form>
+    <form [formGroup]="subForm" class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>User</mat-label>
+            <mat-select formControlName="username" disableOptionCentering panelClass="normalSelect">
+                <mat-option *ngFor="let user of users" [value]="user.username"
+                    >{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</mat-option
+                >
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Permissions</mat-label>
+            <mat-select formControlName="permissions" multiple disableOptionCentering panelClass="normalSelect">
+                <mat-select-trigger>
+                    {{subForm.controls['permissions'].value?.[0] || ''}}
+                    <span
+                        *ngIf="(subForm.controls['permissions'].value?.length || 0) > 1"
+                        class="example-additional-selection"
+                    >
+                        (+{{ (subForm.controls['permissions'].value?.length || 0) - 1 }}
+                        {{ subForm.controls['permissions'].value?.length === 2 ? 'other' : 'others' }})
+                    </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-icon matTooltip="Remove" (click)="removeEntry()" color="accent">close</mat-icon>
+    </form>
 </div>
