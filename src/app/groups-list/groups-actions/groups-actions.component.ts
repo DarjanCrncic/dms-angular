@@ -1,3 +1,4 @@
+import { ConfirmationDialogService } from './../../shared/confirmation-modal/confirmation-dialog.service';
 import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
 import { GroupsMembersDialogComponent } from './../groups-members-dialog/groups-members-dialog.component';
 import { GroupDTO, GroupService } from './../../shared/services/group-service';
@@ -13,7 +14,12 @@ import { Component, Input } from '@angular/core';
 export class GroupsActionsComponent {
     @Input() groupDTO!: GroupDTO;
 
-    constructor(public dialog: MatDialog, private groupService: GroupService, private snackbarService: SnackbarService) {}
+    constructor(
+        public dialog: MatDialog,
+        private groupService: GroupService,
+        private snackbarService: SnackbarService,
+        private confirmationService: ConfirmationDialogService
+    ) {}
 
     onEdit(row: GroupDTO) {
         const dialogRef = this.dialog.open(GroupsFormDialogComponent, {
@@ -32,8 +38,15 @@ export class GroupsActionsComponent {
     }
 
     onDelete(row: GroupDTO) {
-        this.groupService.deleteById(row.id).subscribe(() => {
+        this.confirmationService.openConfirmDialog('Are you sure you want to delete this group?').subscribe((res) => {
+            res && this.confirmDelete(row.id);
+        });
+    }
+
+    private confirmDelete(id: string) {
+        this.groupService.deleteById(id).subscribe(() => {
             this.snackbarService.openSnackBar('Group successfully deleted.', MessageTypes.SUCCESS);
-            this.groupService.refresh.next(null)});
+            this.groupService.refresh.next(null);
+        });
     }
 }

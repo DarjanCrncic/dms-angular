@@ -1,0 +1,11 @@
+.message-div {
+    height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    margin: 0;
+    font-size: 1.05rem;
+}

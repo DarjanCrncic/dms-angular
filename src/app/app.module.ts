@@ -60,6 +60,7 @@ import { GroupsListComponent } from './groups-list/groups-list.component';
 import { GroupsActionsComponent } from './groups-list/groups-actions/groups-actions.component';
 import { GroupsFormDialogComponent } from './groups-list/groups-form-dialog/groups-form-dialog.component';
 import { GroupsMembersDialogComponent } from './groups-list/groups-members-dialog/groups-members-dialog.component';
+import { ConfirmationDialogComponent } from './shared/confirmation-modal/confirmation-dialog.component';
 
 @NgModule({
     declarations: [
@@ -91,7 +92,8 @@ import { GroupsMembersDialogComponent } from './groups-list/groups-members-dialo
         GroupsListComponent,
         GroupsActionsComponent,
         GroupsFormDialogComponent,
-        GroupsMembersDialogComponent
+        GroupsMembersDialogComponent,
+        ConfirmationDialogComponent
     ],
     imports: [
         BrowserModule,
