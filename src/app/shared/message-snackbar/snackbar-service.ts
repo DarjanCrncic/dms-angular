@@ -19,4 +19,8 @@ export class SnackbarService {
             panelClass: ['mat-toolbar', type]
         });
     }
+
+    closeAll() {
+        this.snackBar.dismiss();
+    }
 }

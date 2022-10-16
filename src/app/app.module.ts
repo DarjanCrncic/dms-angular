@@ -59,6 +59,7 @@ import { UsersActionsComponent } from './users-list/users-actions/users-actions.
 import { GroupsListComponent } from './groups-list/groups-list.component';
 import { GroupsActionsComponent } from './groups-list/groups-actions/groups-actions.component';
 import { GroupsFormDialogComponent } from './groups-list/groups-form-dialog/groups-form-dialog.component';
+import { GroupsMembersDialogComponent } from './groups-list/groups-members-dialog/groups-members-dialog.component';
 
 @NgModule({
     declarations: [
@@ -89,7 +90,8 @@ import { GroupsFormDialogComponent } from './groups-list/groups-form-dialog/grou
         UsersActionsComponent,
         GroupsListComponent,
         GroupsActionsComponent,
-        GroupsFormDialogComponent
+        GroupsFormDialogComponent,
+        GroupsMembersDialogComponent
     ],
     imports: [
         BrowserModule,

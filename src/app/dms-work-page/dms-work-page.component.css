@@ -58,3 +58,7 @@
 .dragger mat-icon {
     cursor: move;
 }
+
+.expander mat-icon {
+    margin: -4px 2px 0 0;
+}

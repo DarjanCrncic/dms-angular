@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>{{ 'Edit members for: ' + data.group_name }}</h1>
+<div class="container">
+    <mat-spinner *ngIf="loading" class="mat-spinner centered-default"></mat-spinner>
+    <div class="container-part">
+        <div class="container-part-header">
+            <h3 class="primary-color">Non-members:</h3>
+            <app-search-field (search)="handleNonMembersSearch($event)"></app-search-field>
+        </div>
+        <div class="non-members" cdkDropList #nonMembersList="cdkDropList" [cdkDropListData]="nonMembers"
+            [cdkDropListConnectedTo]="[membersList]" (cdkDropListDropped)="drop($event)">
+            <ng-container *ngFor="let user of nonMembers">
+                <div div class="person-container example-box" *ngIf="!hiddenNonMembers.includes(user.id)"
+                    [cdkDragData]="user" cdkDrag>
+                    <mat-icon>person</mat-icon>
+                    <div>{{user.first_name}}</div>
+                    <div>{{user.last_name}}</div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <mat-divider vertical="true"></mat-divider>
+    <div class="container-part">
+        <div class="container-part-header">
+            <h3 class="accent-color">Members:</h3>
+            <app-search-field (search)="handleMembersSearch($event)"></app-search-field>
+        </div>
+        <div class="members" cdkDropList #membersList="cdkDropList" [cdkDropListData]="members"
+            [cdkDropListConnectedTo]="[nonMembersList]" (cdkDropListDropped)="drop($event)">
+            <ng-container *ngFor="let user of members">
+                <div class="person-container example-box" *ngIf="!hiddenMembers.includes(user.id)" [cdkDragData]="user"
+                    cdkDrag>
+                    <mat-icon>person</mat-icon>
+                    <div>{{user.first_name}}</div>
+                    <div>{{user.last_name}}</div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
+        Save
+    </button>
+</div>

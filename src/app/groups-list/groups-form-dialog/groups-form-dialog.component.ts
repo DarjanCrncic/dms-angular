@@ -7,13 +7,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ErrorUtil } from 'src/app/shared/validator-messages';
 
 @Component({
-  selector: 'app-groups-form-dialog',
-  templateUrl: './groups-form-dialog.component.html',
-  styleUrls: ['./groups-form-dialog.component.css']
+    selector: 'app-groups-form-dialog',
+    templateUrl: './groups-form-dialog.component.html',
+    styleUrls: ['./groups-form-dialog.component.css']
 })
 export class GroupsFormDialogComponent implements OnInit {
-
-  groupForm: FormGroup = new FormGroup({});
+    groupForm: FormGroup = new FormGroup({});
     isEdit: boolean = false;
     roles: string[] = [];
     privileges: string[] = [];
@@ -33,7 +32,7 @@ export class GroupsFormDialogComponent implements OnInit {
                 Validators.minLength(2),
                 Validators.maxLength(32)
             ]),
-            description: new FormControl(this.isEdit ? this.data.description : null),
+            description: new FormControl(this.isEdit ? this.data.description : null)
         });
     }
 

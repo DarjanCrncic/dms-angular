@@ -17,6 +17,7 @@ export class UsersFormDialogComponent implements OnInit {
     isEdit: boolean = false;
     roles: string[] = [];
     privileges: string[] = [];
+    hide = true;
 
     constructor(
         public dialogRef: MatDialogRef<UsersFormDialogComponent>,

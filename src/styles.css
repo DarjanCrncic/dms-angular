@@ -64,6 +64,7 @@ mat-progress-bar .mat-progress-bar-fill::after {
 }
 
 .selected-menu-item-hover:hover {
+    cursor: pointer;
     background-color: #e7e7e799;
 }
 
@@ -87,4 +88,12 @@ mat-progress-bar .mat-progress-bar-fill::after {
 }
 .key {
     color: brown;
+}
+
+.primary-color {
+    color: #3f51b5;
+}
+
+.accent-color {
+    color: #ff4081;
 }

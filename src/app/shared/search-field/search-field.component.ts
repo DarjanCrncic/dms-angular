@@ -25,11 +25,7 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
         this.value.valueChanges
             .pipe(debounceTime(this.debounceTime), takeUntil(this.$componentDestroyed))
             .subscribe(() => {
-                this.functionToBeCalled();
+                this.value.valid && this.search.emit(this.value.value);
             });
-    }
-
-    functionToBeCalled() {
-        this.value.valid && this.search.emit(this.value.value);
     }
 }

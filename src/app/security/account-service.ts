@@ -71,6 +71,7 @@ export class AccountService {
         this.authTimer = null;
 
         this.dialogRef.closeAll();
+        this.snackbarService.closeAll();
         this.router.navigate(['/login']);
     }
 

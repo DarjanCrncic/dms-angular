@@ -19,7 +19,10 @@
         </mat-form-field>
         <mat-form-field appearance="outline" *ngIf="!isEdit">
             <mat-label>Password</mat-label>
-            <input matInput placeholder="Password" formControlName="password" />
+            <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'"/>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
         </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">

@@ -30,7 +30,9 @@ export class GroupsListComponent implements OnInit, OnDestroy {
         this.displayedColumns = [
             { displayed: true, identifier: 'id', title: 'Id' },
             { displayed: true, identifier: 'group_name', title: 'Group Name' },
-            { displayed: true, identifier: 'description', title: 'Description' }
+            { displayed: true, identifier: 'description', title: 'Description' },
+            { displayed: true, identifier: 'creation_date', title: 'Creation Date'},
+            { displayed: true, identifier: 'modify_date', title: 'Modify Date'}
         ];
 
         this.getGroups();
