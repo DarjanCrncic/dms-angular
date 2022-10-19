@@ -32,6 +32,11 @@ export class GroupsFormDialogComponent implements OnInit {
                 Validators.minLength(2),
                 Validators.maxLength(32)
             ]),
+            identifier: new FormControl(this.isEdit ? this.data.identifier : null, [
+                Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(32)
+            ]),
             description: new FormControl(this.isEdit ? this.data.description : null)
         });
     }

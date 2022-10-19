@@ -6,6 +6,12 @@
             <input matInput placeholder="Group Name" formControlName="group_name" />
             <mat-error *ngIf="groupForm.get('group_name')?.errors">{{ getErrorMessage('group_name') }}</mat-error>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Group Identifier</mat-label>
+            <input matInput placeholder="Group Identifier" formControlName="identifier" />
+            <mat-error *ngIf="groupForm.get('identifier')?.errors">{{ getErrorMessage('identifier') }}</mat-error>
+            <mat-hint>Used for ACL management</mat-hint>
+        </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <mat-form-field appearance="outline">
@@ -13,6 +19,7 @@
             <input matInput placeholder="Description" formControlName="description"/>
             <mat-error *ngIf="groupForm.get('description')?.errors">{{ getErrorMessage('email') }}</mat-error>
         </mat-form-field>
+        <div [ngStyle]="{ 'height.px': 78 }"></div>
     </div>
 </form>
 <mat-error *ngIf="!groupForm.valid && groupForm.touched">Please enter valid data.</mat-error>

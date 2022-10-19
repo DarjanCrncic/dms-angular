@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 export interface GroupDTO {
     id: string;
     group_name: string;
+    identifier: string;
     description: string;
     members: UserDetails[];
 }
