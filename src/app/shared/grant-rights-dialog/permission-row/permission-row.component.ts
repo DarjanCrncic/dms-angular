@@ -1,3 +1,4 @@
+import { GroupDTO } from './../../services/group-service';
 import { UserDetails } from './../../services/user-service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormGroupDirective } from '@angular/forms';
@@ -10,6 +11,7 @@ import { FormGroup, FormGroupDirective } from '@angular/forms';
 export class PermissionRowComponent implements OnInit {
     @Input() permissions: string[] = [];
     @Input() users: UserDetails[] = [];
+    @Input() groups: GroupDTO[] = [];
     @Input() index: number = 0;
     @Output() removeEntryEmitter: EventEmitter<number> = new EventEmitter();
 

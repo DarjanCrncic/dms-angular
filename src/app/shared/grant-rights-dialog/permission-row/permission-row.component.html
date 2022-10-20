@@ -3,9 +3,11 @@
         <mat-form-field appearance="outline">
             <mat-label>User</mat-label>
             <mat-select formControlName="username" disableOptionCentering panelClass="normalSelect">
-                <mat-option *ngFor="let user of users" [value]="user.username"
-                    >{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</mat-option
-                >
+                <mat-optgroup [label]="'Users'"></mat-optgroup>
+                <mat-option *ngFor="let user of users" [value]="user.username">{{ user.first_name }} {{ user.last_name
+                    }} ({{ user.username }})</mat-option>
+                <mat-optgroup [label]="'Groups'"></mat-optgroup>
+                <mat-option *ngFor="let group of groups" [value]="group.identifier">{{group.group_name}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -13,10 +15,8 @@
             <mat-select formControlName="permissions" multiple disableOptionCentering panelClass="normalSelect">
                 <mat-select-trigger>
                     {{subForm.controls['permissions'].value?.[0] || ''}}
-                    <span
-                        *ngIf="(subForm.controls['permissions'].value?.length || 0) > 1"
-                        class="example-additional-selection"
-                    >
+                    <span *ngIf="(subForm.controls['permissions'].value?.length || 0) > 1"
+                        class="example-additional-selection">
                         (+{{ (subForm.controls['permissions'].value?.length || 0) - 1 }}
                         {{ subForm.controls['permissions'].value?.length === 2 ? 'other' : 'others' }})
                     </span>

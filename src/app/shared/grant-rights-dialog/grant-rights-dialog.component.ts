@@ -1,3 +1,4 @@
+import { GroupService, GroupDTO } from './../services/group-service';
 import { SnackbarService, MessageTypes } from './../message-snackbar/snackbar-service';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
@@ -18,6 +19,7 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
     form: FormArray = new FormArray<FormGroup>([]);
     permissionsAll = permissionsAll;
     users: UserDetails[] = [];
+    groups: GroupDTO[] = [];
     isLoadingResults: boolean = false;
     errorMsg: string | null = null;
     private valueChangeSub: Subscription | null = null;
@@ -28,16 +30,19 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
         public data: { dto: DocumentDTO | FolderNode; type: AclClass },
         private userService: UserService,
         private administrationService: AdministrationService,
-        private snackbarService: SnackbarService
+        private snackbarService: SnackbarService,
+        private groupService: GroupService
     ) {}
 
     ngOnInit(): void {
         this.isLoadingResults = true;
         const userReq = this.userService.getAvailableUsers();
         const existingRightsReq = this.administrationService.getExistingRights(this.data.dto.id, this.data.type);
+        const groupReq = this.groupService.getGroups();
 
-        forkJoin([userReq, existingRightsReq]).subscribe((resp) => {
+        forkJoin([userReq, existingRightsReq, groupReq]).subscribe((resp) => {
             this.users = resp[0];
+            this.groups = resp[2];
             this.isLoadingResults = false;
 
             resp[1].forEach((element) => {
