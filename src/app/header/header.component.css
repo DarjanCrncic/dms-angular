@@ -15,3 +15,38 @@
 a {
     margin: 0 5px;
 }
+
+.notifications {
+    position: relative;
+}
+
+.notification-counter {
+    position: absolute;
+    bottom: -10%;
+    right: 0;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    width: 12px;
+    height: 12px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+::ng-deep .mat-menu-panel {
+    max-width: unset !important;
+}
+
+.date {
+    white-space: nowrap;
+    padding: 8px 15px;
+    border-right: rgba(0,0,0,.12) solid 2px;
+}

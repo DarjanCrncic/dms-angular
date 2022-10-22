@@ -1,3 +1,4 @@
+import { WebsocketService } from './../shared/services/websocket-service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ export interface Account {
     last_name: string;
     privileges: string[];
     roles: string[];
+    group_identifiers: string[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +25,8 @@ export class AccountService {
         private htttpClient: HttpClient,
         private router: Router,
         private snackbarService: SnackbarService,
-        private dialogRef: MatDialog
+        private dialogRef: MatDialog,
+        private websocketService: WebsocketService
     ) {}
     private authTimer: ReturnType<typeof setTimeout> | null = null;
     newUserAnnouncment: Subject<Account> = new Subject();
@@ -35,7 +38,8 @@ export class AccountService {
         first_name: '',
         last_name: '',
         roles: [],
-        privileges: []
+        privileges: [],
+        group_identifiers: []
     };
 
     login(username: string, password: string) {
@@ -50,6 +54,7 @@ export class AccountService {
                     this._account = res;
                     this.startAuthenticationTimer(this._account.expires_at - Date.now());
                     this.newUserAnnouncment.next(res);
+                    this.websocketService.connect(this.account.token);
                 })
             );
     }
@@ -73,6 +78,8 @@ export class AccountService {
         this.dialogRef.closeAll();
         this.snackbarService.closeAll();
         this.router.navigate(['/login']);
+
+        this.websocketService.disconnect();
     }
 
     public isLoggedIn() {
@@ -109,5 +116,15 @@ export class AccountService {
             this.logout();
             this.snackbarService.openSnackBar('Your login info expired.', MessageTypes.INFO);
         }, expiration);
+    }
+    
+    isUserOrMember(username: string) {
+        return this.account.username == username || this.account.group_identifiers.includes(username);
+    }
+
+    shouldReceive(receivers: string[]) {
+        let should = false;
+        receivers.forEach(rec => should = should || this.isUserOrMember(rec));
+        return should;
     }
 }

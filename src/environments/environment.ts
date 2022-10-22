@@ -11,7 +11,8 @@ export const environment = {
     production: false,
     baseUrl: 'http://localhost:8080/api/v1',
     host: 'http://localhost:8080',
-    authInterceptor: AuthInterceptors.JWT
+    authInterceptor: AuthInterceptors.JWT,
+    ws: 'ws://localhost:8080/dms-websocket'
 };
 
 /*

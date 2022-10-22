@@ -23,8 +23,11 @@
     "@angular/platform-browser": "~14.2.3",
     "@angular/platform-browser-dynamic": "~14.2.3",
     "@angular/router": "~14.2.3",
+    "@types/stompjs": "^2.3.5",
     "material-design-icons-iconfont": "^6.6.0",
+    "net": "^1.0.2",
     "rxjs": "~7.5.0",
+    "stompjs": "^2.3.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

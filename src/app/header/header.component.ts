@@ -1,10 +1,11 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
-import { Subscription, filter } from 'rxjs';
-import { UserService } from './../shared/services/user-service';
 import { AccountService } from './../security/account-service';
-import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
+import { MessageTypes, SnackbarService } from './../shared/message-snackbar/snackbar-service';
 import { TestService } from './../shared/services/test-service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NotificationMessage, WebsocketService } from './../shared/services/websocket-service';
 
 @Component({
     selector: 'app-header',
@@ -16,22 +17,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private testService: TestService,
         private snackbarService: SnackbarService,
         private accountService: AccountService,
-        private folderTreeService: FolderTreeService
+        private folderTreeService: FolderTreeService,
+        private websocketService: WebsocketService,
+        private router: Router
     ) {}
 
     firstName: string = '';
     lastName: string = '';
-    private newUserSub: Subscription | null = null;
+    unreadNotifications: boolean[] = [];
+    notifications: NotificationMessage[] = [];
+    private componentDestroyed$ = new Subject();
 
     ngOnInit(): void {
         const localAccount = this.accountService.getLocalData();
         this.firstName = localAccount && localAccount.first_name;
         this.lastName = localAccount && localAccount.last_name;
 
-        this.newUserSub = this.accountService.newUserAnnouncment.subscribe((account) => {
+        this.accountService.newUserAnnouncment.pipe(takeUntil(this.componentDestroyed$)).subscribe((account) => {
             this.firstName = account.first_name;
             this.lastName = account.last_name;
         });
+
+        this.websocketService.documents$.pipe(takeUntil(this.componentDestroyed$)).subscribe((message) => {
+            if (!message) return;
+            const body = JSON.parse(message.body) as NotificationMessage;
+            if (this.accountService.shouldReceive(body.receivers)) {
+                this.unreadNotifications.unshift(false);
+                this.notifications.unshift(body);
+            }
+        });
+    }
+
+    onNotificationClick(linkTo: string) {
+        this.router.navigate(['/dms']);
+        this.folderTreeService.setCurrentFolder(linkTo);
+    }
+
+    markAsRead($event: any, index: number) {
+        $event.stopPropagation();
+        this.unreadNotifications[index] = true;
+    }
+
+    getUnreadCount() {
+        return this.unreadNotifications.filter(item => item == false).length;
     }
 
     onLogoutClick() {
@@ -49,10 +77,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onFavClick() {
         this.snackbarService.openSnackBar('Test info', MessageTypes.INFO);
+        this.websocketService.sendMessage('Testing websocket.');
     }
 
     ngOnDestroy() {
-        this.newUserSub && this.newUserSub.unsubscribe();
+        this.componentDestroyed$.next(null);
     }
 
     isAdminRole() {
