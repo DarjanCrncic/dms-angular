@@ -45,3 +45,7 @@ table {
 .table-action-header {
     position: relative;
 }
+
+::ng-deep mat-checkbox {
+    margin-right: 15px;
+}

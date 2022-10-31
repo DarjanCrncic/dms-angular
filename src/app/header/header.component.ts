@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.websocketService.documents$.pipe(takeUntil(this.componentDestroyed$)).subscribe((message) => {
             if (!message) return;
             const body = JSON.parse(message.body) as NotificationMessage;
-            if (this.accountService.shouldReceive(body.receivers)) {
+            if (this.isAdminRole() || this.accountService.shouldReceive(body.receivers)) {
                 this.unreadNotifications.unshift(false);
                 this.notifications.unshift(body);
             }

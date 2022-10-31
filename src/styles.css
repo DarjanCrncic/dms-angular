@@ -91,9 +91,14 @@ mat-progress-bar .mat-progress-bar-fill::after {
 }
 
 .primary-color {
-    color: #3f51b5;
+    color: var(--primary-color);
 }
 
 .accent-color {
-    color: #ff4081;
+    color: var(--accent-color);
+}
+
+:root {
+    --primary-color: #3f51b5;
+    --accent-color: #ff4081; 
 }
