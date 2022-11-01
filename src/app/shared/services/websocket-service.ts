@@ -3,13 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as Stomp from 'stompjs';
 
-export interface NotificationMessage {
-    receivers: string[];
-    link_to: string;
-    message: string;
-    timestamp: string;
-}
-
 @Injectable({ providedIn: 'root' })
 export class WebsocketService {
     private stompClient: Stomp.Client | null = null;
@@ -32,8 +25,8 @@ export class WebsocketService {
         });
     }
 
-    public sendMessage(message: string) {
-        this.stompClient?.send('/dms/hello', {}, message);
+    public registerNotification(id: string) {
+        this.stompClient?.send('/dms/notifications/register', {}, id);
     }
 
     public disconnect() {

@@ -24,13 +24,14 @@
     <mat-menu #beforeNotifications="matMenu" xPosition="before">
         <button *ngIf="notifications.length === 0" mat-menu-item>No notifications.</button>
         <div *ngFor="let notification of notifications; let i = index" class="row">
-            <span class="date" (click)="$event.stopPropagation()">{{notification.timestamp}}</span>
+            <span class="date" (click)="$event.stopPropagation()">{{(getLocaleDate(notification.creation_date))}}</span>
             <button mat-menu-item (click)="onNotificationClick(notification.link_to)">{{notification.message}}</button>
-            <button mat-icon-button [ngStyle]="{'color': unreadNotifications[i] ? 'gray' : 'red'}"
-                (click)="markAsRead($event, i)">
+            <button mat-icon-button [ngStyle]="{'color': notification.seen ? 'gray' : 'red'}"
+                (click)="markAsRead($event, notification)">
                 <mat-icon>adjust</mat-icon>
             </button>
         </div>
+        <button *ngIf="notifications.length > 0" mat-menu-item class="clear-all" (click)="clearAll()">Clear all</button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="beforeMenu" *ngIf="logoutVissible()">
         <mat-icon>account_circle</mat-icon>

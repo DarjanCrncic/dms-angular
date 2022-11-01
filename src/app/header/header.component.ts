@@ -1,3 +1,4 @@
+import { DmsNotification, NotificationService } from './../shared/services/notification-service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -5,7 +6,7 @@ import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 import { AccountService } from './../security/account-service';
 import { MessageTypes, SnackbarService } from './../shared/message-snackbar/snackbar-service';
 import { TestService } from './../shared/services/test-service';
-import { NotificationMessage, WebsocketService } from './../shared/services/websocket-service';
+import { WebsocketService } from './../shared/services/websocket-service';
 
 @Component({
     selector: 'app-header',
@@ -19,13 +20,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private accountService: AccountService,
         private folderTreeService: FolderTreeService,
         private websocketService: WebsocketService,
+        private notificationService: NotificationService,
         private router: Router
     ) {}
 
     firstName: string = '';
     lastName: string = '';
-    unreadNotifications: boolean[] = [];
-    notifications: NotificationMessage[] = [];
+    notifications: DmsNotification[] = [];
     private componentDestroyed$ = new Subject();
 
     ngOnInit(): void {
@@ -40,12 +41,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
         this.websocketService.documents$.pipe(takeUntil(this.componentDestroyed$)).subscribe((message) => {
             if (!message) return;
-            const body = JSON.parse(message.body) as NotificationMessage;
-            if (this.isAdminRole() || this.accountService.shouldReceive(body.receivers)) {
-                this.unreadNotifications.unshift(false);
+            const body = JSON.parse(message.body) as DmsNotification;
+            if (this.accountService.shouldReceive(body.recipients)) {
                 this.notifications.unshift(body);
             }
         });
+
+        this.refreshNotifications();
+    }
+
+    refreshNotifications() {
+        this.notificationService
+            .getNotifications()
+            .pipe(takeUntil(this.componentDestroyed$))
+            .subscribe((res) => {
+                this.notifications = res;
+            });
     }
 
     onNotificationClick(linkTo: string) {
@@ -53,13 +64,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.folderTreeService.setCurrentFolder(linkTo);
     }
 
-    markAsRead($event: any, index: number) {
+    markAsRead($event: any, notification: DmsNotification) {
         $event.stopPropagation();
-        this.unreadNotifications[index] = true;
+        !notification.seen && this.websocketService.registerNotification(notification.id);
+        notification.seen = true;
     }
 
     getUnreadCount() {
-        return this.unreadNotifications.filter(item => item == false).length;
+        return this.notifications.filter((item) => item.seen == false).length;
     }
 
     onLogoutClick() {
@@ -77,7 +89,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     onFavClick() {
         this.snackbarService.openSnackBar('Test info', MessageTypes.INFO);
-        this.websocketService.sendMessage('Testing websocket.');
     }
 
     ngOnDestroy() {
@@ -86,5 +97,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     isAdminRole() {
         return this.accountService.account.roles?.findIndex((role) => role === 'ROLE_ADMIN') > -1;
+    }
+
+    clearAll() {
+        this.notificationService.clear().subscribe(res => {
+            this.notifications = [];
+        });
+    }
+    
+    getLocaleDate(date: Date) {
+        const obj = new Date(date);
+        return obj.toLocaleString();
     }
 }

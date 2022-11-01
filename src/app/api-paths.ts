@@ -22,5 +22,6 @@ export enum ApiPaths {
     AdministrationFolderGrant = '/administration/folders/grant',
     RolesPrivileges = '/administration/roles-privileges',
     Group = '/groups',
-    GroupMembers = '/groups/members'
+    GroupMembers = '/groups/members',
+    Notification = '/notifications'
 }

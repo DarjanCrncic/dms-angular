@@ -50,3 +50,8 @@ a {
     padding: 8px 15px;
     border-right: rgba(0,0,0,.12) solid 2px;
 }
+
+.clear-all {
+    color: var(--accent-color);
+    text-align: center;
+}
