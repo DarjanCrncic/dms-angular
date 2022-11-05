@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 export interface DmsNotification {
     id: string;
-    recipients: string[];
+    recipient: string;
     link_to: string;
     message: string;
     creation_date: Date;

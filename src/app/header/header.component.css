@@ -45,6 +45,11 @@ a {
     max-width: unset !important;
 }
 
+::ng-deep .mat-menu-content {
+    max-height: 350px;
+    overflow: auto;
+}
+
 .date {
     white-space: nowrap;
     padding: 8px 15px;

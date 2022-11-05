@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.websocketService.documents$.pipe(takeUntil(this.componentDestroyed$)).subscribe((message) => {
             if (!message) return;
             const body = JSON.parse(message.body) as DmsNotification;
-            if (this.accountService.shouldReceive(body.recipients)) {
+            if (this.accountService.shouldReceive([body.recipient])) {
                 this.notifications.unshift(body);
             }
         });
