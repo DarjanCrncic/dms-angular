@@ -10,7 +10,7 @@ export class WebsocketService {
     fodlers$: BehaviorSubject<any> = new BehaviorSubject(null);
 
     public connect(token: string): void {
-        this.stompClient = Stomp.client(environment.ws);
+        this.stompClient = Stomp.client(environment.wsSpring);
 
         this.stompClient.connect({ Authorization: `Bearer ${token}` }, (frame) => {
             console.log('Connected: ' + frame);

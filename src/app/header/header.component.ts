@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.accountService.newUserAnnouncment.pipe(takeUntil(this.componentDestroyed$)).subscribe((account) => {
             this.firstName = account.first_name;
             this.lastName = account.last_name;
+            this.refreshNotifications();
         });
 
         this.websocketService.documents$.pipe(takeUntil(this.componentDestroyed$)).subscribe((message) => {

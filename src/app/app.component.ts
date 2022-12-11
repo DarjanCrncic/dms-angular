@@ -1,8 +1,7 @@
-import { WebsocketService } from './shared/services/websocket-service';
-import { Subscription, map, catchError, tap } from 'rxjs';
-import { AccountService } from './security/account-service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AccountService } from './security/account-service';
+import { WebsocketService } from './shared/services/websocket-service';
 
 @Component({
     selector: 'app-root',

@@ -1,5 +1,5 @@
 import { WebsocketService } from './../shared/services/websocket-service';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService, MessageTypes } from './../shared/message-snackbar/snackbar-service';
 import { Router } from '@angular/router';
 import { ApiPaths } from 'src/app/api-paths';

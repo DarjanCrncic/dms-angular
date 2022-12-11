@@ -1,4 +1,3 @@
-import { WebsocketService } from './../shared/services/websocket-service';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -24,8 +23,8 @@ export class DmsLoginPageComponent implements OnInit {
 
     ngOnInit(): void {
         this.loginForm = new FormGroup({
-            username: new FormControl('admin', [Validators.required, Validators.minLength(4)]),
-            password: new FormControl('12345', [Validators.required, Validators.minLength(4)])
+            username: new FormControl('', [Validators.required, Validators.minLength(4)]),
+            password: new FormControl('', [Validators.required, Validators.minLength(4)])
         });
     }
 

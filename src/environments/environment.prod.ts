@@ -8,5 +8,5 @@ export const environment = {
     baseUrl: 'https://dms-spring-boot-production.up.railway.app/api/v1',
     host: 'https://dms-spring-boot-production.up.railway.app',
     authInterceptor: AuthInterceptors.JWT,
-    ws: 'wss://dms-spring-boot-production.up.railway.app'
+    wsSpring: 'wss://dms-spring-boot-production.up.railway.app'
 };
