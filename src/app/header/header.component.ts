@@ -5,7 +5,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 import { AccountService } from './../security/account-service';
 import { MessageTypes, SnackbarService } from './../shared/message-snackbar/snackbar-service';
-import { TestService } from './../shared/services/test-service';
 import { WebsocketService } from './../shared/services/websocket-service';
 
 @Component({
@@ -15,7 +14,6 @@ import { WebsocketService } from './../shared/services/websocket-service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     constructor(
-        private testService: TestService,
         private snackbarService: SnackbarService,
         private accountService: AccountService,
         private folderTreeService: FolderTreeService,
@@ -76,6 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     onLogoutClick() {
+        this.notifications = [];
         this.accountService.logout();
         this.folderTreeService.clearLocalData();
     }
@@ -85,7 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     onClick() {
-        this.testService.getError().subscribe();
+        this.snackbarService.openSnackBar('Test error', MessageTypes.ERROR);
     }
 
     onFavClick() {

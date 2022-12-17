@@ -22,6 +22,7 @@ export class DmsLoginPageComponent implements OnInit {
     buttonDisabled = false;
 
     ngOnInit(): void {
+        if (this.accountService.isLoggedIn()) this.router.navigate(['/dms']);
         this.loginForm = new FormGroup({
             username: new FormControl('', [Validators.required, Validators.minLength(4)]),
             password: new FormControl('', [Validators.required, Validators.minLength(4)])

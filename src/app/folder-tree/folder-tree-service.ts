@@ -59,6 +59,7 @@ export class FolderTreeService {
         this.selectedFolderId = current.id;
         this.selectedFolderChanged.next(current);
         this.saveDataToLocal();
+        this.expandTreeTo(id);
     }
 
     getCurrentFolder() {
@@ -77,7 +78,7 @@ export class FolderTreeService {
         });
     }
 
-    saveExpandedNodes() {
+    private saveExpandedNodes() {
         this.expandedNodes = new Array<FlatTreeNode>();
         this.treeControl.dataNodes.forEach((node) => {
             if ((node.expandable && this.treeControl.isExpanded(node)) || node.id === this.selectedFolderId) {
@@ -86,7 +87,7 @@ export class FolderTreeService {
         });
     }
 
-    restoreExpandedNodes() {
+    private restoreExpandedNodes() {
         this.expandedNodes.forEach((node) => {
             const found = this.treeControl.dataNodes.find((n) => n.name === node.name);
             if (found) {
@@ -115,9 +116,21 @@ export class FolderTreeService {
         this.expandById(parentNode.id);
     }
 
-    expandById(id: string) {
-        const node = this.treeControl.dataNodes.find((node) => node.id === id);
+    private expandById(id: string) {
+        const node = this.getNodeById(id);
         if (node) this.treeControl.expand(node);
+    }
+
+    expandTreeTo(id: string) {
+        let node = this.getNodeById(id);
+        while (node && node?.level >= 0) {
+            this.treeControl.expand(node);
+            node = this.getNodeById(node.parent_folder_id);
+        }
+    }
+
+    private getNodeById(id: string) {
+        return this.treeControl.dataNodes.find(node => node.id === id);
     }
 
     refreshTree() {
@@ -126,7 +139,7 @@ export class FolderTreeService {
         this.restoreExpandedNodes();
     }
 
-    transformFlatToTree(nodes: FolderNode[]): FolderNode[] {
+    private transformFlatToTree(nodes: FolderNode[]): FolderNode[] {
         const rootNode = nodes.find((node) => node.name === '/');
         if (!rootNode) throw new Error('Root node not found.');
 
@@ -134,7 +147,7 @@ export class FolderTreeService {
         return [rootNode];
     }
 
-    _getChildNodesRecursive(parent: FolderNode) {
+    private _getChildNodesRecursive(parent: FolderNode) {
         parent.subfolders = this.originalFolderData.filter((node) => node.parent_folder_id === parent.id);
         parent.subfolders.forEach((child) => this._getChildNodesRecursive(child));
     }
@@ -167,7 +180,7 @@ export class FolderTreeService {
         localStorage.setItem(LS_CURRENT_FOLDER, this.selectedFolderId);
     }
 
-    restoreFromLocal() {
+    private restoreFromLocal() {
         const localTree = localStorage.getItem(LS_FOLDER_TREE) ?? null;
         if (localTree) {
             this.expandedNodes = JSON.parse(localTree);
@@ -183,6 +196,7 @@ export class FolderTreeService {
     clearLocalData() {
         localStorage.removeItem(LS_CURRENT_FOLDER);
         localStorage.removeItem(LS_FOLDER_TREE);
+        this._dataSource.data = [];
     }
 }
 
