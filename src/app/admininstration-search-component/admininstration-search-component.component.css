@@ -15,9 +15,15 @@
 }
 
 .search {
-    width: 40%;
+    width: 50%;
+    display: flex;
 }
 
 .url {
     width: 30%;
+}
+
+.go-button {
+    margin-left: 15px;
+    height: 100%;
 }

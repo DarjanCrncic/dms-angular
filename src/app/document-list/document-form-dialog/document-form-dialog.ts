@@ -1,13 +1,13 @@
 import { SnackbarService, MessageTypes } from './../../shared/message-snackbar/snackbar-service';
 import { DocumentService } from './../documents-service';
 import { DocumentDTO } from './../document.model';
-import { csvPattern, ValidatorMessages, ErrorUtil } from './../../shared/validator-messages';
+import { csvPattern, ErrorUtil } from './../../shared/validator-messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Errors } from 'src/app/shared/validator-messages';
 import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-document-form-dialog',
@@ -18,6 +18,7 @@ export class DocumentFormDialogComponent implements OnInit {
     documentForm: FormGroup = new FormGroup({});
     types: TypeDTO[] = [];
     isEdit: boolean = false;
+    loading: boolean = false;
 
     constructor(
         public dialogRef: MatDialogRef<DocumentFormDialogComponent>,
@@ -57,14 +58,17 @@ export class DocumentFormDialogComponent implements OnInit {
             ...formVal,
             keywords: formVal.keywords ? formVal.keywords.split(',') : null
         };
+        this.loading = true;
+
         if (this.data && this.data.id) {
-            this.documentService.patchDocument(modifyDoc, this.data.id).subscribe((response) => {
-                this.documentForm.patchValue({
-                    ...response,
-                    keywords: response.keywords.toString()
-                });
-                this.documentService.refreshDocuments.next('');
-                this.snackbarService.openSnackBar('Document successfully updated.', MessageTypes.SUCCESS);
+            this.documentService.patchDocument(modifyDoc, this.data.id).pipe(finalize(() => this.loading = false))
+                .subscribe((response) => {
+                    this.documentForm.patchValue({
+                        ...response,
+                        keywords: response.keywords.toString()
+                    });
+                    this.documentService.refreshDocuments.next('');
+                    this.snackbarService.openSnackBar('Document successfully updated.', MessageTypes.SUCCESS);
             });
         } else {
             const currentFolder = this.folderTreeService.getCurrentFolder();
@@ -74,6 +78,7 @@ export class DocumentFormDialogComponent implements OnInit {
                         ...modifyDoc,
                         parent_folder_id: currentFolder.id
                     })
+                    .pipe(finalize(() => this.loading = false))
                     .subscribe((response) => {
                         this.documentForm.patchValue({
                             ...response,

@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>{{ isEdit ? 'Edit Group' : 'Create Group' }}</h1>
 <form [formGroup]="groupForm" fxLayout="row wrap" fxLayoutAlign="space-around">
+    <mat-spinner *ngIf="loading" class="centered-default"></mat-spinner>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <mat-form-field appearance="outline">
             <mat-label>Group Name</mat-label>

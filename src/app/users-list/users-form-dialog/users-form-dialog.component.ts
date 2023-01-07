@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { finalize } from 'rxjs';
 import { UserDetails } from 'src/app/shared/services/user-service';
 import { MessageTypes, SnackbarService } from './../../shared/message-snackbar/snackbar-service';
 import { AdministrationService } from './../../shared/services/administration-service';
@@ -18,6 +19,7 @@ export class UsersFormDialogComponent implements OnInit {
     roles: string[] = [];
     privileges: string[] = [];
     hide = true;
+    loading = false;
 
     constructor(
         public dialogRef: MatDialogRef<UsersFormDialogComponent>,
@@ -61,18 +63,25 @@ export class UsersFormDialogComponent implements OnInit {
         const formVal = this.userForm.value;
         if (!this.userForm.valid) return;
 
+        this.loading = true;
         if (this.data && this.data.id) {
-            this.userService.updateUser(formVal, this.data.id).subscribe(() => {
-                this.userService.refresh.next(null);
-                this.snackbarService.openSnackBar('User successfully updated.', MessageTypes.SUCCESS);
-                this.userForm.markAsPristine();
-            });
+            this.userService
+                .updateUser(formVal, this.data.id)
+                .pipe(finalize(() => (this.loading = false)))
+                .subscribe(() => {
+                    this.userService.refresh.next(null);
+                    this.snackbarService.openSnackBar('User successfully updated.', MessageTypes.SUCCESS);
+                    this.userForm.markAsPristine();
+                });
         } else {
-            this.userService.createUser(formVal).subscribe(() => {
-                this.userService.refresh.next(null);
-                this.snackbarService.openSnackBar('User successfully created.', MessageTypes.SUCCESS);
-                this.userForm.markAsPristine();
-            });
+            this.userService
+                .createUser(formVal)
+                .pipe(finalize(() => (this.loading = false)))
+                .subscribe(() => {
+                    this.userService.refresh.next(null);
+                    this.snackbarService.openSnackBar('User successfully created.', MessageTypes.SUCCESS);
+                    this.userForm.markAsPristine();
+                });
         }
     }
 

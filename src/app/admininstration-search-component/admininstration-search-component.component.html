@@ -1,7 +1,10 @@
 <mat-card class="top-card">
-    <mat-form-field appearance="outline" class="search">
-        <input matInput placeholder="Search" [formControl]="search" (keydown)="triggerCall($event)" />
-    </mat-form-field>
+    <div class="search">
+        <mat-form-field appearance="outline">
+            <input matInput placeholder="Search" [formControl]="search" (keydown)="triggerCall($event)" />
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="go-button" (click)="doSearch()">Go</button>
+    </div>
     <mat-form-field appearance="outline" class="url">
         <input matInput placeholder="Url" [formControl]="url" (keydown)="triggerCall($event)" />
     </mat-form-field>

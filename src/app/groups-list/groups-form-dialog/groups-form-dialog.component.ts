@@ -5,6 +5,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ErrorUtil } from 'src/app/shared/validator-messages';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-groups-form-dialog',
@@ -16,6 +17,7 @@ export class GroupsFormDialogComponent implements OnInit {
     isEdit: boolean = false;
     roles: string[] = [];
     privileges: string[] = [];
+    loading = false;
 
     constructor(
         public dialogRef: MatDialogRef<GroupsFormDialogComponent>,
@@ -49,18 +51,25 @@ export class GroupsFormDialogComponent implements OnInit {
         const formVal = this.groupForm.value;
         if (!this.groupForm.valid) return;
 
+        this.loading = true;
         if (this.data && this.data.id) {
-            this.groupService.updateGroup(formVal, this.data.id).subscribe(() => {
-                this.groupService.refresh.next(null);
-                this.snackbarService.openSnackBar('Group successfully updated.', MessageTypes.SUCCESS);
-                this.groupForm.markAsPristine();
-            });
+            this.groupService
+                .updateGroup(formVal, this.data.id)
+                .pipe(finalize(() => (this.loading = false)))
+                .subscribe(() => {
+                    this.groupService.refresh.next(null);
+                    this.snackbarService.openSnackBar('Group successfully updated.', MessageTypes.SUCCESS);
+                    this.groupForm.markAsPristine();
+                });
         } else {
-            this.groupService.createGroup(formVal).subscribe(() => {
-                this.groupService.refresh.next(null);
-                this.snackbarService.openSnackBar('Group successfully created.', MessageTypes.SUCCESS);
-                this.groupForm.markAsPristine();
-            });
+            this.groupService
+                .createGroup(formVal)
+                .pipe(finalize(() => (this.loading = false)))
+                .subscribe(() => {
+                    this.groupService.refresh.next(null);
+                    this.snackbarService.openSnackBar('Group successfully created.', MessageTypes.SUCCESS);
+                    this.groupForm.markAsPristine();
+                });
         }
     }
 

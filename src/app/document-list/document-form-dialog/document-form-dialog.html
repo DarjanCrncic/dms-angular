@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>{{isEdit ? 'Edit document' : 'Create document'}}</h1>
 <form [formGroup]="documentForm" fxLayout="row wrap" fxLayoutAlign="space-around">
+    <mat-spinner *ngIf="loading" class="centered-default"></mat-spinner>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <mat-form-field appearance="outline">
             <mat-label>Title</mat-label>

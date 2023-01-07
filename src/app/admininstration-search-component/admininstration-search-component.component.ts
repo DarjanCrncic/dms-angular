@@ -18,28 +18,32 @@ export class AdmininstrationSearchComponentComponent {
 
     triggerCall($event: KeyboardEvent) {
         if ($event.key == 'Enter') {
-            const url = this.url.value;
-            const search = this.search.value;
-
-            this.loading = true;
-            this.http
-                .get(environment.baseUrl + url, {
-                    params: {
-                        search: search
-                    }
-                })
-                .subscribe(
-                    (res) => {
-                        this.response = JSON.stringify(res, null, 4);
-                    },
-                    (err) => {
-                        this.response = JSON.stringify(err, null, 4);
-                    },
-                    () => {
-                        this.loading = false;
-                    }
-                );
+            this.doSearch();
         }
+    }
+
+    doSearch() {
+        const url = this.url.value;
+        const search = this.search.value;
+
+        this.loading = true;
+        this.http
+            .get(environment.baseUrl + url, {
+                params: {
+                    search: search
+                }
+            })
+            .subscribe(
+                (res) => {
+                    this.response = JSON.stringify(res, null, 4);
+                },
+                (err) => {
+                    this.response = JSON.stringify(err, null, 4);
+                },
+                () => {
+                    this.loading = false;
+                }
+            );
     }
 
     syntaxHighlight(json: any) {
@@ -47,20 +51,23 @@ export class AdmininstrationSearchComponentComponent {
             return;
         }
         json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match: any) {
-            var cls = 'number';
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    cls = 'key';
-                } else {
-                    cls = 'string';
+        return json.replace(
+            /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+            function (match: any) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
                 }
-            } else if (/true|false/.test(match)) {
-                cls = 'boolean';
-            } else if (/null/.test(match)) {
-                cls = 'null';
+                return '<span class="' + cls + '">' + match + '</span>';
             }
-            return '<span class="' + cls + '">' + match + '</span>';
-        });
+        );
     }
 }

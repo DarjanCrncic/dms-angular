@@ -61,24 +61,30 @@ export class VersionTreeDialogComponent implements OnInit, OnDestroy {
     }
 
     onDelete() {
-        this.selected &&
+        if (this.selected) {
+            this.isLoading = true;
             this.documentService.deleteDocuments([this.selected.id]).subscribe((res) => {
                 this.refreshTree(this.selected?.predecessor_id);
             });
+        }
     }
 
     onVersion() {
-        this.selected &&
+        if (this.selected) {
+            this.isLoading = true;
             this.documentService.versionDocument(this.selected.id).subscribe((res) => {
                 this.refreshTree(res.id);
             });
+        }
     }
 
     createBranch() {
-        this.selected &&
+        if (this.selected) {
+            this.isLoading = true;
             this.documentService.branchDocument(this.selected.id).subscribe((res) => {
                 this.refreshTree(res.id);
             });
+        }
     }
 
     pickVersion(version: DocumentDTO) {
