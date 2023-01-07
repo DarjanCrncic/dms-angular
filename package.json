@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "npx eslint \"src/**/*.{js,jsx,ts,tsx,html,css,scss}\" --quiet --fix",
-    "format": "npx prettier --write \"src/**/*.{js,jsx,ts,tsx,html,css,scss}\""
+    "format": "npx prettier --write \"src/**/*.{js,jsx,ts,tsx,html,css,scss}\"",
+    "deploy": "ng deploy --base-href=https://darjancrncic.github.io/dms-angular/"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +45,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
+    "angular-cli-ghpages": "^1.0.5",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
