@@ -15,6 +15,7 @@ export interface UserDetails {
     email: string;
     role: string;
     privileges: string[];
+    enabled: boolean;
 }
 
 @Injectable({ providedIn: 'root' })

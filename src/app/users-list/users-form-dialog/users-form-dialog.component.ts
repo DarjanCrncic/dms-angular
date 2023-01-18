@@ -46,11 +46,16 @@ export class UsersFormDialogComponent implements OnInit {
                 Validators.required
             ]),
             role: new FormControl(this.isEdit ? this.data.role : '', [Validators.required]),
-            privileges: new FormControl(this.isEdit ? this.data.privileges : [])
+            privileges: new FormControl(this.isEdit ? this.data.privileges : []),
+            enabled: new FormControl(this.isEdit ? this.data.enabled : true),
+            password: new FormControl('')
         });
-        if (!this.isEdit) {
-            this.userForm.addControl('password', new FormControl('', [Validators.required, Validators.minLength(6)]));
-        }
+        const passwordControl = this.userForm.get('password');
+        if (!this.isEdit) passwordControl?.setValidators([Validators.required, Validators.minLength(5)]);
+        
+        passwordControl?.valueChanges.subscribe((v: string) => {
+            this.isEdit && this.userForm.get('password')?.setValidators(v ? [Validators.required, Validators.minLength(5)] : []);
+        });
 
         this.getRolesAndPrivileges();
     }

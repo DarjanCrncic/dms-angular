@@ -18,9 +18,9 @@
                 <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" *ngIf="!isEdit">
+        <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'"/>
+            <input matInput [placeholder]="this.isEdit ? 'Enter new password' :  'Password'" formControlName="password" [type]="hide ? 'password' : 'text'"/>
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
@@ -53,7 +53,9 @@
                 <mat-option *ngFor="let privilege of privileges" [value]="privilege">{{ privilege }}</mat-option>
             </mat-select>
         </mat-form-field>
-        <div [ngStyle]="{ 'height.px': 78 }" *ngIf="!isEdit"></div>
+        <div class="checkbox-container">
+            <mat-checkbox formControlName="enabled">Active</mat-checkbox>
+        </div>
     </div>
 </form>
 <mat-error *ngIf="!userForm.valid && userForm.touched">Please enter valid data.</mat-error>
