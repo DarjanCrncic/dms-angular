@@ -6,7 +6,7 @@ import { ApiPaths } from 'src/app/api-paths';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { tap, Subject } from 'rxjs';
+import { tap, Subject, BehaviorSubject } from 'rxjs';
 
 export interface Account {
     username: string;
@@ -22,14 +22,16 @@ export interface Account {
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     constructor(
-        private htttpClient: HttpClient,
+        private httpClient: HttpClient,
         private router: Router,
         private snackbarService: SnackbarService,
         private dialogRef: MatDialog,
         private websocketService: WebsocketService
     ) {}
     private authTimer: ReturnType<typeof setTimeout> | null = null;
-    newUserAnnouncment: Subject<Account> = new Subject();
+    newUserAnnouncement: Subject<Account> = new Subject();
+    private loggedIn = new BehaviorSubject(false);
+    loggedIn$ = this.loggedIn.asObservable();
 
     private _account: Account = {
         username: '',
@@ -43,7 +45,7 @@ export class AccountService {
     };
 
     login(username: string, password: string) {
-        return this.htttpClient
+        return this.httpClient
             .post<Account>(environment.host + ApiPaths.AuthLogin, {
                 username: username,
                 password: password
@@ -53,7 +55,7 @@ export class AccountService {
                     this.setSession(res);
                     this._account = res;
                     this.startAuthenticationTimer(this._account.expires_at - Date.now());
-                    this.newUserAnnouncment.next(res);
+                    this.newUserAnnouncement.next(res);
                     this.websocketService.connect(this.account.token);
                 })
             );
@@ -68,6 +70,7 @@ export class AccountService {
     }
 
     logout() {
+        this.loggedIn.next(false);
         this._account.token = '';
         this._account.expires_at = 0;
         localStorage.removeItem('dms_account');
@@ -102,7 +105,7 @@ export class AccountService {
         if (!localAccount) return;
 
         this._account = JSON.parse(localAccount);
-        this.newUserAnnouncment.next(this._account);
+        this.newUserAnnouncement.next(this._account);
         this.startAuthenticationTimer(this._account.expires_at - Date.now());
     }
 
@@ -112,6 +115,7 @@ export class AccountService {
     }
 
     startAuthenticationTimer(expiration: number) {
+        this.loggedIn.next(true);
         this.authTimer = setTimeout(() => {
             this.logout();
             this.snackbarService.openSnackBar('Your login info expired.', MessageTypes.INFO);

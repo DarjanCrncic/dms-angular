@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.accountService.hasLocalData()) {
+            console.log('using local data to start websocket connection and authenticate user')
             this.accountService.updateAccountWithLocalData();
             this.websocketService.connect(this.accountService.account.token);
         }

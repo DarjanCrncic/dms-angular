@@ -1,9 +1,9 @@
 <mat-toolbar color="primary">
     <span class="title">DMS</span>
-    <a [routerLink]="['/dms']" *ngIf="logoutVissible()">
+    <a [routerLink]="['/dms']" *ngIf="(loggedIn | async)">
         <button mat-flat-button color="primary">Documents</button>
     </a>
-    <a [routerLink]="['/administration/users']" *ngIf="logoutVissible() && isAdminRole()">
+    <a [routerLink]="['/administration/users']" *ngIf="(loggedIn | async) && isAdminRole()">
         <button mat-flat-button color="primary">Administration</button>
     </a>
     <span class="example-spacer"></span>
@@ -14,7 +14,7 @@
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onClick()">
         <mat-icon>share</mat-icon>
     </button>
-    <div class="notifications" *ngIf="logoutVissible()">
+    <div class="notifications" *ngIf="(loggedIn | async)">
         <button mat-icon-button [matMenuTriggerFor]="beforeNotifications" class="example-icon"
             aria-label="Notifications">
             <mat-icon>notifications</mat-icon>
@@ -33,7 +33,7 @@
         </div>
         <button *ngIf="notifications.length > 0" mat-menu-item class="clear-all" (click)="clearAll()">Clear all</button>
     </mat-menu>
-    <button mat-icon-button [matMenuTriggerFor]="beforeMenu" *ngIf="logoutVissible()">
+    <button mat-icon-button [matMenuTriggerFor]="beforeMenu" *ngIf="(loggedIn | async)">
         <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #beforeMenu="matMenu" xPosition="before">

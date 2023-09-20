@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     firstName: string = '';
     lastName: string = '';
     notifications: DmsNotification[] = [];
+    loggedIn = this.accountService.loggedIn$;
     private componentDestroyed$ = new Subject();
 
     ngOnInit(): void {
@@ -32,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.firstName = localAccount && localAccount.first_name;
         this.lastName = localAccount && localAccount.last_name;
 
-        this.accountService.newUserAnnouncment.pipe(takeUntil(this.componentDestroyed$)).subscribe((account) => {
+        this.accountService.newUserAnnouncement.pipe(takeUntil(this.componentDestroyed$)).subscribe((account) => {
             this.firstName = account.first_name;
             this.lastName = account.last_name;
             this.refreshNotifications();
@@ -46,7 +47,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.refreshNotifications();
+        if (this.accountService.hasLocalData()) {
+            this.refreshNotifications();
+        }
     }
 
     refreshNotifications() {
@@ -78,10 +81,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.notifications = [];
         this.accountService.logout();
         this.folderTreeService.clearLocalData();
-    }
-
-    logoutVissible() {
-        return this.accountService.isLoggedIn();
     }
 
     onClick() {

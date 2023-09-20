@@ -7,7 +7,7 @@ import * as Stomp from 'stompjs';
 export class WebsocketService {
     private stompClient: Stomp.Client | null = null;
     documents$: BehaviorSubject<any> = new BehaviorSubject(null);
-    fodlers$: BehaviorSubject<any> = new BehaviorSubject(null);
+    folders$: BehaviorSubject<any> = new BehaviorSubject(null);
 
     public connect(token: string): void {
         this.stompClient = Stomp.client(environment.wsSpring);
@@ -16,7 +16,7 @@ export class WebsocketService {
             console.log('Connected: ' + frame);
 
             this.stompClient?.subscribe('/folders', (message: any) => {
-                this.fodlers$.next(message);
+                this.folders$.next(message);
             });
 
             this.stompClient?.subscribe('/documents', (message: any) => {
