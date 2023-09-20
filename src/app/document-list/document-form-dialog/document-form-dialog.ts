@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DocumentTypeService, TypeDTO } from 'src/app/shared/services/document-type-service';
 import { FolderTreeService } from 'src/app/folder-tree/folder-tree-service';
 import { finalize } from 'rxjs/operators';
+import { ROOT } from 'src/app/constants';
 
 @Component({
     selector: 'app-document-form-dialog',
@@ -76,7 +77,8 @@ export class DocumentFormDialogComponent implements OnInit {
                 this.documentService
                     .saveNewDocument({
                         ...modifyDoc,
-                        parent_folder_id: currentFolder.id
+                        parent_folder_id: currentFolder.id,
+                        root_folder: currentFolder.name == ROOT
                     })
                     .pipe(finalize(() => this.loading = false))
                     .subscribe((response) => {

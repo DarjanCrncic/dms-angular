@@ -52,4 +52,5 @@ export interface NewDocumentDTO {
     description: string;
     type: string;
     parent_folder: string;
+    is_root: boolean;
 }

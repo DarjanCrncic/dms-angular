@@ -17,6 +17,6 @@ export class SearchUtil {
         if (!v) return '';
         fields = fields ?? this.defaultFields.get(searchClass);
 
-        return fields ? '(' + fields.join(`:${v}~`) + `:${v})` : '';
+        return fields ? '(' + fields.join(`~LIKE~${v}~OR~`) + `~LIKE~${v})` : '';
     }
 }

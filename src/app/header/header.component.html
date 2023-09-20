@@ -25,7 +25,7 @@
         <button *ngIf="notifications.length === 0" mat-menu-item>No notifications.</button>
         <div *ngFor="let notification of notifications; let i = index" class="row">
             <span class="date" (click)="$event.stopPropagation()">{{(getLocaleDate(notification.creation_date))}}</span>
-            <button mat-menu-item (click)="onNotificationClick(notification.link_to)">{{notification.message}}</button>
+            <button mat-menu-item (click)="onNotificationClick(notification)">{{notification.message}}</button>
             <button mat-icon-button [ngStyle]="{'color': notification.seen ? 'gray' : 'red'}"
                 (click)="markAsRead($event, notification)">
                 <mat-icon>adjust</mat-icon>

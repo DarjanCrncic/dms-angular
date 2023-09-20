@@ -74,6 +74,8 @@ export class FolderTreeService {
 
             this.setCurrentToRoot();
             this.restoreFromLocal();
+
+            newId = newId ?? this.selectedFolderId;
             newId && this.setCurrentFolder(newId);
         });
     }

@@ -7,7 +7,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { DocumentColumnService, ColumnOption } from './document-column-service';
 import { DocumentDTO } from './document.model';
 import { DocumentService } from './documents-service';
@@ -25,12 +25,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     isLoadingResults = false;
     dataSource = new MatTableDataSource<DocumentDTO>([]);
     private selection = new SelectionModel<DocumentDTO>(true, []);
-    private folderChangedSub: Subscription = new Subscription();
-    private displayedColumnsChangedSub: Subscription = new Subscription();
-    private refreshData: Subscription = new Subscription();
 
     private sort: Sort | undefined = undefined;
     private search: string = '';
+    private componentDestroyed$ = new Subject();
 
     constructor(
         private documentService: DocumentService,
@@ -44,16 +42,16 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.displayedColumns = this.colService.getActiveColumns();
 
-        this.folderChangedSub = this.folderTreeService.selectedFolderChanged.subscribe((folder) => {
+        this.folderTreeService.selectedFolderChanged.pipe(takeUntil(this.componentDestroyed$)).subscribe((folder) => {
             this.getDocuments(folder.id);
         });
 
-        this.refreshData = this.documentService.refreshDocuments.subscribe(() => {
+        this.documentService.refreshDocuments.pipe(takeUntil(this.componentDestroyed$)).subscribe(() => {
             const currentFolder = this.folderTreeService.getCurrentFolder();
             currentFolder && this.getDocuments(currentFolder.id);
         });
 
-        this.displayedColumnsChangedSub = this.colService.displayedColumnsChanged.subscribe((newDisplayedColumns) => {
+        this.colService.displayedColumnsChanged.pipe(takeUntil(this.componentDestroyed$)).subscribe((newDisplayedColumns) => {
             this.displayedColumns = newDisplayedColumns;
         });
 
@@ -62,9 +60,8 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.folderChangedSub && this.folderChangedSub.unsubscribe();
-        this.refreshData && this.refreshData.unsubscribe();
-        this.displayedColumnsChangedSub && this.displayedColumnsChangedSub.unsubscribe();
+        this.componentDestroyed$.next(true);
+        this.componentDestroyed$.complete();
     }
 
     getDocuments(folderId?: string) {

@@ -58,13 +58,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
             });
     }
 
-    onNotificationClick(linkTo: string) {
+    onNotificationClick(notification: DmsNotification) {
         this.router.navigate(['/dms']);
-        this.folderTreeService.setCurrentFolder(linkTo);
+        this.markAsRead(null, notification);
+        this.folderTreeService.setCurrentFolder(notification.link_to);
     }
 
     markAsRead($event: any, notification: DmsNotification) {
-        $event.stopPropagation();
+        $event?.stopPropagation();
         !notification.seen && this.websocketService.registerNotification(notification.id);
         notification.seen = true;
     }

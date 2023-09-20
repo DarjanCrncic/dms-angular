@@ -20,10 +20,11 @@ export class FolderService {
         return this.httpClient.get<FolderNode[]>(environment.baseUrl + ApiPaths.FolderTree);
     }
 
-    createNewFolder(name: string, parentFolderId: string) {
+    createNewFolder(name: string, parentFolderId: string, isRoot: boolean) {
         return this.httpClient.post<FolderNode>(environment.baseUrl + ApiPaths.Folder, {
             name: name,
-            parent_folder_id: parentFolderId
+            parent_folder_id: parentFolderId,
+            rootFolder: isRoot
         });
     }
 

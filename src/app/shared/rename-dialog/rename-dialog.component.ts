@@ -6,6 +6,7 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { FolderService } from './../../folder-tree/folder-service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
+import { ROOT } from 'src/app/constants';
 
 @Component({
     selector: 'app-rename-dialog',
@@ -45,7 +46,7 @@ export class RenameDialogComponent implements OnInit {
             });
         } else {
             const newFolderName = this.nameForm.value['nameControl'];
-            this.folderService.createNewFolder(newFolderName, this.data.node.id).subscribe((res) => {
+            this.folderService.createNewFolder(newFolderName, this.data.node.id, this.data.node.name == ROOT).subscribe((res) => {
                 this.snackbarService.openSnackBar('Folder successfully created.', MessageTypes.SUCCESS);
                 this.folderTreeService.addNodeToTree(this.data.node, res);
             });

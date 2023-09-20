@@ -114,9 +114,10 @@ export class GrantRightsDialogComponent implements OnInit, OnDestroy {
     }
 
     getPermissions() {
-        return this.data.type === AclClass.DOCUMENT
-            ? permissionsAll.filter((perm) => perm != 'CREATE')
-            : permissionsAll;
+        // return this.data.type === AclClass.DOCUMENT
+        //     ? permissionsAll.filter((perm) => perm != 'CREATE')
+        //     : permissionsAll;
+        return permissionsAll;
     }
 
     ngOnDestroy(): void {

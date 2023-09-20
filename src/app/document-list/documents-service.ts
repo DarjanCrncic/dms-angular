@@ -23,13 +23,13 @@ export class DocumentService {
             active: sort.active,
             direction: sort.direction
         };
-        const addition = search ? `,${search}` : '';
+        const addition = search ? `~and~${search}` : '';
 
         return this.httpClient.get<DocumentDTO[]>(environment.baseUrl + ApiPaths.Document, {
             params: parentFolderId
                 ? {
                       ...params,
-                      search: `parentFolder:${parentFolderId},immutable:false${addition}`
+                      search: `parentFolder~EQ~${parentFolderId}~AND~immutable~EQ~false${addition}`
                   }
                 : params
         });
