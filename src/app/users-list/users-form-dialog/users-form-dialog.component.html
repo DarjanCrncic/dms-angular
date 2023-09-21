@@ -20,10 +20,12 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput [placeholder]="this.isEdit ? 'Enter new password' :  'Password'" formControlName="password" [type]="hide ? 'password' : 'text'"/>
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <input matInput [placeholder]="this.isEdit ? 'Enter new password' :  'Password'" formControlName="password"
+                [type]="hide ? 'password' : 'text'" />
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
+            </button>
         </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
@@ -41,16 +43,16 @@
             <mat-label>Permissions</mat-label>
             <mat-select formControlName="privileges" multiple disableOptionCentering panelClass="normalSelect">
                 <mat-select-trigger>
-                    {{userForm.controls['privileges'].value?.[0] || ''}}
-                    <span
-                        *ngIf="(userForm.controls['privileges'].value?.length || 0) > 1"
-                        class="example-additional-selection"
-                    >
-                        (+{{ (userForm.controls['privileges'].value?.length || 0) - 1 }}
-                        {{ userForm.controls['privileges'].value?.length === 2 ? 'other' : 'others' }})
+                    {{userForm.controls.privileges.value?.[0] || ''}}
+                    <span *ngIf="(userForm.controls.privileges.value?.length || 0) > 1"
+                        class="example-additional-selection">
+                        (+{{ (userForm.controls.privileges.value?.length || 0) - 1 }}
+                        {{ userForm.controls.privileges.value?.length === 2 ? 'other' : 'others' }})
                     </span>
                 </mat-select-trigger>
-                <mat-option *ngFor="let privilege of privileges" [value]="privilege">{{ privilege }}</mat-option>
+                <mat-option *ngFor="let privilege of privileges" [value]="privilege"
+                    [disabled]="!!userForm.controls.privileges.value && userForm.controls.privileges.value.length > 1 && privilege === 'READ_PRIVILEGE'">{{
+                    privilege }}</mat-option>
             </mat-select>
         </mat-form-field>
         <div class="checkbox-container">
@@ -61,7 +63,7 @@
 <mat-error *ngIf="!userForm.valid && userForm.touched">Please enter valid data.</mat-error>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Close</button>
-    <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="isSaveDisabled()">
+    <button mat-flat-button cdkFocusInitial (click)="onSaveClick()" color="primary" [disabled]="!userForm.valid || (!userForm.dirty && isEdit)">
         Save
     </button>
 </div>

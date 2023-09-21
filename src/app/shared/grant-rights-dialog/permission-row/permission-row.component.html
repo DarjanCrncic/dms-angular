@@ -14,14 +14,15 @@
             <mat-label>Permissions</mat-label>
             <mat-select formControlName="permissions" multiple disableOptionCentering panelClass="normalSelect">
                 <mat-select-trigger>
-                    {{subForm.controls['permissions'].value?.[0] || ''}}
-                    <span *ngIf="(subForm.controls['permissions'].value?.length || 0) > 1"
-                        class="example-additional-selection">
-                        (+{{ (subForm.controls['permissions'].value?.length || 0) - 1 }}
-                        {{ subForm.controls['permissions'].value?.length === 2 ? 'other' : 'others' }})
+                    {{permissionsControl.value?.[0] || ''}}
+                    <span *ngIf="(permissionsControl.value?.length || 0) > 1" class="example-additional-selection">
+                        (+{{ (permissionsControl.value?.length || 0) - 1 }}
+                        {{ permissionsControl.value?.length === 2 ? 'other' : 'others' }})
                     </span>
                 </mat-select-trigger>
-                <mat-option *ngFor="let permission of permissions" [value]="permission">{{ permission }}</mat-option>
+                <mat-option *ngFor="let permission of permissions" [value]="permission"
+                    [disabled]="permissionsControl.value.length > 1 && permission === 'READ'">{{ permission }}
+                </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-icon matTooltip="Remove" (click)="removeEntry()" color="accent">close</mat-icon>

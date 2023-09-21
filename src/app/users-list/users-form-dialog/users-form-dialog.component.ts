@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { finalize } from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { UserDetails } from 'src/app/shared/services/user-service';
 import { MessageTypes, SnackbarService } from './../../shared/message-snackbar/snackbar-service';
 import { AdministrationService } from './../../shared/services/administration-service';
@@ -13,48 +13,66 @@ import { ErrorUtil } from './../../shared/validator-messages';
     templateUrl: './users-form-dialog.component.html',
     styleUrls: ['./users-form-dialog.component.css']
 })
-export class UsersFormDialogComponent implements OnInit {
-    userForm: FormGroup = new FormGroup({});
+export class UsersFormDialogComponent implements OnInit, OnDestroy {
+    userForm = this.fb.group({
+        username: this.fb.control('', [
+            Validators.required,
+            Validators.minLength(4)
+        ]),
+        email: this.fb.control('', [Validators.email, Validators.required]),
+        first_name: this.fb.control('', [
+            Validators.minLength(2),
+            Validators.required
+        ]),
+        last_name: this.fb.control('', [
+            Validators.minLength(2),
+            Validators.required
+        ]),
+        role: this.fb.control('', [Validators.required]),
+        privileges: this.fb.control<string[]>([]),
+        enabled: this.fb.control(true),
+        password: this.fb.control('')
+    });
+
     isEdit: boolean = false;
     roles: string[] = [];
     privileges: string[] = [];
     hide = true;
     loading = false;
+    
+    private componentDestroyed$ = new Subject();
 
     constructor(
         public dialogRef: MatDialogRef<UsersFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: UserDetails,
         private snackbarService: SnackbarService,
         private administrationService: AdministrationService,
-        private userService: UserService
+        private userService: UserService,
+        private fb: FormBuilder
     ) {}
 
     ngOnInit(): void {
         this.isEdit = this.data && this.data.id ? true : false;
-        this.userForm = new FormGroup({
-            username: new FormControl(this.isEdit ? this.data.username : null, [
-                Validators.required,
-                Validators.minLength(4)
-            ]),
-            email: new FormControl(this.isEdit ? this.data.email : null, [Validators.email, Validators.required]),
-            first_name: new FormControl(this.isEdit ? this.data.first_name : null, [
-                Validators.minLength(2),
-                Validators.required
-            ]),
-            last_name: new FormControl(this.isEdit ? this.data.last_name : null, [
-                Validators.minLength(2),
-                Validators.required
-            ]),
-            role: new FormControl(this.isEdit ? this.data.role : '', [Validators.required]),
-            privileges: new FormControl(this.isEdit ? this.data.privileges : []),
-            enabled: new FormControl(this.isEdit ? this.data.enabled : true),
-            password: new FormControl('')
+        this.isEdit && this.userForm.setValue({
+            username: this.data.username,
+            email: this.data.email,
+            first_name: this.data.first_name,
+            last_name: this.data.last_name,
+            role: this.data.role,
+            privileges: this.data.privileges ?? [],
+            enabled: this.data.enabled,
+            password: ''
         });
-        const passwordControl = this.userForm.get('password');
-        if (!this.isEdit) passwordControl?.setValidators([Validators.required, Validators.minLength(5)]);
+        if (!this.isEdit) this.userForm.controls.password.setValidators([Validators.required, Validators.minLength(5)]);
         
-        passwordControl?.valueChanges.subscribe((v: string) => {
-            this.isEdit && this.userForm.get('password')?.setValidators(v ? [Validators.required, Validators.minLength(5)] : []);
+        this.userForm.controls.password.valueChanges.pipe(takeUntil(this.componentDestroyed$)).subscribe(v => {
+            this.isEdit && this.userForm.controls.password.setValidators(v ? [Validators.required, Validators.minLength(5)] : []);
+        });
+
+        this.userForm.controls.privileges.valueChanges.pipe(takeUntil(this.componentDestroyed$)).subscribe(v => {
+            if (!!v && v.length > 0 && !v.includes('READ_PRIVILEGE')) {
+                this.userForm.controls.privileges.setValue([...v, 'READ_PRIVILEGE'], { emitEvent: false });
+            }
         });
 
         this.getRolesAndPrivileges();
@@ -71,7 +89,7 @@ export class UsersFormDialogComponent implements OnInit {
         this.loading = true;
         if (this.data && this.data.id) {
             this.userService
-                .updateUser(formVal, this.data.id)
+                .updateUser(formVal as UserDetails, this.data.id)
                 .pipe(finalize(() => (this.loading = false)))
                 .subscribe(() => {
                     this.userService.refresh.next(null);
@@ -80,7 +98,7 @@ export class UsersFormDialogComponent implements OnInit {
                 });
         } else {
             this.userService
-                .createUser(formVal)
+                .createUser(formVal as UserDetails)
                 .pipe(finalize(() => (this.loading = false)))
                 .subscribe(() => {
                     this.userService.refresh.next(null);
@@ -95,14 +113,15 @@ export class UsersFormDialogComponent implements OnInit {
         return control && ErrorUtil.getErrorMessage(control);
     }
 
-    isSaveDisabled() {
-        return !this.userForm.valid || (!this.userForm.dirty && this.isEdit);
-    }
-
     getRolesAndPrivileges() {
         this.administrationService.getRolesAndPrivileges().subscribe((res) => {
             this.roles = res.roles;
             this.privileges = res.privileges;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.componentDestroyed$.next(true);
+        this.componentDestroyed$.complete();
     }
 }

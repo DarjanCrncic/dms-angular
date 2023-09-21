@@ -4,7 +4,7 @@
     <div *ngFor="let permissionSet of getGroups(); let i = index" class="row">
         <app-permission-row
             [formGroup]="permissionSet"
-            [permissions]="getPermissions()"
+            [permissions]="permissionsAll"
             [index]="i"
             [users]="users"
             [groups]="groups"
