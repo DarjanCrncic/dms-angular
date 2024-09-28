@@ -23,4 +23,8 @@ export class NotificationService {
     public clear() {
         return this.httpClient.delete(environment.baseUrl + ApiPaths.Notification);
     }
+    
+    public clearById(id: string) {
+        return this.httpClient.delete(`${environment.baseUrl}${ApiPaths.Notification}/${id}`);
+    }
 }

@@ -30,6 +30,9 @@
                 (click)="markAsRead($event, notification)">
                 <mat-icon>adjust</mat-icon>
             </button>
+            <button mat-icon-button (click)="deleteNotification($event, notification.id)">
+                <mat-icon>delete_forever</mat-icon>
+            </button>
         </div>
         <button *ngIf="notifications.length > 0" mat-menu-item class="clear-all" (click)="clearAll()">Clear all</button>
     </mat-menu>

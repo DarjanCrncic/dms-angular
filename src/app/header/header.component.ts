@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     lastName: string = '';
     notifications: DmsNotification[] = [];
     loggedIn = this.accountService.loggedIn$;
+    loading = false;
     private componentDestroyed$ = new Subject();
 
     ngOnInit(): void {
@@ -108,5 +109,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     getLocaleDate(date: Date) {
         const obj = new Date(date);
         return obj.toLocaleString();
+    }
+
+    deleteNotification($event: any, id: string) {
+        $event?.stopPropagation();
+        this.notificationService.clearById(id).subscribe(() => {
+            const index = this.notifications.findIndex(n => n.id == id);
+            index >= 0 && this.notifications.splice(index, 1);
+        });
     }
 }
